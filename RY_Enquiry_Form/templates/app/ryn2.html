@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Terata Enquiry Confirmation Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js">
+    </script>
+    <script>
+        $(document).ready(function(){
+            var cancelAction = function(){
+                $('#txtcancel').val("cancel");
+                $('#RYform').submit();
+            }
+            $('#cancelAction').on('click',cancelAction)
+        });
+    </script>
+    <style>
+        .accordion {
+            text-align: center;
+        }
+
+        .accordion.width {
+            display: flex;
+            width: 100px;
+        }
+
+        .accordion.width .card {
+            flex-direction: row;
+            min-width: min-content;
+        }
+
+        .accordion.width .card .card-header {
+            cursor: pointer;
+            transform: rotate(180deg);
+            writing-mode: vertical-rl;
+            background-color: #0F9D58;
+            border: 2px solid black;
+        }
+
+        .card-body {
+            width: 600px;
+            background-color: white;
+        }
+
+        .card-Email {
+            width: 475px;
+            background-color: white;
+        }
+
+        .collapsing.width {
+            transition: width 0.5s ease;
+            height: auto;
+            width: 5px;
+        }
+
+        h1 {
+            color: green;
+        }
+        p {
+            color: black;
+        }
+        .button {
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            margin-left: 850px;
+            cursor: pointer;
+        }
+        .button2 {background-color: #008CBA;}
+        .popup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        }
+
+        /* The actual popup */
+        .popup .popuptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 95%;
+        left: 50%;
+        margin-left: 50px;
+        }
+
+        /* Popup arrow */
+        .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+        }
+
+        /* Toggle this class - hide and show the popup */
+        .popup .show {
+        visibility: visible;
+        -webkit-animation: fadeIn 1s;
+        animation: fadeIn 1s;
+        }
+
+        /* Add animation (fade in the popup) */
+        @-webkit-keyframes fadeIn {
+        from {opacity: 0;} 
+        to {opacity: 1;}
+        }
+
+        @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity:1 ;}
+        }
+    </style>
+</head>
+
+<body>
+    <div class="rounded float-start">
+        {% load static %}
+        <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="40%" height="70">
+        <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Terata Enquiry Form Validation </b>
+        <div class="popup" >Click Raw message to show the message
+            <button class="button button2" onclick="myFunction()">Raw Message</button>
+            <span class="popuptext" id="myPopup">{{Email_Details}}</span>      
+        </div>
+        <!-- <span class="popuptext" id="myPopup">{{Email_Details}}</span> -->
+        <!-- <marquee direction="right" behavior="alternate" style="background:blue;border:RED 3px SOLID" >
+            <div class="popup" >Click Raw message to show the message
+                
+            </div>
+        </marquee> -->
+        
+    </div>
+    {% if not Error %}
+    <!-- Header and tags -->
+    <!-- <div class="container">
+        <div class="row">
+            <div class="col"> -->
+                <!-- Accordion group creating-->
+                <!-- <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseOne">
+                        Enquiry Email
+                    </div>
+                    <div id="collapseOne" class="collapse width" data-parent="#accordionHorizontalExample">
+                        <div class="card-Email">
+                            <p>{{Email_Details}}</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="col">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
+                        Enquiry Form
+                    </div>
+                    <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
+                        <div class="card-body">
+                            <form name="RYform" id="RYform" action="" method="post">
+
+                                {% csrf_token %}
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <label for="Reg_no" class="form-label">Reg_no:</label><br>
+                                            <input type="text" class="form-control" id="Rno" name="Rno"
+                                                value={{vReg_no}} readonly>
+                                        </div>
+                                        <div class="col-sm">
+                                            <label for="Date" class="form-label">Date:</label><br>
+                                            <input type="text" class="form-control" id="Date" name="Date"
+                                                value='{{Date}}'>
+                                        </div>
+                                        <div class="col-sm">
+                                            <label for="Mill" class="form-label">Mill:</label><br>
+                                            <input type="text" class="form-control" id="Mill" name="Mill"
+                                                value='{{Mill}}'><br><br>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <label for="Mill Rep" class="form-label">Mill_Rep:</label><br>
+                                            <input type="text" class="form-control" id="Mill_Rep" name="Mill_Rep"
+                                                value='{{Mill_Rep}}'>
+                                        </div>
+                                        <div class="col-sm">
+                                            <label for="Customer" class="form-label">Customer:</label><br>
+                                            <input type="text" class="form-control" id="Customer" name="Customer"
+                                                value='{{Customer}}'>
+                                        </div>
+                                        <div class="col-sm">
+                                            <label for="MarketingZone" class="form-label">Marketing_Zone:</label><br>
+                                            <input type="text" class="form-control" id="Marketing_Zone"
+                                                name="Marketing_Zone" value='{{Marketing_Zone}}'>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Counts in a table-->
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Counts</th>
+                                            <th scope="col">Quality</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Blend</th>
+                                            <th scope="col">Shade</th>
+                                            <th scope="col">Depth</th>
+                                            <th scope="col">UOM</th>
+                                            <th scope="col">Quantity</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!--- NOTE to MALIKA - your for loop should come here -->
+
+                                        {% for Reg_no in data %}
+                                        <tr>
+                                            <th scope="row">{{Reg_no.Reg_no}}</th>
+                                            <td><input type="text" class="col-xs-2" id="Counts{{Reg_no.id}}"
+                                                    name="Counts{{Reg_no.id}}" value="{{Reg_no.Counts}}"
+                                                    style="width:40px">
+                                            </td>
+                                            <td><input type="text" class="col-xs-2" id="Quality{{Reg_no.id}}"
+                                                    name="Quality{{Reg_no.id}}" value="{{Reg_no.Quality}}"
+                                                    style="width:40px">
+                                            </td>
+                                            <td><input type="text" class="col-xs-2" id="YarnType{{Reg_no.id}}"
+                                                    name="YarnType{{Reg_no.id}}" value="{{Reg_no.Type}}"
+                                                    style="width:150px">
+                                            </td>
+                                            <td><input type="text" class="col-xs-2" id="Blend{{Reg_no.id}}"
+                                                    name="Blend{{Reg_no.id}}" value="{{Reg_no.Blend}}"
+                                                    style="width:180px">
+                                            </td>
+                                            <td><input type="text" class="col-xs-2" id="Shade{{Reg_no.id}}"
+                                                    name="Shade{{Reg_no.id}}" value="{{Reg_no.Shade}}" style="width:120px">
+                                            </td>
+                                            <td> <input type="text" class="col-xs-2" id="Depth{{Reg_no.id}}"
+                                                    name="Depth{{Reg_no.id}}" value="{{Reg_no.Depth}}"
+                                                    style="width:40px">
+                                            </td>
+                                            <td><input type="text" class="col-xs-2" id="UOM{{Reg_no.id}}"
+                                                    name="UOM{{Reg_no.id}}" value="{{Reg_no.UOM}}" style="width:40px">
+                                            </td>
+                                            <td><input type="text" class="col-xs-2" id="Quantity{{Reg_no.id}}"
+                                                    name="Quantity{{Reg_no.id}}" value="{{Reg_no.Quantity}}"
+                                                    style="width:50px">
+                                            </td>
+
+
+                                        </tr>
+                                       
+                                        {% endfor %}
+
+
+                                    </tbody>
+                                </table>
+                                <marquee direction="right" behavior="alternate" style="background:#FFFFE0;border:black " >
+                                    <div class="alert alert-danger" role="alert">
+                                        Please Click on Save only if there is a change
+                                    </div>
+                                </marquee>
+                                <div class="d-grid gap-2">
+                                    <button type="submit"
+                                        class="btn btn-primary btn-lg btn-block" style="width:200px">&nbsp;&nbsp;&nbsp;Save & proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    <button type="button" id="cancelAction"
+                                        class="btn btn-primary btn-lg btn-block" style="width:200px">&nbsp;&nbsp;&nbsp;Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                        <input type="hidden" id="txtcancel" name="txtcancel" value="">
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <script>
+                        var horizontalAccordions = $(".accordion.width");
+
+                        horizontalAccordions.each(function () {
+                            var accordion = $(this);
+                            var collapse = accordion.find(".collapse");
+                            var bodies = collapse.find("> *");
+                            accordion.height(accordion.height());
+                            bodies.width(bodies.eq(0).width());
+                            collapse.not(".show").each(function () {
+                                $(this).parent().find("[data-toggle='collapse']")
+                                    .addClass("collapsed");
+                            });
+                        });
+                        function myFunction() {
+                                        var popup = document.getElementById("myPopup");
+                                            popup.classList.toggle("show");
+                                        }
+                    </script>
+                </div>
+            </div>
+        </div>
+
+
+        {% else %}
+        <h2>No data was found</h2>
+        {% endif %}
+
+</body>
+
+</html>

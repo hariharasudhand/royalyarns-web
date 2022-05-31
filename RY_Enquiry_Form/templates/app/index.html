@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>EMail Details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <script type="text/javascript">
+        function writemode() {
+            document.getElementById('Counts').readOnly = false;
+            document.getElementById('Quality').readOnly = false;
+            document.getElementById('Type').readOnly = false;
+            document.getElementById('Blend').readOnly = false;
+            document.getElementById('Shade').readOnly = false;
+            document.getElementById('Shade_Ref').readOnly = false;
+            document.getElementById('Depth').readOnly = false;
+            document.getElementById('UOM').readOnly = false;
+            document.getElementById('Quantity').readOnly = false;
+            document.getElementById('Status').readOnly = false;
+
+        } 
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px
+        }
+
+        /* Style the header */
+        header {
+            background-color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            font-size: 5px;
+            color: #000000;
+            height: 3%;
+
+        }
+
+        /* Create two columns/boxes that floats next to each other */
+        nav {
+            float: left;
+            width: 70%;
+            height: 1300px;
+            /* only for demonstration, should be removed */
+            background: #ccc;
+            padding: 20px;
+        }
+
+        /* Style the list inside the menu */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        article {
+            float: left;
+            padding: 20px;
+            width: 30%;
+            background-color: #f1f1f1;
+            height: 1300px;
+            /* only for demonstration, should be removed */
+        }
+
+        /* Clear floats after the columns */
+        section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Style the footer */
+        footer {
+            background-color: #777;
+            padding: 2px;
+            text-align: center;
+            color: white;
+            height: 3%;
+        }
+
+        /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+        @media (max-width: 600px) {
+
+            nav,
+            article {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <header>
+
+        <div class="rounded float-start">
+            {% load static %}
+            <img src="{% static 'images/RYN_logo.jpeg'%}" alt="no image" max-width="20%" height="50">
+        </div>
+        <h2>Enquiry Form </h2>
+    </header>
+    {% if not Error %}
+    <section>
+
+        <article>
+            <h1>Mail</h1>
+            <ul>
+                <li><data value="mail content">Mail content</data></li>
+            </ul>
+            <p>{{Email_text}}</p>
+        </article>
+
+        <nav>
+            <form action="/action_page.php">
+                <label for="Counts" class="form-label">Counts:</label><br>
+                <input type="text" class="form-control" id="Counts" name="fname" value={{Counts}}
+                    readonly="readonly"><br><br>
+                <label for="Quality" class="form-label">Quality:</label><br>
+                <input type="text" class="form-control" id="Quality" name="lname" value={{Quality}}
+                    readonly="readonly"><br><br>
+                <label for="Type" class="form-label">Type:</label><br>
+                <input type="text" class="form-control" id="Type" name="fname" value={{Type}} readonly><br><br>
+                <label for="Blend" class="form-label">Blend:</label><br>
+                <input type="text" class="form-control" id="Blend" name="lname" value={{Blend}} readonly><br><br>
+                <label for="Shade" class="form-label">Shade:</label><br>
+                <input type="text" class="form-control" id="Shade" name="fname" value={{Shade}} readonly><br><br>
+                <label for="Shade_Ref" class="form-label">Shade_Ref:</label><br>
+                <input type="text" class="form-control" id="Shade_Ref" name="lname" value={{Shade_Ref}}
+                    readonly><br><br>
+                <label for="Depth" class="form-label">Depth:</label><br>
+                <input type="text" class="form-control" id="Depth" name="fname" value={{Depth}} readonly><br><br>
+                <label for="UOM" class="form-label">UOM:</label><br>
+                <input type="text" class="form-control" id="UOM" name="lname" value={{UOM}} readonly><br><br>
+                <label for="Quantity" class="form-label">Quantity:</label><br>
+                <input type="text" class="form-control" id="Quantity" name="lname" value={{Quantity}} readonly><br><br>
+                <label for="Status" class="form-label">Status:</label><br>
+                <input type="text" class="form-control" id="Status" name="fname" value={{Status}} readonly><br><br>
+                <label for="Reg_no" class="form-label">Reg_no:</label><br>
+                <input type="text" class="form-control" id="Reg_no" name="lname" value={{vReg_no}} disabled><br><br>
+                <input type="submit" value="Submit">
+                <input id="Edit" type="button" onclick="writemode()" value="Edit">
+            </form>
+        </nav>
+    </section>
+
+    <footer>
+        <p>Please click submit button if all details are currect</p>
+    </footer>
+    {% else %}
+    <h2>No data found</h2>
+    {% endif %}
+</body>
+
+</html>

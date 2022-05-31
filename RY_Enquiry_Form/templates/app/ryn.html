@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>EMail Details</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <script type="text/javascript">
+        function writemode() {
+            document.getElementById('Counts').readOnly = false;
+            document.getElementById('Quality').readOnly = false;
+            document.getElementById('Type').readOnly = false;
+            document.getElementById('Blend').readOnly = false;
+            document.getElementById('Shade').readOnly = false;
+            document.getElementById('Shade_Ref').readOnly = false;
+            document.getElementById('Depth').readOnly = false;
+            document.getElementById('UOM').readOnly = false;
+            document.getElementById('Quantity').readOnly = false;
+            document.getElementById('Status').readOnly = false;
+
+        }
+
+        // for retrieving information and storing it in a variable.
+        // wecan remove all the console.log for checking purpose.
+        function retrive() {
+            var count = document.getElementById("Counts").value;
+            console.log(count);
+            var qualityofyarn = document.getElementById("Quality").value;
+            console.log(qualityofyarn);
+            var typeofyarn = document.getElementById("Type").value;
+            console.log(typeofyarn);
+            var blendtyp = document.getElementById("Blend").value;
+            console.log(blendtyp);
+            var shadeclr = document.getElementById("Shade").value;
+            console.log(shadeclr);
+            var depth = document.getElementById("Depth").value;
+            console.log(depth);
+            var UOMvar = document.getElementById("UOM").value;
+            console.log(UOMvar);
+            var qnty = document.getElementById("Quantity").value;
+            console.log(qnty);
+            var stat = document.getElementById("Status").value;
+            console.log(stat);
+
+        }
+
+
+
+    </script>
+    <script type="text/javascript">
+        function buttonClickListener() {
+            newWindow = "http://127.0.0.1:8000/?Rno=38"
+            newWindow.close();
+        }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px
+        }
+
+        /* Style the header */
+        header {
+            background-color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            font-size: 5px;
+            color: #000000;
+            height: 3%;
+
+        }
+
+        /* Create two columns/boxes that floats next to each other */
+        nav {
+            float: left;
+            width: 70%;
+            height: 1300px;
+            /* only for demonstration, should be removed */
+            background: #ccc;
+            padding: 20px;
+        }
+
+        /* Style the list inside the menu */
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        article {
+            float: left;
+            padding: 20px;
+            width: 30%;
+            background-color: #f1f1f1;
+            height: 1300px;
+            /* only for demonstration, should be removed */
+        }
+
+        /* Clear floats after the columns */
+        section::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Style the footer */
+        footer {
+            background-color: #777;
+            padding: 2px;
+            text-align: center;
+            color: white;
+            height: 3%;
+        }
+
+        /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+        @media (max-width: 600px) {
+
+            nav,
+            article {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <header>
+
+        <div class="rounded float-start">
+            {% load static %}
+            <img src="{% static 'images/RYN_logo.jpeg'%}" alt="no image" max-width="20%" height="50">
+        </div>
+        <h2>Enquiry Form </h2>
+    </header>
+    {% if not Error %}
+    <section>
+
+        <article>
+            <h1>Mail</h1>
+            <ul>
+                <li><data value="mail content">Mail content</data></li>
+            </ul>
+            <p>{{Email_Details}}</p>
+        </article>
+
+        <nav>
+            <form name="RYform" action="" method="post">
+
+                {% csrf_token %}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="Reg_no" class="form-label">Reg_no:</label><br>
+                            <input type="text" class="form-control" id="Rno" name="Rno" value={{vReg_no}} readonly>
+                        </div>
+                        <div class="col-sm">
+                            <label for="Date" class="form-label">Date:</label><br>
+                            <input type="text" class="form-control" id="Date" name="Date" value={{Date}}>
+                        </div>
+                        <div class="col-sm">
+                            <label for="Mill" class="form-label">Mill:</label><br>
+                            <input type="text" class="form-control" id="Mill" name="Mill" value={{Mill}}><br><br>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="Mill Rep" class="form-label">Mill_Rep:</label><br>
+                            <input type="text" class="form-control" id="Mill_Rep" name="Mill_Rep" value={{Mill_Rep}}>
+                        </div>
+                        <div class="col-sm">
+                            <label for="Customer" class="form-label">Customer:</label><br>
+                            <input type="text" class="form-control" id="Customer" name="Customer" value={{Customer}}>
+                        </div>
+                        <div class="col-sm">
+                            <label for="MarketingZone" class="form-label">Marketing_Zone:</label><br>
+                            <input type="text" class="form-control" id="Marketing_Zone" name="Marketing_Zone"
+                                value={{Marketing_Zone}}>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Counts in a table-->
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Counts</th>
+                            <th scope="col">Quality</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Blend</th>
+                            <th scope="col">Shade</th>
+                            <th scope="col">Depth</th>
+                            <th scope="col">UOM</th>
+                            <th scope="col">Quantity</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--- NOTE to MALIKA - your for loop should come here -->
+
+                        {% for Reg_no in data %}
+                        <tr>
+                            <th scope="row">{{Reg_no.Reg_no}}</th>
+                            <td><input type="text" class="col-xs-2" id="Counts{{Reg_no.id}}" name="Counts{{Reg_no.id}}"
+                                    value={{Reg_no.Counts}} style="width:40px"></td>
+                            <td><input type="text" class="col-xs-2" id="Quality{{Reg_no.id}}"
+                                    name="Quality{{Reg_no.id}}" value={{Reg_no.Quality}} style="width:40px"></td>
+                            <td><input type="text" class="col-xs-2" id="YarnType{{Reg_no.id}}"
+                                    name="YarnType{{Reg_no.id}}" value={{Reg_no.Type}} style="width:70px"></td>
+                            <td><input type="text" class="col-xs-2" id="Blend{{Reg_no.id}}" name="Blend{{Reg_no.id}}"
+                                    value={{Reg_no.Blend}} style="width:180px"></td>
+                            <td><input type="text" class="col-xs-2" id="Shade{{Reg_no.id}}" name="Shade{{Reg_no.id}}"
+                                    value={{Reg_no.Shade}} style="width:50px"></td>
+                            <td> <input type="text" class="col-xs-2" id="Depth{{Reg_no.id}}" name="Depth{{Reg_no.id}}"
+                                    value={{Reg_no.Depth}} style="width:150px"></td>
+                            <td><input type="text" class="col-xs-2" id="UOM{{Reg_no.id}}" name="UOM{{Reg_no.id}}"
+                                    value={{Reg_no.UOM}} style="width:50px">
+                            </td>
+                            <td><input type="text" class="col-xs-2" id="Quantity{{Reg_no.id}}"
+                                    name="Quantity{{Reg_no.id}}" value={{Reg_no.Quantity}} style="width:50px"></td>
+
+
+                        </tr>
+                        {% endfor %}
+
+
+                    </tbody>
+                </table>
+                <div class="alert alert-danger" role="alert">
+                    Please Click on Save only if there is a change
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit"
+                        class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <!-- <button type="Cancel"
+                        class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button> -->
+                </div>
+
+            </form>
+        </nav>
+    </section>
+
+    <footer>
+        <p>Please click submit button if all details are currect</p>
+    </footer>
+    {% else %}
+    <h2>No data was found</h2>
+    {% endif %}
+</body>
+
+</html>
