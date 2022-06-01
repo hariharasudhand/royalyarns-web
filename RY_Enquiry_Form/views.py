@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from django.shortcuts import redirect, render
 from psycopg2 import Date
 from .forms import Ry_En_Form, Ry_En_Header
