@@ -12,12 +12,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js">
     </script>
     <script>
-        $(document).ready(function(){
-            var cancelAction = function(){
+        $(document).ready(function () {
+            var cancelAction = function () {
                 $('#txtcancel').val("cancel");
                 $('#RYform').submit();
             }
-            $('#cancelAction').on('click',cancelAction)
+            $('#cancelAction').on('click', cancelAction)
         });
     </script>
     <style>
@@ -62,9 +62,11 @@
         h1 {
             color: green;
         }
+
         p {
             color: black;
         }
+
         .button {
             border: none;
             color: white;
@@ -77,61 +79,75 @@
             margin-left: 850px;
             cursor: pointer;
         }
-        .button2 {background-color: #008CBA;}
+
+        .button2 {
+            background-color: #008CBA;
+        }
+
         .popup {
-        position: relative;
-        display: inline-block;
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /* The actual popup */
         .popup .popuptext {
-        visibility: hidden;
-        width: 160px;
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 8px 0;
-        position: absolute;
-        z-index: 1;
-        bottom: 95%;
-        left: 50%;
-        margin-left: 50px;
+            visibility: hidden;
+            width: 160px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 95%;
+            left: 50%;
+            margin-left: 50px;
         }
 
         /* Popup arrow */
         .popup .popuptext::after {
-        content: "";
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -5px;
-        border-width: 5px;
-        border-style: solid;
-        border-color: #555 transparent transparent transparent;
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
         }
 
         /* Toggle this class - hide and show the popup */
         .popup .show {
-        visibility: visible;
-        -webkit-animation: fadeIn 1s;
-        animation: fadeIn 1s;
+            visibility: visible;
+            -webkit-animation: fadeIn 1s;
+            animation: fadeIn 1s;
         }
 
         /* Add animation (fade in the popup) */
         @-webkit-keyframes fadeIn {
-        from {opacity: 0;} 
-        to {opacity: 1;}
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity:1 ;}
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -140,195 +156,156 @@
     <div class="rounded float-start">
         {% load static %}
         <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="40%" height="70">
-        <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Terata Enquiry Form Validation </b>
-        <div class="popup" >Click Raw message to show the message
+        <center>
+            <h1>Enquiry Validation </h1>
+        </center>
+        <div class="popup">Click Raw message to show the message
             <button class="button button2" onclick="myFunction()">Raw Message</button>
-            <span class="popuptext" id="myPopup">{{Email_Details}}</span>      
+            <span class="popuptext" id="myPopup">{{Email_Details}}</span>
         </div>
-        <!-- <span class="popuptext" id="myPopup">{{Email_Details}}</span> -->
-        <!-- <marquee direction="right" behavior="alternate" style="background:blue;border:RED 3px SOLID" >
-            <div class="popup" >Click Raw message to show the message
-                
-            </div>
-        </marquee> -->
-        
+
     </div>
     {% if not Error %}
-    <!-- Header and tags -->
-    <!-- <div class="container">
-        <div class="row">
-            <div class="col"> -->
-                <!-- Accordion group creating-->
-                <!-- <div class="card">
-                    <div class="card-header" data-toggle="collapse" data-target="#collapseOne">
-                        Enquiry Email
-                    </div>
-                    <div id="collapseOne" class="collapse width" data-parent="#accordionHorizontalExample">
-                        <div class="card-Email">
-                            <p>{{Email_Details}}</p>
+    <div class="col">
+        <div class="card">
+            <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
+                Enquiry Form
+            </div>
+            <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
+                <div class="card-body">
+                    <form name="RYform" id="RYform" action="" method="post">
 
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-            <div class="col">
-                <div class="card">
-                    <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
-                        Enquiry Form
-                    </div>
-                    <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
-                        <div class="card-body">
-                            <form name="RYform" id="RYform" action="" method="post">
-
-                                {% csrf_token %}
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <label for="Reg_no" class="form-label">Reg_no:</label><br>
-                                            <input type="text" class="form-control" id="Rno" name="Rno"
-                                                value={{vReg_no}} readonly>
-                                        </div>
-                                        <div class="col-sm">
-                                            <label for="Date" class="form-label">Date:</label><br>
-                                            <input type="text" class="form-control" id="Date" name="Date"
-                                                value='{{Date}}'>
-                                        </div>
-                                        <div class="col-sm">
-                                            <label for="Mill" class="form-label">Mill:</label><br>
-                                            <input type="text" class="form-control" id="Mill" name="Mill"
-                                                value='{{Mill}}'><br><br>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <label for="Mill Rep" class="form-label">Mill_Rep:</label><br>
-                                            <input type="text" class="form-control" id="Mill_Rep" name="Mill_Rep"
-                                                value='{{Mill_Rep}}'>
-                                        </div>
-                                        <div class="col-sm">
-                                            <label for="Customer" class="form-label">Customer:</label><br>
-                                            <input type="text" class="form-control" id="Customer" name="Customer"
-                                                value='{{Customer}}'>
-                                        </div>
-                                        <div class="col-sm">
-                                            <label for="MarketingZone" class="form-label">Marketing_Zone:</label><br>
-                                            <input type="text" class="form-control" id="Marketing_Zone"
-                                                name="Marketing_Zone" value='{{Marketing_Zone}}'>
-                                        </div>
-                                    </div>
+                        {% csrf_token %}
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <label for="Reg_no" class="form-label">Reg_no:</label><br>
+                                    <input type="text" class="form-control" id="Rno" name="Rno" value={{vReg_no}}
+                                        readonly>
                                 </div>
-
-                                <!-- Counts in a table-->
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Counts</th>
-                                            <th scope="col">Quality</th>
-                                            <th scope="col">Type</th>
-                                            <th scope="col">Blend</th>
-                                            <th scope="col">Shade</th>
-                                            <th scope="col">Depth</th>
-                                            <th scope="col">UOM</th>
-                                            <th scope="col">Quantity</th>
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <!--- NOTE to MALIKA - your for loop should come here -->
-
-                                        {% for Reg_no in data %}
-                                        <tr>
-                                            <th scope="row">{{Reg_no.Reg_no}}</th>
-                                            <td><input type="text" class="col-xs-2" id="Counts{{Reg_no.id}}"
-                                                    name="Counts{{Reg_no.id}}" value="{{Reg_no.Counts}}"
-                                                    style="width:40px">
-                                            </td>
-                                            <td><input type="text" class="col-xs-2" id="Quality{{Reg_no.id}}"
-                                                    name="Quality{{Reg_no.id}}" value="{{Reg_no.Quality}}"
-                                                    style="width:40px">
-                                            </td>
-                                            <td><input type="text" class="col-xs-2" id="YarnType{{Reg_no.id}}"
-                                                    name="YarnType{{Reg_no.id}}" value="{{Reg_no.Type}}"
-                                                    style="width:150px">
-                                            </td>
-                                            <td><input type="text" class="col-xs-2" id="Blend{{Reg_no.id}}"
-                                                    name="Blend{{Reg_no.id}}" value="{{Reg_no.Blend}}"
-                                                    style="width:180px">
-                                            </td>
-                                            <td><input type="text" class="col-xs-2" id="Shade{{Reg_no.id}}"
-                                                    name="Shade{{Reg_no.id}}" value="{{Reg_no.Shade}}" style="width:120px">
-                                            </td>
-                                            <td> <input type="text" class="col-xs-2" id="Depth{{Reg_no.id}}"
-                                                    name="Depth{{Reg_no.id}}" value="{{Reg_no.Depth}}"
-                                                    style="width:40px">
-                                            </td>
-                                            <td><input type="text" class="col-xs-2" id="UOM{{Reg_no.id}}"
-                                                    name="UOM{{Reg_no.id}}" value="{{Reg_no.UOM}}" style="width:40px">
-                                            </td>
-                                            <td><input type="text" class="col-xs-2" id="Quantity{{Reg_no.id}}"
-                                                    name="Quantity{{Reg_no.id}}" value="{{Reg_no.Quantity}}"
-                                                    style="width:50px">
-                                            </td>
-
-
-                                        </tr>
-                                       
-                                        {% endfor %}
-
-
-                                    </tbody>
-                                </table>
-                                <marquee direction="right" behavior="alternate" style="background:#FFFFE0;border:black " >
-                                    <div class="alert alert-danger" role="alert">
-                                        Please Click on Save only if there is a change
-                                    </div>
-                                </marquee>
-                                <div class="d-grid gap-2">
-                                    <button type="submit"
-                                        class="btn btn-primary btn-lg btn-block" style="width:200px">&nbsp;&nbsp;&nbsp;Save & proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                                    <button type="button" id="cancelAction"
-                                        class="btn btn-primary btn-lg btn-block" style="width:200px">&nbsp;&nbsp;&nbsp;Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                                        <input type="hidden" id="txtcancel" name="txtcancel" value="">
+                                <div class="col-sm">
+                                    <label for="Date" class="form-label">Date:</label><br>
+                                    <input type="text" class="form-control" id="Date" name="Date" value='{{Date}}'
+                                        {{Feild_Type}}>
                                 </div>
+                                <div class="col-sm">
+                                    <label for="Mill" class="form-label">Mill:</label><br>
+                                    <input type="text" class="form-control" id="Mill" name="Mill" value='{{Mill}}'
+                                        {{Feild_Type}}><br><br>
+                                </div>
+                            </div>
 
-                            </form>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <label for="Mill Rep" class="form-label">Mill_Rep:</label><br>
+                                    <input type="text" class="form-control" id="Mill_Rep" name="Mill_Rep"
+                                        value='{{Mill_Rep}}' {{Feild_Type}}>
+                                </div>
+                                <div class="col-sm">
+                                    <label for="Customer" class="form-label">Customer:</label><br>
+                                    <input type="text" class="form-control" id="Customer" name="Customer"
+                                        value='{{Customer}}' {{Feild_Type}}>
+                                </div>
+                                <div class="col-sm">
+                                    <label for="MarketingZone" class="form-label">Marketing_Zone:</label><br>
+                                    <input type="text" class="form-control" id="Marketing_Zone" name="Marketing_Zone"
+                                        value='{{Marketing_Zone}}' {{Feild_Type}}>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <br>
+                        <br>
 
-                    <script>
-                        var horizontalAccordions = $(".accordion.width");
 
-                        horizontalAccordions.each(function () {
-                            var accordion = $(this);
-                            var collapse = accordion.find(".collapse");
-                            var bodies = collapse.find("> *");
-                            accordion.height(accordion.height());
-                            bodies.width(bodies.eq(0).width());
-                            collapse.not(".show").each(function () {
-                                $(this).parent().find("[data-toggle='collapse']")
-                                    .addClass("collapsed");
-                            });
-                        });
-                        function myFunction() {
-                                        var popup = document.getElementById("myPopup");
-                                            popup.classList.toggle("show");
-                                        }
-                    </script>
+                        <!-- Counts in a table-->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Counts</th>
+                                    <th scope="col">Quality</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Blend</th>
+                                    <th scope="col">Shade</th>
+                                    <th scope="col">Depth</th>
+                                    <th scope="col">UOM</th>
+                                    <th scope="col">Quantity</th>
+                                    {% if Feild_Type == 'readonly' %}
+                                    <th scope="col">Rate</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Last order</th>
+                                    {% endif %}
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--- NOTE to MALIKA - your for loop should come here -->
+
+                                {% for Reg_no in data %}
+                                <tr>
+                                    <th scope="row">{{Reg_no.Reg_no}}</th>
+                                    <td><input type="text" class="form-control" id="Counts{{Reg_no.id}}"
+                                            name="Counts{{Reg_no.id}}" value="{{Reg_no.Counts}}" style="width:40px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="Quality{{Reg_no.id}}"
+                                            name="Quality{{Reg_no.id}}" value="{{Reg_no.Quality}}" style="width:40px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="YarnType{{Reg_no.id}}"
+                                            name="YarnType{{Reg_no.id}}" value="{{Reg_no.Type}}" style="width:150px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="Blend{{Reg_no.id}}"
+                                            name="Blend{{Reg_no.id}}" value="{{Reg_no.Blend}}" style="width:180px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="Shade{{Reg_no.id}}"
+                                            name="Shade{{Reg_no.id}}" value="{{Reg_no.Shade}}" style="width:120px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td> <input type="text" class="form-control" id="Depth{{Reg_no.id}}"
+                                            name="Depth{{Reg_no.id}}" value="{{Reg_no.Depth}}" style="width:40px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="UOM{{Reg_no.id}}"
+                                            name="UOM{{Reg_no.id}}" value="{{Reg_no.UOM}}" style="width:40px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="Quantity{{Reg_no.id}}"
+                                            name="Quantity{{Reg_no.id}}" value="{{Reg_no.Quantity}}" style="width:50px"
+                                            {{Feild_Type}}>
+                                    </td>
+
+                                    {% if Feild_Type == 'readonly' %}
+                                    <td><input type="text" class="col-xs-2" id="Rate" name="Rate" value=""
+                                            style="width:50px">
+                                    </td>
+                                    <td><input type="text" class="col-xs-2" id="Amount" name="Amount" value=""
+                                            style="width:70px">
+                                    </td>
+                                    <td><input type="text" class="col-xs-2" id="Last order" name="Last order" value=""
+                                            style="width:80px">
+                                    </td>
+                                    {% endif %}
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+                        </table>
+
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
 
 
-        {% else %}
-        <h2>No data was found</h2>
-        {% endif %}
+    {% else %}
+    <h2>No data was found</h2>
+    {% endif %}
 
 </body>
 

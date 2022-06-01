@@ -1,8 +1,6 @@
 from itertools import count
 from django.db import models
 
-# Create your models here.
-
 
 class RY_Enquiry_Items(models.Model):
     Counts = models.TextField(max_length=200)
@@ -47,7 +45,7 @@ class RY_Enquiry_Header(models.Model):
         ordering = ['Reg_no']
 
     def __str__(self):
-        return self.Reg_no + ' ' + self.Mill + ' ' + self.Customer + ' ' + self.Marketing_Zone + ' ' + self.Payment_Term + ' ' + self.Narration + ' ' + self.Reason_For_Non_Acception + ' ' + self.Reason_For_Non_Acception + ' ' + self.Acceptance_from_the_mill + ' ' + self.Date + '' + self.Email_Details
+        return str(self.Reg_no) + ' ' + self.Mill + ' ' + self.Customer + ' ' + self.Marketing_Zone + ' ' + self.Payment_Term + ' ' + self.Narration + ' ' + self.Reason_For_Non_Acception + ' ' + self.Reason_For_Non_Acception + ' ' + self.Acceptance_from_the_mill + ' ' + self.Date + '' + self.Email_Details + ' ' + self.Status
 
 
 # class Email(models.Model):

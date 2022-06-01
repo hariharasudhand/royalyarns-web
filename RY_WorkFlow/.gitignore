@@ -1,0 +1,7 @@
+
+*.mo
+*.po
+.venv/
+.vscode/
+*.pyc
+*.exc

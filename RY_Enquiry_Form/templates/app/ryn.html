@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>EMail Details</title>
+    <title>Royal Yarns</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
@@ -25,8 +25,7 @@
 
         }
 
-        // for retrieving information and storing it in a variable.
-        // wecan remove all the console.log for checking purpose.
+
         function retrive() {
             var count = document.getElementById("Counts").value;
             console.log(count);
@@ -67,6 +66,10 @@
         body {
             font-family: Arial, Helvetica, sans-serif;
             font-size: 15px
+        }
+
+        h1 {
+            color: green;
         }
 
         /* Style the header */
@@ -130,6 +133,42 @@
                 height: auto;
             }
         }
+
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
     </style>
 </head>
 
@@ -141,122 +180,205 @@
 
         <div class="rounded float-start">
             {% load static %}
-            <img src="{% static 'images/RYN_logo.jpeg'%}" alt="no image" max-width="20%" height="50">
+            <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="20%" height="50">
         </div>
-        <h2>Enquiry Form </h2>
+        <center>
+            <h1>Enquiry Validation </h1>
+        </center>
     </header>
     {% if not Error %}
     <section>
+        <div class="tab">
+            <button class="tablinks" onclick="openCity(event, 'Unread')">Unread<font color='red'>(<b>10</b>)</font>
+            </button>
+            <button class="tablinks" onclick="openCity(event, 'Updated')">Updated<font color='red'>(<b>5</b>)</button>
+            <button class="tablinks" onclick="openCity(event, 'Quotation')">Ready for Quotation<font color='red'>
+                    (<b>1</b>)</button>
+        </div>
 
-        <article>
-            <h1>Mail</h1>
-            <ul>
-                <li><data value="mail content">Mail content</data></li>
-            </ul>
-            <p>{{Email_Details}}</p>
-        </article>
+        <div id="Unread" class="tabcontent">
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
 
-        <nav>
-            <form name="RYform" action="" method="post">
+                        <th scope="col">Reg_no</th>
+                        <th scope="col">Mill</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Marketing_Zone</th>
+                        <th scope="col">Replied_From_the_mill</th>
+                        <th scope="col">Acceptance_from_the_mill</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">&nbsp;&nbsp;&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for UnrData in Unread_Data %}
 
-                {% csrf_token %}
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm">
-                            <label for="Reg_no" class="form-label">Reg_no:</label><br>
-                            <input type="text" class="form-control" id="Rno" name="Rno" value={{vReg_no}} readonly>
-                        </div>
-                        <div class="col-sm">
-                            <label for="Date" class="form-label">Date:</label><br>
-                            <input type="text" class="form-control" id="Date" name="Date" value={{Date}}>
-                        </div>
-                        <div class="col-sm">
-                            <label for="Mill" class="form-label">Mill:</label><br>
-                            <input type="text" class="form-control" id="Mill" name="Mill" value={{Mill}}><br><br>
-                        </div>
-                    </div>
+                    <tr>
+                        <!-- <th scope="row">{{UnrData.Reg_no}}</th> -->
+                        <td><input type="text" class="form-control" id="Rno{{UnrData.Reg_no}}"
+                                name="Rno{{UnrData.Reg_no}}" value="{{UnrData.Reg_no}}" style="width:50px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Mill{{UnrData.Mill}}"
+                                name="Mill{{UnrData.Mill}}" value="{{UnrData.Mill}}" style="width: 80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Customer{{UnrData.Customer}}"
+                                name="Customer{{UnrData.Customer}}" value="{{UnrData.Customer}}" style="width: 80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Marketing_Zone{{UnrData.Marketing_Zone}}"
+                                name="Marketing_Zone{{UnrData.Marketing_Zone}}" value="{{UnrData.Marketing_Zone}}"
+                                style="width: 80px;">
+                        </td>
+                        <td><input type="text" class="form-control"
+                                id="Replied_From_the_mill{{UnrData.Replied_From_the_mill}}"
+                                name="Replied_From_the_mill{{UnrData.Replied_From_the_mill}}"
+                                value="{{UnrData.Replied_From_the_mill}}" style="width:80px;">
+                        </td>
 
-                    <div class="row">
-                        <div class="col-sm">
-                            <label for="Mill Rep" class="form-label">Mill_Rep:</label><br>
-                            <input type="text" class="form-control" id="Mill_Rep" name="Mill_Rep" value={{Mill_Rep}}>
-                        </div>
-                        <div class="col-sm">
-                            <label for="Customer" class="form-label">Customer:</label><br>
-                            <input type="text" class="form-control" id="Customer" name="Customer" value={{Customer}}>
-                        </div>
-                        <div class="col-sm">
-                            <label for="MarketingZone" class="form-label">Marketing_Zone:</label><br>
-                            <input type="text" class="form-control" id="Marketing_Zone" name="Marketing_Zone"
-                                value={{Marketing_Zone}}>
-                        </div>
-                    </div>
-                </div>
+                        <td><input type="text" class="form-control"
+                                id="Acceptance_from_the_mill{{UnrData.Acceptance_from_the_mill}}"
+                                name="Acceptance_from_the_mill{{UnrData.Acceptance_from_the_mill}}"
+                                value="{{UnrData.Acceptance_from_the_mill}}" style="width: 80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Date{{UnrData.Date}}"
+                                name="Date{{UnrData.Date}}" value="{{UnrData.Date}}" style="width: 80px;">
+                        </td>
+                        <td>
+                            <a href="?Rno={{UnrData.Reg_no}}" class="btn btn-info" role="button">Veiw</a>
+                        </td>
 
-                <!-- Counts in a table-->
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Counts</th>
-                            <th scope="col">Quality</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Blend</th>
-                            <th scope="col">Shade</th>
-                            <th scope="col">Depth</th>
-                            <th scope="col">UOM</th>
-                            <th scope="col">Quantity</th>
+                    </tr>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!--- NOTE to MALIKA - your for loop should come here -->
+                    {% endfor %}
+                </tbody>
+            </table>
 
-                        {% for Reg_no in data %}
-                        <tr>
-                            <th scope="row">{{Reg_no.Reg_no}}</th>
-                            <td><input type="text" class="col-xs-2" id="Counts{{Reg_no.id}}" name="Counts{{Reg_no.id}}"
-                                    value={{Reg_no.Counts}} style="width:40px"></td>
-                            <td><input type="text" class="col-xs-2" id="Quality{{Reg_no.id}}"
-                                    name="Quality{{Reg_no.id}}" value={{Reg_no.Quality}} style="width:40px"></td>
-                            <td><input type="text" class="col-xs-2" id="YarnType{{Reg_no.id}}"
-                                    name="YarnType{{Reg_no.id}}" value={{Reg_no.Type}} style="width:70px"></td>
-                            <td><input type="text" class="col-xs-2" id="Blend{{Reg_no.id}}" name="Blend{{Reg_no.id}}"
-                                    value={{Reg_no.Blend}} style="width:180px"></td>
-                            <td><input type="text" class="col-xs-2" id="Shade{{Reg_no.id}}" name="Shade{{Reg_no.id}}"
-                                    value={{Reg_no.Shade}} style="width:50px"></td>
-                            <td> <input type="text" class="col-xs-2" id="Depth{{Reg_no.id}}" name="Depth{{Reg_no.id}}"
-                                    value={{Reg_no.Depth}} style="width:150px"></td>
-                            <td><input type="text" class="col-xs-2" id="UOM{{Reg_no.id}}" name="UOM{{Reg_no.id}}"
-                                    value={{Reg_no.UOM}} style="width:50px">
-                            </td>
-                            <td><input type="text" class="col-xs-2" id="Quantity{{Reg_no.id}}"
-                                    name="Quantity{{Reg_no.id}}" value={{Reg_no.Quantity}} style="width:50px"></td>
+        </div>
+
+        <div id="Updated" class="tabcontent">
+            <h3>Updated_Pending_ERP</h3>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Reg_no</th>
+                        <th scope="col">Mill</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Marketing_Zone</th>
+                        <th scope="col">Replied_From_the_mill</th>
+                        <th scope="col">Acceptance_from_the_mill</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for UprData in Updated_Pending_ERP %}
+
+                    <tr>
+                        <!-- <th scope="row">{{UprData.Reg_no}}</th> -->
+                        <td><input type="text" class="form-control" id="Rno{{UprData.Reg_no}}"
+                                name="Rno{{UprData.Reg_no}}" value="{{UprData.Reg_no}}" style="width:50px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Mill{{UprData.Mill}}"
+                                name="Mill{{UprData.Mill}}" value="{{UprData.Mill}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Customer{{UprData.Customer}}"
+                                name="Customer{{UprData.Customer}}" value="{{UprData.Customer}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Marketing_Zone{{UprData.Marketing_Zone}}"
+                                name="Marketing_Zone{{UprData.Marketing_Zone}}" value="{{UprData.Marketing_Zone}}"
+                                style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control"
+                                id="Acceptance_from_the_mill{{UprData.Acceptance_from_the_mill}}"
+                                name="Acceptance_from_the_mill{{UprData.Acceptance_from_the_mill}}"
+                                value="{{UprData.Acceptance_from_the_mill}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Date{{UprData.Date}}"
+                                name="Date{{UprData.Date}}" value="{{UprData.Date}}" style="width:80px;">
+                        </td>
+                        <td>
+                            <a href="https://www.google.co.in/" class="btn btn-info" role="button">Veiw</a>
+
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+        <div id="Quotation" class="tabcontent">
+            <h3>Ready_For_Quotation</h3>
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Reg_no</th>
+                        <th scope="col">Mill</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Marketing_Zone</th>
+                        <th scope="col">Replied_From_the_mill</th>
+                        <th scope="col">Acceptance_from_the_mill</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for RFQData in Ready_For_Quotation %}
+
+                    <tr>
+                        <td><input type="text" class="form-control" id="Rno{{RFQData.Reg_no}}"
+                                name="Rno{{RFQData.Reg_no}}" value="{{RFQData.Reg_no}}" style="width:50px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Mill{{RFQData.Mill}}"
+                                name="Mill{{RFQData.Mill}}" value="{{RFQData.Mill}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Customer{{RFQData.Customer}}"
+                                name="Customer{{RFQData.Customer}}" value="{{RFQData.Customer}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Marketing_Zone{{RFQData.Marketing_Zone}}"
+                                name="Marketing_Zone{{RFQData.Marketing_Zone}}" value="{{RFQData.Marketing_Zone}}"
+                                style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control"
+                                id="Acceptance_from_the_mill{{RFQData.Acceptance_from_the_mill}}"
+                                name="Acceptance_from_the_mill{{RFQData.Acceptance_from_the_mill}}"
+                                value="{{RFQData.Acceptance_from_the_mill}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Date{{RFQData.Date}}"
+                                name="Date{{RFQData.Date}}" value="{{RFQData.Date}}" style="width:80px;">
+                        </td>
+                        <td>
+                            <a href="https://www.google.co.in/" class="btn btn-info" role="button">Veiw</a>
+                        </td>
+                    </tr>
 
 
-                        </tr>
-                        {% endfor %}
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+        <script>
+            function openCity(evt, cityName) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(cityName).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
 
 
-                    </tbody>
-                </table>
-                <div class="alert alert-danger" role="alert">
-                    Please Click on Save only if there is a change
-                </div>
-                <div class="d-grid gap-2">
-                    <button type="submit"
-                        class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                    <!-- <button type="Cancel"
-                        class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button> -->
-                </div>
 
-            </form>
-        </nav>
     </section>
 
-    <footer>
-        <p>Please click submit button if all details are currect</p>
-    </footer>
+
     {% else %}
     <h2>No data was found</h2>
     {% endif %}
