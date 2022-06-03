@@ -180,7 +180,7 @@
 
         <div class="rounded float-start">
             {% load static %}
-            <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="20%" height="50">
+            <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60">
         </div>
         <center>
             <h1>Enquiry Validation </h1>
@@ -189,11 +189,15 @@
     {% if not Error %}
     <section>
         <div class="tab">
-            <button class="tablinks" onclick="openCity(event, 'Unread')">Unread<font color='red'>(<b>10</b>)</font>
+            <button class="tablinks" onclick="openCity(event, 'Unread')">Unread<font color='red'>(<b>{{Count_Unr}}</b>)
+                </font>
             </button>
-            <button class="tablinks" onclick="openCity(event, 'Updated')">Updated<font color='red'>(<b>5</b>)</button>
-            <button class="tablinks" onclick="openCity(event, 'Quotation')">Ready for Quotation<font color='red'>
-                    (<b>1</b>)</button>
+            <!-- <button class="tablinks" onclick="openCity(event, 'Quotation')">Ready for Quotation<font color='red'>
+                    (<b>{{Count_Rfq}}</b>)</button> -->
+            <button class="tablinks" onclick="openCity(event, 'ReqYarnPrice')">Sent for Yarn Pricing <font color='red'>
+                    (<b>{{Count_RYP}}</b>)</button>
+            <button class="tablinks" onclick="openCity(event, 'Updated')">other_status<font color='red'>
+                    (<b>{{Count_Upd}}</b>)</button>
         </div>
 
         <div id="Unread" class="tabcontent">
@@ -256,7 +260,7 @@
         </div>
 
         <div id="Updated" class="tabcontent">
-            <h3>Updated_Pending_ERP</h3>
+
             <table class="table table-hover table-sm">
                 <thead>
                     <tr>
@@ -267,10 +271,11 @@
                         <th scope="col">Replied_From_the_mill</th>
                         <th scope="col">Acceptance_from_the_mill</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for UprData in Updated_Pending_ERP %}
+                    {% for UprData in other_status %}
 
                     <tr>
                         <!-- <th scope="row">{{UprData.Reg_no}}</th> -->
@@ -288,6 +293,11 @@
                                 style="width:80px;">
                         </td>
                         <td><input type="text" class="form-control"
+                                id="Replied_From_the_mill{{UprData.Replied_From_the_mill}}"
+                                name="Replied_From_the_mill{{UprData.Replied_From_the_mill}}"
+                                value="{{UprData.Replied_From_the_mill}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control"
                                 id="Acceptance_from_the_mill{{UprData.Acceptance_from_the_mill}}"
                                 name="Acceptance_from_the_mill{{UprData.Acceptance_from_the_mill}}"
                                 value="{{UprData.Acceptance_from_the_mill}}" style="width:80px;">
@@ -295,8 +305,11 @@
                         <td><input type="text" class="form-control" id="Date{{UprData.Date}}"
                                 name="Date{{UprData.Date}}" value="{{UprData.Date}}" style="width:80px;">
                         </td>
+                        <td><input type="text" class="form-control" id="Status{{UprData.Status}}"
+                                name="Date{{UprData.Status}}" value="{{UprData.Status}}" style="width:80px;">
+                        </td>
                         <td>
-                            <a href="https://www.google.co.in/" class="btn btn-info" role="button">Veiw</a>
+                            <a href="?Rno={{UprData.Reg_no}}" class="btn btn-info" role="button">Veiw</a>
 
                         </td>
                     </tr>
@@ -308,7 +321,7 @@
         </div>
 
         <div id="Quotation" class="tabcontent">
-            <h3>Ready_For_Quotation</h3>
+
             <table class="table table-hover table-sm">
                 <thead>
                     <tr>
@@ -339,6 +352,11 @@
                                 style="width:80px;">
                         </td>
                         <td><input type="text" class="form-control"
+                                id="Replied_From_the_mill{{RFQData.Replied_From_the_mill}}"
+                                name="Replied_From_the_mill{{RFQData.Replied_From_the_mill}}"
+                                value="{{RFQData.Replied_From_the_mill}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control"
                                 id="Acceptance_from_the_mill{{RFQData.Acceptance_from_the_mill}}"
                                 name="Acceptance_from_the_mill{{RFQData.Acceptance_from_the_mill}}"
                                 value="{{RFQData.Acceptance_from_the_mill}}" style="width:80px;">
@@ -347,7 +365,62 @@
                                 name="Date{{RFQData.Date}}" value="{{RFQData.Date}}" style="width:80px;">
                         </td>
                         <td>
-                            <a href="https://www.google.co.in/" class="btn btn-info" role="button">Veiw</a>
+                            <a href="?Rno={{RFQData.Reg_no}}" class="btn btn-info" role="button">Veiw</a>
+                        </td>
+                    </tr>
+
+
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+        <div id="ReqYarnPrice" class="tabcontent">
+
+            <table class="table table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col">Reg_no</th>
+                        <th scope="col">Mill</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Marketing_Zone</th>
+                        <th scope="col">Replied_From_the_mill</th>
+                        <th scope="col">Acceptance_from_the_mill</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for RYPData in Req_Yarn_Price %}
+
+                    <tr>
+                        <td><input type="text" class="form-control" id="Rno{{RYPData.Reg_no}}"
+                                name="Rno{{RYPData.Reg_no}}" value="{{RYPData.Reg_no}}" style="width:50px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Mill{{RYPData.Mill}}"
+                                name="Mill{{RYPData.Mill}}" value="{{RYPData.Mill}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Customer{{RYPData.Customer}}"
+                                name="Customer{{RYPData.Customer}}" value="{{RYPData.Customer}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Marketing_Zone{{RYPData.Marketing_Zone}}"
+                                name="Marketing_Zone{{RYPData.Marketing_Zone}}" value="{{RYPData.Marketing_Zone}}"
+                                style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control"
+                                id="Replied_From_the_mill{{RYPData.Replied_From_the_mill}}"
+                                name="Replied_From_the_mill{{RYPData.Replied_From_the_mill}}"
+                                value="{{RYPData.Replied_From_the_mill}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control"
+                                id="Acceptance_from_the_mill{{RYPData.Acceptance_from_the_mill}}"
+                                name="Acceptance_from_the_mill{{RYPData.Acceptance_from_the_mill}}"
+                                value="{{RYPData.Acceptance_from_the_mill}}" style="width:80px;">
+                        </td>
+                        <td><input type="text" class="form-control" id="Date{{RYPData.Date}}"
+                                name="Date{{RYPData.Date}}" value="{{RYPData.Date}}" style="width:80px;">
+                        </td>
+                        <td>
+                            <a href="?Rno={{RYPData.Reg_no}}" class="btn btn-info" role="button">Veiw</a>
                         </td>
                     </tr>
 

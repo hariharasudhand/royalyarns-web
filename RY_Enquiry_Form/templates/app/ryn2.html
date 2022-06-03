@@ -20,6 +20,31 @@
             $('#cancelAction').on('click', cancelAction)
         });
     </script>
+    <script>
+        $(document).ready(function () {
+            $(".add-row").click(function () {
+                var Counts = $("#Counts").val();
+                var Quality = $("#Quality").val();
+                var Type = $("#Type").val();
+                var Blend = $("#Blend").val();
+                var Shade = $("#Shade").val();
+                var Depth = $("#Depth").val();
+                var UOM = $("#UOM").val();
+                var Quantity = $("#Quantity").val();
+                var markup = "<tr><td><input type='checkbox' name='record'>" + name + "</td><td><input type='text' class='form-control' >" + Counts + "</td><td><input type='text' class='form-control' >" + Quality + "</td><td><input type='text' class='form-control' >" + Type + "</td><td><input type='text' class='form-control' >" + Blend + "</td><td><input type='text' class='form-control' >" + Shade + "</td><td><input type='text' class='form-control' >" + Depth + "</td><td><input type='text' class='form-control' >" + UOM + "</td><td><input type='text' class='form-control' >" + Quantity + "</td></tr>";
+                $("table tbody").append(markup);
+            });
+
+            // Find and remove selected table rows
+            $(".delete-row").click(function () {
+                $("table tbody").find('input[name="record"]').each(function () {
+                    if ($(this).is(":checked")) {
+                        $(this).parents("tr").remove();
+                    }
+                });
+            });
+        });    
+    </script>
     <style>
         .accordion {
             text-align: center;
@@ -155,11 +180,11 @@
 <body>
     <div class="rounded float-start">
         {% load static %}
-        <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="40%" height="70">
+        <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60">
         <center>
             <h1>Enquiry Validation </h1>
         </center>
-        <div class="popup">Click Raw message to show the message
+        <div class="popup">
             <button class="button button2" onclick="myFunction()">Raw Message</button>
             <span class="popuptext" id="myPopup">{{Email_Details}}</span>
         </div>
@@ -278,22 +303,39 @@
                                     </td>
 
                                     {% if Feild_Type == 'readonly' %}
-                                    <td><input type="text" class="col-xs-2" id="Rate" name="Rate" value=""
-                                            style="width:50px">
+                                    <td><input type="text" class="col-xs-2" id="Rate{{Reg_no.id}}"
+                                            name="Rate{{Reg_no.id}}" value="{{Reg_no.Rate}}" style="width:50px">
                                     </td>
-                                    <td><input type="text" class="col-xs-2" id="Amount" name="Amount" value=""
-                                            style="width:70px">
+                                    <td><input type="text" class="col-xs-2" id="Amount{{Reg_no.id}}"
+                                            name="Amount{{Reg_no.id}}" value="{{Reg_no.Amount}}" style="width:70px">
                                     </td>
-                                    <td><input type="text" class="col-xs-2" id="Last order" name="Last order" value=""
+                                    <td><input type="text" class="col-xs-2" id="Last_order{{Reg_no.id}}"
+                                            name="Last_order{{Reg_no.id}}" value="{{Reg_no.Last_order}}"
                                             style="width:80px">
                                     </td>
                                     {% endif %}
                                 </tr>
+                                {% if not Feild_Type %}
+                                <input type="button" class="add-row" value="Add Row" {{Feild_Type}}>
+                                <button type="button" class="delete-row" {{Feild_Type}}>Delete Row</button>
+                                {% endif %}
+
 
                                 {% endfor %}
 
                             </tbody>
                         </table>
+                        <div class="alert alert-danger" role="alert">
+                            Please Click on Save only if there is a change
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit"
+                                class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save
+                                and Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button type="button" id="cancelAction"
+                                class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <input type="hidden" id="txtcancel" name="txtcancel" value="">
+                        </div>
 
                     </form>
                 </div>
