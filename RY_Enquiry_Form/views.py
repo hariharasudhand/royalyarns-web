@@ -101,9 +101,7 @@ def index(request):
             'Mill': Mill,
             'Customer': Customer,
             'Feild_Type': vStatus,
-            'Rate': Rate,
-            'Amount': Amount,
-            'Last_order': Last_order
+
         }
     else:
         context = {'Error': 'No data found'
