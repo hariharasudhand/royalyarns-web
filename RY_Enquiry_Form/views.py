@@ -1,6 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import AuthenticationForm
-from asyncio.windows_events import NULL
 from django.shortcuts import redirect, render
 from django import http
 from psycopg2 import Date
@@ -24,8 +23,9 @@ def index(request):
     vStatus = ''
     data = RY_Enquiry_Items.objects.filter(Reg_no=vReg_no)
     data2 = RY_Enquiry_Header.objects.filter(Reg_no=vReg_no)
-    data3 = customer_comments.objects.all()
-    data4 = User_Details.objects.all()
+
+    data3 = customer_comments.objects.filter(Reg_no=vReg_no)
+    #data4 = User_Details.objects.all()
 
     if vReg_no == None and vFlag == None:
         context = {}
@@ -86,17 +86,17 @@ def index(request):
             Last_order = item.Last_order
 
             print("data from database Counts :", Counts)
-    if len(data3) != 0:
-        for item in data3:
-            id = item.id
-            Comments = item.Comments
-            UserId = item.UserId
-            DT = item.DT
+    # if len(data3) != 0:
+    #     for item in data3:
+    #         id = item.id
+    #         Comments = item.Comments
+    #         UserId = item.UserId
+    #         DT = item.DT
 
-    if len(data4) != 0:
-        for item in data4:
-            UserName = item.UserName
-            Role = item.Role
+    # if len(data4) != 0:
+    #     for item in data4:
+    #         UserName = item.UserName
+    #         Role = item.Role
 
         context = {
             'Counts': Counts,
@@ -120,8 +120,6 @@ def index(request):
             'Customer': Customer,
             'Feild_Type': vStatus,
             'data3': data3,
-            'data4': data4,
-
         }
     else:
         context = {'Error': 'No data found'
@@ -174,7 +172,7 @@ def command_update(request, vReg_no):
     vRno = vReg_no
     if len(vCommand) != 0:
         customer_comments.objects.create(
-            Comments=vCommand, Rno=vRno, UserId=vCustomer, DT=vDT)
+            Comments=vCommand, Reg_no=vRno, UserId=vCustomer, DT=vDT)
         # messages.success(request, 'Form successfully submitted')
         return http.HttpResponseRedirect('')
 

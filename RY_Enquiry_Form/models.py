@@ -72,7 +72,7 @@ class customer_comments(models.Model):
     id = models.AutoField(primary_key=True)
     UserId = models.TextField(max_length=200,  null=True)
     Comments = models.TextField(max_length=200,  null=True)
-    Rno = models.TextField(max_length=200,  null=True)
+    Reg_no = models.TextField(max_length=200,  null=True)
     DT = models.TextField(max_length=200,  null=True)
 
     class Meta:
@@ -80,4 +80,4 @@ class customer_comments(models.Model):
         ordering = ['DT']
 
     def __str__(self):
-        return self.id + ' ' + self.UserId + ' ' + self.Comments + ' ' + self.Rno + ' ' + self.DT
+        return self.id + ' ' + self.UserId + ' ' + self.Comments + ' ' + self.Reg_no + ' ' + self.DT
