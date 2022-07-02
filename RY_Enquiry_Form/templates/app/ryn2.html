@@ -10,6 +10,8 @@
     </script> -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+    rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
@@ -278,78 +280,7 @@
             background-color: #e9ebee;
         }
 
-        .be-comment-block {
-            margin-bottom: 50px !important;
-            border: 1px solid #edeff2;
-            border-radius: 2px;
-            padding: 50px 70px;
-            border: 1px solid #ffffff;
-        }
-
-        .comments-title {
-            font-size: 16px;
-            color: #262626;
-            margin-bottom: 15px;
-            font-family: 'Conv_helveticaneuecyr-bold';
-        }
-
-        .be-img-comment {
-            width: 60px;
-            height: 60px;
-            float: left;
-            margin-bottom: 15px;
-        }
-
-        .be-ava-comment {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-        }
-
-        .be-comment-content {
-            margin-left: 80px;
-        }
-
-        .be-comment-content span {
-            display: inline-block;
-            width: 49%;
-            margin-bottom: 15px;
-        }
-
-        .be-comment-name {
-            font-size: 13px;
-            font-family: 'Conv_helveticaneuecyr-bold';
-        }
-
-        .be-comment-content a {
-            color: #383b43;
-        }
-
-        .be-comment-content span {
-            display: inline-block;
-            width: 49%;
-            margin-bottom: 15px;
-        }
-
-        .be-comment-time {
-            text-align: right;
-        }
-
-        .be-comment-time {
-            font-size: 11px;
-            color: #b4b7c1;
-        }
-
-        .be-comment-text {
-            font-size: 13px;
-            line-height: 18px;
-            color: #7a8192;
-            display: block;
-            background: #f6f6f7;
-            border: 1px solid #edeff2;
-            padding: 15px 20px 20px 20px;
-        }
-
+       
         .form-group.fl_icon .icon {
             position: absolute;
             top: 1px;
@@ -411,6 +342,77 @@
             right: 90px;
             font-size: 18px;
         }
+    
+    /*  Comment Box CSS */
+    @import url(//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css);
+
+    .detailBox {
+        width:100%;
+        border:1px solid #bbb;
+        margin:50px;
+    }
+    .titleBox {
+        background-color:#fdfdfd;
+        padding:10px;
+    }
+    .titleBox label{
+    color:#444;
+    margin:0;
+    display:inline-block;
+    }
+
+    .commentBox {
+        padding:10px;
+        border-top:1px dotted #bbb;
+    }
+    .commentBox .form-group:first-child, .actionBox .form-group:first-child {
+        width:80%;
+    }
+    .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+        width:18%;
+    }
+    .actionBox .form-group * {
+        width:100%;
+    }
+    .taskDescription {
+        margin-top:10px 0;
+        width:100%;
+    }
+    .commentList {
+        padding:0;
+        list-style:none;
+        max-height:200px;
+        overflow:auto;
+    }
+    .commentList li {
+        margin:0;
+        margin-top:10px;
+    }
+    .commentList li > div {
+        display:table-cell;
+    }
+    .commenterImage {
+        width:30px;
+        margin-right:5px;
+        height:100%;
+        float:left;
+    }
+    .commenterImage img {
+        width:100%;
+        border-radius:50%;
+    }
+    .commentText p {
+        margin:0;
+    }
+    .sub-text {
+        color:#aaa;
+        font-family:verdana;
+        font-size:11px;
+    }
+    .actionBox {
+        border-top:1px dotted #bbb;
+        padding:10px;
+    }
     </style>
 
 </head>
@@ -567,63 +569,55 @@
 
                             </tbody>
                         </table>
-                        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-                            rel="stylesheet">
-                        <div class="container">
-                            <div class="be-comment-block">
-                                <h1 class="comments-title">Customer Comments</h1>
-                                <div class="be-comment">
-                                    <div class="be-img-comment">
-                                        <a href="blog-detail-2.html">
-                                            <img src="{% static 'images/customer.png'%}" alt="" class="be-ava-comment">
-                                        </a>
-                                    </div>
-                                    <div class="be-comment-content">
-                                        <span class="be-comment-name">
-                                            <a href="">{{Customer}}</a>
-                                        </span>
-                                        <span class="be-comment-time">
+                    </form>
+                    <div class="alert alert-danger" role="alert">
+                        Please Click on Save only if there is a change
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit"
+                            class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save
+                            and Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        <button type="button" id="cancelAction"
+                            class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        <input type="hidden" id="txtcancel" name="txtcancel" value="">
+                    </div>
 
-                                            <p>
-                                            <div id="current_date"></div>
-                                            </p>
-                                        </span>
-                                        {% for id in data3 %}
-                                        <p class="be-comment-text">
-                                            --- ${{id.UserId}}
-                                            --{{id.DT}}
-                                            --{{id.Comments}}
-                                        </p>
-                                        {% endfor %}
-                                    </div>
-                                </div>
+                        <!-- new comments box-->
 
-                                <form class="form-block">
-                                    <div class="row">
-                                        <!-- <div class="col-xs-12 col-sm-6">
-                                            <div class="form-group fl_icon">
-                                                <div class="icon"><i class="fa fa-user"></i></div>
-                                                <input class="form-input" type="text" value='{{Customer}}'>
-                                            </div>
-                                        </div> -->
-                                        <!-- <div class="col-xs-12 col-sm-6 fl_icon">
-                                            <div class="form-group fl_icon">
-                                                <div class="icon"><i class="fa fa-envelope-o"></i></div>
-                                                <input class="form-input" type="text" value='{{Customer}}'
-                                                    placeholder="Your email">
-                                            </div>
-                                        </div> -->
-                                        <div class="col-xs-12">
-                                            <div class="form-group">
-                                                <label for="comment">Comment:</label>
-                                                <textarea style="height:250px;width:750px" class="border-10"
-                                                    class="form-input form-control-lg mb-2" required="" id="comment"
-                                                    name="Ccomment" value="" placeholder="Your text"></textarea>
-                                            </div>
+                        <div class="detailBox">
+                            <div class="titleBox">
+                              <label>Comments</label>
+                                <button type="button" class="close" aria-hidden="true">&times;</button>
+                            </div>
+                            <div class="commentBox">
+                                
+                                <p class="taskDescription">Comments will be notified to users via email, easy way to interact with business users</p>
+                            </div>
+                            <div class="actionBox">
+                                <ul class="commentList">
+                                    {% for id in data3 %}
+                                    <li>
+                                        <div class="commenterImage">
+                                            ---     {{id.UserId}}  ---  
                                         </div>
+                                        <div class="commentText">
+                                            <p class="">{{id.Comments}}</p> <span class="date sub-text">{{id.DT}}</span>
+                        
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                    
+                                </ul>
+                                <form class="form-block">
+                                    <div class="form-group">
+                                       
+                                        <textarea style="height:250px;width:750px" class="border-10"
+                                            class="form-input form-control-lg mb-2" required="" id="comment"
+                                            name="Ccomment" value="" placeholder="Your text"></textarea>
                                     </div>
-                                    <button type="button" id="commentAction"
-                                        class="btn btn-primary btn-lg float-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    <div class="form-group">
+                                        <button class="btn btn-default">Add</button>
+                                    </div>
                                     <input type="hidden" id="txtcancel" name="txtcancel" value="">
                                     {% if messages %}
                                     <div class="alert alert-success alert-dismissible">
@@ -635,28 +629,15 @@
                                 </form>
                             </div>
                         </div>
+                        <!-- Ends-->
+                        
 
-
-                        <div class="alert alert-danger" role="alert">
-                            Please Click on Save only if there is a change
-                        </div>
-                        <div class="d-grid gap-2">
-                            <button type="submit"
-                                class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save
-                                and Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                            <button type="button" id="cancelAction"
-                                class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                            <input type="hidden" id="txtcancel" name="txtcancel" value="">
-                        </div>
-
-                    </form>
+                   
                 </div>
             </div>
         </div>
     </div>
-    </div>
-
-
+   
     {% else %}
     <h2>No data was found</h2>
     {% endif %}

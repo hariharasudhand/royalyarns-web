@@ -86,18 +86,6 @@ def index(request):
             Last_order = item.Last_order
 
             print("data from database Counts :", Counts)
-    # if len(data3) != 0:
-    #     for item in data3:
-    #         id = item.id
-    #         Comments = item.Comments
-    #         UserId = item.UserId
-    #         DT = item.DT
-
-    # if len(data4) != 0:
-    #     for item in data4:
-    #         UserName = item.UserName
-    #         Role = item.Role
-
         context = {
             'Counts': Counts,
             'Quality': Quality,
