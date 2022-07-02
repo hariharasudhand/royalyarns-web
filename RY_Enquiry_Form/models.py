@@ -1,8 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class RY_Enquiry_Items(models.Model):
-    Id = models.IntegerField(max_length=200,  null=True)
+    Id = models.IntegerField(null=True)
     Counts = models.TextField(max_length=200,  null=True)
     Quality = models.TextField(max_length=200,  null=True)
     Type = models.TextField(max_length=200,  null=True)
@@ -53,11 +54,30 @@ class RY_Enquiry_Header(models.Model):
         return self.Mill_Rep + ' ' + self.Reg_no + ' ' + self.Mill + ' ' + self.Customer + ' ' + self.Marketing_Zone + ' ' + self.Payment_Term + ' ' + self.Narration + ' ' + self.Reason_For_Non_Acception + ' ' + self.Reason_For_Non_Acception + ' ' + self.Acceptance_from_the_mill + ' ' + self.Date + '' + self.Email_Details + ' ' + self.Status
 
 
-# class Email(models.Model):
-#     Email_content = models.TextField(max_length=1000)
+class User_Details(models.Model):
+    id = models.IntegerField(primary_key=True)
+    UserName = models.TextField(max_length=200,  null=True)
+    Password = models.TextField(max_length=200,  null=True)
+    Role = models.TextField(max_length=200,  null=True)
 
-#     class Meta:
-#         db_table = 'app_customer'
+    class Meta:
+        db_table = 'User_Details'
+        ordering = ['Role']
 
-#     def __str__(self):
-#         return self.Email_content
+    def __str__(self):
+        return self.id + ' ' + self.UserName + ' ' + self.Password + ' ' + self.Role
+
+
+class customer_comments(models.Model):
+    id = models.AutoField(primary_key=True)
+    UserId = models.TextField(max_length=200,  null=True)
+    Comments = models.TextField(max_length=200,  null=True)
+    Rno = models.TextField(max_length=200,  null=True)
+    DT = models.TextField(max_length=200,  null=True)
+
+    class Meta:
+        db_table = 'customer_comments'
+        ordering = ['DT']
+
+    def __str__(self):
+        return self.id + ' ' + self.UserId + ' ' + self.Comments + ' ' + self.Rno + ' ' + self.DT
