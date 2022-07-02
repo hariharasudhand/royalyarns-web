@@ -52,6 +52,7 @@
 
             var commentAction = function () {
                 $('#txtcancel').val("comment");
+                
                 $('#RYform').submit();
                 /*window.location("app/ryn.html")*/
                 /*$('#RYform').trigger("reset");
@@ -64,20 +65,7 @@
             window.history.replaceState(null, null, window.location.href);
         }
     </script>
-    <script type="text/javascript">
-        $(function () {
-            $("input[name=btnPassport]").click(function () {
-                if ($(this).val() == "Reply") {
-                    $("#dvPassport").show();
-                    $("#dvbPassport").show();
 
-                } else {
-                    $("#dvPassport").hide();
-                    $("#dvbPassport").hide();
-                }
-            });
-        });
-    </script>
 
     <script>
         //initialising a variable name row_count
@@ -569,7 +557,7 @@
 
                             </tbody>
                         </table>
-                    </form>
+                    
                     <div class="alert alert-danger" role="alert">
                         Please Click on Save only if there is a change
                     </div>
@@ -579,9 +567,9 @@
                             and Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                         <button type="button" id="cancelAction"
                             class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                        <input type="hidden" id="txtcancel" name="txtcancel" value="">
+                        <!-- <input type="hidden" id="txtcancel" name="txtcancel" value=""> -->
                     </div>
-
+                   
                         <!-- new comments box-->
 
                         <div class="detailBox">
@@ -608,7 +596,7 @@
                                     {% endfor %}
                                     
                                 </ul>
-                                <form class="form-block">
+                                <!-- <form method="post" class="form-block"> -->
                                     <div class="form-group">
                                        
                                         <textarea style="height:250px;width:750px" class="border-10"
@@ -616,7 +604,7 @@
                                             name="Ccomment" value="" placeholder="Your text"></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-default">Add</button>
+                                        <button id="commentAction" class="btn btn-default">Add</button>
                                     </div>
                                     <input type="hidden" id="txtcancel" name="txtcancel" value="">
                                     {% if messages %}
@@ -626,11 +614,11 @@
                                         {% endfor %}
                                     </div>
                                     {% endif %}
-                                </form>
+                                <!-- </form> -->
                             </div>
                         </div>
                         <!-- Ends-->
-                        
+                    </form>  
 
                    
                 </div>

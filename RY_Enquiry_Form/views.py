@@ -25,6 +25,11 @@ def index(request):
     data2 = RY_Enquiry_Header.objects.filter(Reg_no=vReg_no)
 
     data3 = customer_comments.objects.filter(Reg_no=vReg_no)
+
+    # for dt in data3:
+    #     print(" reg_no", dt.Reg_no)
+    #     print(" comments", dt.Comments)
+
     #data4 = User_Details.objects.all()
 
     if vReg_no == None and vFlag == None:
