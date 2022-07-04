@@ -124,19 +124,27 @@ def index(request):
 def update_book(request, data, vReg_no, data2):
 
     visCancel = request.POST.get('txtcancel')
-    print("this is value of visCancel", visCancel)
+    vRowCount = int(request.POST.get('txtRowCount'))
+    print("Row Count : ", vRowCount)
 
     if len(visCancel) == 0:
-        print("this is inside if")
-        for item in data:
-            vid = str(item.id)
+
+        for itemIndex in range(vRowCount):
+            vRowIndex = itemIndex+1
+            print("Processing Index", vRowIndex)
+            vid = vRowIndex
             vStatus = '1'
-            print("values from form", request.POST.get('Rate'+str(item.id)))
-            Rate = request.POST.get('Rate'+str(item.id))
+            print("values from form", request.POST.get('Counts'+str(vRowIndex)))
+            Rate = request.POST.get('Rate'+str(vRowIndex))
             if Rate != None:
                 vStatus = '4'
+
+            # RY_Enquiry_Items.get(vid) then this should do update using update query
+
+            # else insert new value.
+
             RY_Enquiry_Items.objects.filter(id=vid).update(
-                Counts=request.POST.get('Counts'+str(item.id)), Quality=request.POST.get('Quality'+str(item.id)), Type=request.POST.get('YarnType'+str(item.id)), Blend=request.POST.get('Blend'+str(item.id)), Shade=request.POST.get('Shade'+str(item.id)), Depth=request.POST.get('Depth'+str(item.id)), UOM=request.POST.get('UOM'+str(item.id)), Quantity=request.POST.get('Quantity'+str(item.id)), Rate=request.POST.get('Rate'+str(item.id)), Amount=request.POST.get('Amount'+str(item.id)), Last_order=request.POST.get('Last_order'+str(item.id)), Status=vStatus)
+                Counts=request.POST.get('Counts'+str(vRowIndex)), Quality=request.POST.get('Quality'+str(vRowIndex)), Type=request.POST.get('YarnType'+str(vRowIndex)), Blend=request.POST.get('Blend'+str(vRowIndex)), Shade=request.POST.get('Shade'+str(vRowIndex)), Depth=request.POST.get('Depth'+str(vRowIndex)), UOM=request.POST.get('UOM'+str(vRowIndex)), Quantity=request.POST.get('Quantity'+str(vRowIndex)), Rate=request.POST.get('Rate'+str(vRowIndex)), Amount=request.POST.get('Amount'+str(vRowIndex)), Last_order=request.POST.get('Last_order'+str(vRowIndex)), Status=vStatus)
 
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
             Mill=request.POST.get('Mill'), Date=request.POST.get('Date'), Mill_Rep=request.POST.get('Mill_Rep'), Customer=request.POST.get('Customer'), Marketing_Zone=request.POST.get('Marketing_Zone'), Status=vStatus)

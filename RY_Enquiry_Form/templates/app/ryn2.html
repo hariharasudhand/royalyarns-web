@@ -89,19 +89,35 @@
             var row_count = $('#MyTable >tbody >tr').length;
             //var row_count = 0;
             document.getElementById("counting").innerText = row_count;
+            //Set total row count of Enquiry Items on load in hidden field
+            $("#txtRowCount").val(row_count);
+
             $(".add-row").click(function () {
                 row_count = row_count + 1;
                 document.getElementById("counting").innerText = row_count;
-                var Counts = $("#Counts").val();
-                var Quality = $("#Quality").val();
-                var Type = $("#Type").val();
-                var Blend = $("#Blend").val();
-                var Shade = $("#Shade").val();
-                var Depth = $("#Depth").val();
-                var UOM = $("#UOM").val();
-                var Quantity = $("#Quantity").val();
-                var markup = "<tr><td>" + row_count + "</td><td><input type='checkbox' name='record'>" + name + "</td><td><input type='text' class='form-control' >" + Counts + "</td><td><input type='text' class='form-control' >" + Quality + "</td><td><input type='text' class='form-control' >" + Type + "</td><td><input type='text' class='form-control' >" + Blend + "</td><td><input type='text' class='form-control' >" + Shade + "</td><td><input type='text' class='form-control' >" + Depth + "</td><td><input type='text' class='form-control' >" + UOM + "</td><td><input type='text' class='form-control' >" + Quantity + "</td></tr>";
+                // var Counts = $("#Counts").val();
+                // var Quality = $("#Quality").val();
+                // var Type = $("#Type").val();
+                // var Blend = $("#Blend").val();
+                // var Shade = $("#Shade").val();
+                // var Depth = $("#Depth").val();
+                // var UOM = $("#UOM").val();
+                // var Quantity = $("#Quantity").val();
+                // var markup = "<tr><td>" + row_count + "</td><td><input type='checkbox' name='record'>" + name + "</td><td><input type='text' class='form-control' >" + Counts + "</td><td><input type='text' class='form-control' >" + Quality + "</td><td><input type='text' class='form-control' >" + Type + "</td><td><input type='text' class='form-control' >" + Blend + "</td><td><input type='text' class='form-control' >" + Shade + "</td><td><input type='text' class='form-control' >" + Depth + "</td><td><input type='text' class='form-control' >" + UOM + "</td><td><input type='text' class='form-control' >" + Quantity + "</td></tr>";
+                var markup = "<tr>";
+                markup+= "<th scope=\"row\">"+row_count+"</th>";
+                markup+= "<td scope=\"row\"><input type='checkbox' name='record'> </td>";
+                markup+= "<td><input type=\"text\" class=\"form-control\" id=Counts"+row_count+" name=Counts"+row_count+" style=\"width:60px\" > </td>  ";
+                markup+= "<td><input type=\"text\" class=\"form-control\" id=Quality"+row_count+" name=Quality"+row_count+" style=\"width:60px\" > </td>  ";
+                markup+= "<td><input type=\"text\" class=\"form-control\" id=YarnType"+row_count+" name=YarnType"+row_count+" style=\"width:100px\" > </td>  ";
+                markup+= "<td><input type=\"text\" class=\"form-control\" id=Blend"+row_count+" name=Blend"+row_count+" style=\"width:250px\" > </td>  ";
+                markup+= "<td><input type=\"text\" class=\"form-control\" id=Shade"+row_count+" name=Shade"+row_count+" style=\"width:150px\" > </td>  ";
+                markup+= "<td><input type=\"text\" class=\"form-control\" id=Depth"+row_count+" name=Depth"+row_count+" style=\"width:100px\" > </td>  ";
+                markup+= "<td><input type=\"text\" class=\"form-control\" id=UOM"+row_count+" name=UOM"+row_count+" style=\"width:60px\" > </td>  ";
+                markup+= "<td><input type=\"text\" class=\"form-control\" id=Quantity"+row_count+" name=Quantity"+row_count+" style=\"width:80px\" > </td>  ";  
+                markup+= "</tr>";
                 $("table tbody").append(markup);
+                $("#txtRowCount").val(row_count);
             });
 
             // Find and remove selected table rows
@@ -113,6 +129,7 @@
                         document.getElementById("counting").innerText = row_count;
                     }
                 });
+                $("#txtRowCount").val(row_count);
             });
         });
         $('#myModal').on('shown.bs.modal', function () {
@@ -499,48 +516,48 @@
 
                                 {% for Reg_no in data %}
                                 <tr>
-                                    <th scope="row">#</th>
                                     <th scope="row">{{Reg_no.Reg_no}}</th>
+                                    <th scope="row"></th>
 
                                     <td><input type="text" class="form-control" id="Counts{{Reg_no.id}}"
-                                            name="Counts{{Reg_no.id}}" value="{{Reg_no.Counts}}" style="width:40px"
+                                            name="Counts{{Reg_no.id}}" value="{{Reg_no.Counts}}" style="width:60px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Quality{{Reg_no.id}}"
-                                            name="Quality{{Reg_no.id}}" value="{{Reg_no.Quality}}" style="width:130px"
+                                            name="Quality{{Reg_no.id}}" value="{{Reg_no.Quality}}" style="width:60px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="YarnType{{Reg_no.id}}"
-                                            name="YarnType{{Reg_no.id}}" value="{{Reg_no.Type}}" style="width:130px"
+                                            name="YarnType{{Reg_no.id}}" value="{{Reg_no.Type}}" style="width:100px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Blend{{Reg_no.id}}"
-                                            name="Blend{{Reg_no.id}}" value="{{Reg_no.Blend}}" style="width:130px"
+                                            name="Blend{{Reg_no.id}}" value="{{Reg_no.Blend}}" style="width:250px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Shade{{Reg_no.id}}"
-                                            name="Shade{{Reg_no.id}}" value="{{Reg_no.Shade}}" style="width:120px"
+                                            name="Shade{{Reg_no.id}}" value="{{Reg_no.Shade}}" style="width:150px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td> <input type="text" class="form-control" id="Depth{{Reg_no.id}}"
-                                            name="Depth{{Reg_no.id}}" value="{{Reg_no.Depth}}" style="width:120px"
+                                            name="Depth{{Reg_no.id}}" value="{{Reg_no.Depth}}" style="width:100px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="UOM{{Reg_no.id}}"
-                                            name="UOM{{Reg_no.id}}" value="{{Reg_no.UOM}}" style="width:120px"
+                                            name="UOM{{Reg_no.id}}" value="{{Reg_no.UOM}}" style="width:60px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Quantity{{Reg_no.id}}"
-                                            name="Quantity{{Reg_no.id}}" value="{{Reg_no.Quantity}}" style="width:120px"
+                                            name="Quantity{{Reg_no.id}}" value="{{Reg_no.Quantity}}" style="width:80px"
                                             {{Feild_Type}}>
                                     </td>
 
                                     {% if Feild_Type == 'readonly' %}
                                     <td><input type="text" class="col-xs-2" id="Rate{{Reg_no.id}}"
-                                            name="Rate{{Reg_no.id}}" value="{{Reg_no.Rate}}" style="width:50px">
+                                            name="Rate{{Reg_no.id}}" value="{{Reg_no.Rate}}" style="width:60px">
                                     </td>
                                     <td><input type="text" class="col-xs-2" id="Amount{{Reg_no.id}}"
-                                            name="Amount{{Reg_no.id}}" value="{{Reg_no.Amount}}" style="width:70px">
+                                            name="Amount{{Reg_no.id}}" value="{{Reg_no.Amount}}" style="width:60px">
                                     </td>
                                     <td><input type="text" class="col-xs-2" id="Last_order{{Reg_no.id}}"
                                             name="Last_order{{Reg_no.id}}" value="{{Reg_no.Last_order}}"
@@ -551,6 +568,7 @@
                                 {% if not Feild_Type %}
                                 <button type="button" class="add-row" value="Add Row" {{Feild_Type}}>Add Row</button>
                                 <h2 id="counting"></h2>
+                                <input type="hidden" id="txtRowCount" name="txtRowCount" value="">
                                 <button type="button" class="delete-row" {{Feild_Type}}>Delete Row</button>
                                 {% endif %}
                                 {% endfor %}
@@ -600,7 +618,7 @@
                                     <div class="form-group">
                                        
                                         <textarea style="height:250px;width:750px" class="border-10"
-                                            class="form-input form-control-lg mb-2" required="" id="comment"
+                                            class="form-input form-control-lg mb-2"  id="Ccomment"
                                             name="Ccomment" value="" placeholder="Your text"></textarea>
                                     </div>
                                     <div class="form-group">
