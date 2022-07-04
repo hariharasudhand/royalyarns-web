@@ -1,3 +1,4 @@
+from genericpath import exists
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
@@ -53,6 +54,7 @@ def index(request):
         return render(request, 'app/ryn.html', context)
 
     if vFlag != None:
+        print("vFlag", vFlag)
         data = RY_Enquiry_Items.objects.filter(Reg_no=vFlag)
         data2 = RY_Enquiry_Header.objects.filter(Reg_no=vFlag)
         update_book(request, data, vReg_no, data2)
@@ -75,33 +77,35 @@ def index(request):
                 vStatus = 'readonly'
 
     if len(data) != 0:
-        for item in data:
-            Counts = item.Counts
-            Quality = item.Quality
-            Type = item.Type
-            Blend = item.Blend.replace(" ", "")
-            Shade = item.Shade
-            Shade_Ref = item.Shade_Ref
-            Depth = item.Depth
-            UOM = item.UOM
-            Quantity = item.Quantity
-            Status = item.Status
-            Rate = item.Rate
-            Amount = item.Amount
-            Last_order = item.Last_order
 
-            print("data from database Counts :", Counts)
+        # This is the index for item table records, fix this
+        # for item in data:
+        #     Counts = item.Counts
+        #     Quality = item.Quality
+        #     Type = item.Type
+        #     Blend = item.Blend.replace(" ", "")
+        #     Shade = item.Shade
+        #     Shade_Ref = item.Shade_Ref
+        #     Depth = item.Depth
+        #     UOM = item.UOM
+        #     Quantity = item.Quantity
+        #     Status = item.Status
+        #     Rate = item.Rate
+        #     Amount = item.Amount
+        #     Last_order = item.Last_order
+
+        # print("data from database Counts :", Counts)
         context = {
-            'Counts': Counts,
-            'Quality': Quality,
-            'Type': Type,
-            'Blend': Blend,
-            'Shade': Shade,
-            'Shade_Ref': Shade_Ref,
-            'Depth': Depth,
-            'UOM': UOM,
-            'Quantity': Quantity,
-            'Status': Status,
+            # 'Counts': Counts,
+            # 'Quality': Quality,
+            # 'Type': Type,
+            # 'Blend': Blend,
+            # 'Shade': Shade,
+            # 'Shade_Ref': Shade_Ref,
+            # 'Depth': Depth,
+            # 'UOM': UOM,
+            # 'Quantity': Quantity,
+            # 'Status': Status,
             'vReg_no': vReg_no,
             'data': data,
             'data2': data2,
@@ -113,6 +117,7 @@ def index(request):
             'Customer': Customer,
             'Feild_Type': vStatus,
             'data3': data3,
+
         }
     else:
         context = {'Error': 'No data found'
@@ -124,27 +129,33 @@ def index(request):
 def update_book(request, data, vReg_no, data2):
 
     visCancel = request.POST.get('txtcancel')
-    vRowCount = int(request.POST.get('txtRowCount'))
-    print("Row Count : ", vRowCount)
 
     if len(visCancel) == 0:
+        vRowCount = int(request.POST.get('txtRowCount'))
+        print("Row Count : ", vRowCount)
 
         for itemIndex in range(vRowCount):
             vRowIndex = itemIndex+1
             print("Processing Index", vRowIndex)
-            vid = vRowIndex
+            DBItemID = request.POST.get('DBID'+str(vRowIndex))
+            print("Processing DBItemID", str(DBItemID))
             vStatus = '1'
-            print("values from form", request.POST.get('Counts'+str(vRowIndex)))
+            #print("values from form", request.POST.get('Counts'+str(vRowIndex)))
             Rate = request.POST.get('Rate'+str(vRowIndex))
             if Rate != None:
                 vStatus = '4'
 
-            # RY_Enquiry_Items.get(vid) then this should do update using update query
-
-            # else insert new value.
-
-            RY_Enquiry_Items.objects.filter(id=vid).update(
-                Counts=request.POST.get('Counts'+str(vRowIndex)), Quality=request.POST.get('Quality'+str(vRowIndex)), Type=request.POST.get('YarnType'+str(vRowIndex)), Blend=request.POST.get('Blend'+str(vRowIndex)), Shade=request.POST.get('Shade'+str(vRowIndex)), Depth=request.POST.get('Depth'+str(vRowIndex)), UOM=request.POST.get('UOM'+str(vRowIndex)), Quantity=request.POST.get('Quantity'+str(vRowIndex)), Rate=request.POST.get('Rate'+str(vRowIndex)), Amount=request.POST.get('Amount'+str(vRowIndex)), Last_order=request.POST.get('Last_order'+str(vRowIndex)), Status=vStatus)
+            # if DBItemID is None that means this is a newly added row, as when the page
+            # loads db record index will be filled in the hidden field which is queried and
+            # stored above in DBItemID field
+            if DBItemID != None:
+                RY_Enquiry_Items.objects.filter(id=DBItemID, Reg_no=vReg_no).update(
+                    Counts=request.POST.get('Counts'+str(vRowIndex)), Quality=request.POST.get('Quality'+str(vRowIndex)), Type=request.POST.get('YarnType'+str(vRowIndex)), Blend=request.POST.get('Blend'+str(vRowIndex)), Shade=request.POST.get('Shade'+str(vRowIndex)), Depth=request.POST.get('Depth'+str(vRowIndex)), UOM=request.POST.get('UOM'+str(vRowIndex)), Quantity=request.POST.get('Quantity'+str(vRowIndex)), Rate=request.POST.get('Rate'+str(vRowIndex)), Amount=request.POST.get('Amount'+str(vRowIndex)), Last_order=request.POST.get('Last_order'+str(vRowIndex)), Status=vStatus)
+            else:
+                # else insert new value.
+                ryNewItem = RY_Enquiry_Items(Reg_no=vReg_no, Counts=request.POST.get('Counts'+str(vRowIndex)), Quality=request.POST.get('Quality'+str(vRowIndex)), Type=request.POST.get('YarnType'+str(vRowIndex)), Blend=request.POST.get('Blend'+str(vRowIndex)), Shade=request.POST.get('Shade'+str(vRowIndex)), Depth=request.POST.get(
+                    'Depth'+str(vRowIndex)), UOM=request.POST.get('UOM'+str(vRowIndex)), Quantity=request.POST.get('Quantity'+str(vRowIndex)), Rate=request.POST.get('Rate'+str(vRowIndex)), Amount=request.POST.get('Amount'+str(vRowIndex)), Last_order=request.POST.get('Last_order'+str(vRowIndex)), Status=vStatus)
+                ryNewItem.save()
 
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
             Mill=request.POST.get('Mill'), Date=request.POST.get('Date'), Mill_Rep=request.POST.get('Mill_Rep'), Customer=request.POST.get('Customer'), Marketing_Zone=request.POST.get('Marketing_Zone'), Status=vStatus)

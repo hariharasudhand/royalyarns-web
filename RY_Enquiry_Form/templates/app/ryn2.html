@@ -71,30 +71,30 @@
         //initialising a variable name row_count
         var row_count = 0;
         //printing default value of row_count that is 0 in h2 tag
-        document.getElementById("counting").innerText = row_count;
+        // document.getElementById("counting").innerText = row_count;
 
         //creation of increment function
         function increment() {
             row_count = row_count + 1;
-            document.getElementById("counting").innerText = row_count;
+            // document.getElementById("counting").innerText = row_count;
         }
         //creation of decrement function
         function decrement() {
             row_count = row_count - 1;
-            document.getElementById("counting").innerText = row_count;
+            // document.getElementById("counting").innerText = row_count;
         }
     </script>
     <script>
         $(document).ready(function () {
             var row_count = $('#MyTable >tbody >tr').length;
             //var row_count = 0;
-            document.getElementById("counting").innerText = row_count;
+            // document.getElementById("counting").innerText = row_count;
             //Set total row count of Enquiry Items on load in hidden field
             $("#txtRowCount").val(row_count);
 
             $(".add-row").click(function () {
                 row_count = row_count + 1;
-                document.getElementById("counting").innerText = row_count;
+                // document.getElementById("counting").innerText = row_count;
                 // var Counts = $("#Counts").val();
                 // var Quality = $("#Quality").val();
                 // var Type = $("#Type").val();
@@ -126,7 +126,7 @@
                     if ($(this).is(":checked")) {
                         $(this).parents("tr").remove();
                         row_count = row_count - 1;
-                        document.getElementById("counting").innerText = row_count;
+                        // document.getElementById("counting").innerText = row_count;
                     }
                 });
                 $("#txtRowCount").val(row_count);
@@ -453,17 +453,17 @@
                                 <div class="col-sm">
                                     <label for="Reg_no" class="form-label">Reg_no:</label><br>
                                     <input type="text" class="form-control" id="Rno" name="Rno" value={{vReg_no}}
-                                        readonly>
+                                        readonly style="width:100px">
                                 </div>
                                 <div class="col-sm">
                                     <label for="Date" class="form-label">Date:</label><br>
                                     <input type="text" class="form-control" id="Date" name="Date" value='{{Date}}'
-                                        {{Feild_Type}}>
+                                        {{Feild_Type}} style="width:100px">
                                 </div>
                                 <div class="col-sm">
                                     <label for="Mill" class="form-label">Mill:</label><br>
                                     <input type="text" class="form-control" id="Mill" name="Mill" value='{{Mill}}'
-                                        {{Feild_Type}}><br><br>
+                                        {{Feild_Type}} style="width:450px"><br><br>
                                 </div>
                             </div>
 
@@ -471,17 +471,17 @@
                                 <div class="col-sm">
                                     <label for="Mill Rep" class="form-label">Mill_Rep:</label><br>
                                     <input type="text" class="form-control" id="Mill_Rep" name="Mill_Rep"
-                                        value='{{Mill_Rep}}' {{Feild_Type}}>
+                                        value='{{Mill_Rep}}' {{Feild_Type}} style="width:450px">
                                 </div>
                                 <div class="col-sm">
                                     <label for="Customer" class="form-label">Customer:</label><br>
                                     <input type="text" class="form-control" id="Customer" name="Customer"
-                                        value='{{Customer}}' {{Feild_Type}}>
+                                        value='{{Customer}}' {{Feild_Type}} style="width:450px">
                                 </div>
                                 <div class="col-sm">
                                     <label for="MarketingZone" class="form-label">Marketing_Zone:</label><br>
                                     <input type="text" class="form-control" id="Marketing_Zone" name="Marketing_Zone"
-                                        value='{{Marketing_Zone}}' {{Feild_Type}}>
+                                        value='{{Marketing_Zone}}' {{Feild_Type}} style="width:150px">
                                 </div>
                             </div>
                         </div>
@@ -494,7 +494,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Row_no</th>
-                                    <th scope="col">Rno</th>
+                                    <th scope="col"></th>
                                     <th scope="col">Counts</th>
                                     <th scope="col">Quality</th>
                                     <th scope="col">Type</th>
@@ -513,66 +513,70 @@
                             </thead>
                             <tbody>
                                 <!--- NOTE to MALIKA - your for loop should come here -->
-
+                                   
                                 {% for Reg_no in data %}
+                               
+                              
                                 <tr>
-                                    <th scope="row">{{Reg_no.Reg_no}}</th>
+                                    <th scope="row">{{forloop.counter}} <input type="hidden"  id="DBID{{forloop.counter}}"
+                                        name="DBID{{forloop.counter}}" value="{{Reg_no.id}}" style="width:60px"
+                                    ></th>
                                     <th scope="row"></th>
 
-                                    <td><input type="text" class="form-control" id="Counts{{Reg_no.id}}"
-                                            name="Counts{{Reg_no.id}}" value="{{Reg_no.Counts}}" style="width:60px"
+                                    <td><input type="text" class="form-control" id="Counts{{forloop.counter}}"
+                                            name="Counts{{forloop.counter}}" value="{{Reg_no.Counts}}" style="width:60px"
                                             {{Feild_Type}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="Quality{{Reg_no.id}}"
-                                            name="Quality{{Reg_no.id}}" value="{{Reg_no.Quality}}" style="width:60px"
+                                    <td><input type="text" class="form-control" id="Quality{{forloop.counter}}"
+                                            name="Quality{{forloop.counter}}" value="{{Reg_no.Quality}}" style="width:60px"
                                             {{Feild_Type}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="YarnType{{Reg_no.id}}"
-                                            name="YarnType{{Reg_no.id}}" value="{{Reg_no.Type}}" style="width:100px"
+                                    <td><input type="text" class="form-control" id="YarnType{{forloop.counter}}"
+                                            name="YarnType{{forloop.counter}}" value="{{Reg_no.Type}}" style="width:100px"
                                             {{Feild_Type}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="Blend{{Reg_no.id}}"
-                                            name="Blend{{Reg_no.id}}" value="{{Reg_no.Blend}}" style="width:250px"
+                                    <td><input type="text" class="form-control" id="Blend{{forloop.counter}}"
+                                            name="Blend{{forloop.counter}}" value="{{Reg_no.Blend}}" style="width:250px"
                                             {{Feild_Type}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="Shade{{Reg_no.id}}"
-                                            name="Shade{{Reg_no.id}}" value="{{Reg_no.Shade}}" style="width:150px"
+                                    <td><input type="text" class="form-control" id="Shade{{forloop.counter}}"
+                                            name="Shade{{forloop.counter}}" value="{{Reg_no.Shade}}" style="width:150px"
                                             {{Feild_Type}}>
                                     </td>
-                                    <td> <input type="text" class="form-control" id="Depth{{Reg_no.id}}"
-                                            name="Depth{{Reg_no.id}}" value="{{Reg_no.Depth}}" style="width:100px"
+                                    <td> <input type="text" class="form-control" id="Depth{{forloop.counter}}"
+                                            name="Depth{{forloop.counter}}" value="{{Reg_no.Depth}}" style="width:100px"
                                             {{Feild_Type}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="UOM{{Reg_no.id}}"
-                                            name="UOM{{Reg_no.id}}" value="{{Reg_no.UOM}}" style="width:60px"
+                                    <td><input type="text" class="form-control" id="UOM{{forloop.counter}}"
+                                            name="UOM{{forloop.counter}}" value="{{Reg_no.UOM}}" style="width:60px"
                                             {{Feild_Type}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="Quantity{{Reg_no.id}}"
-                                            name="Quantity{{Reg_no.id}}" value="{{Reg_no.Quantity}}" style="width:80px"
+                                    <td><input type="text" class="form-control" id="Quantity{{forloop.counter}}"
+                                            name="Quantity{{forloop.counter}}" value="{{Reg_no.Quantity}}" style="width:80px"
                                             {{Feild_Type}}>
                                     </td>
 
                                     {% if Feild_Type == 'readonly' %}
-                                    <td><input type="text" class="col-xs-2" id="Rate{{Reg_no.id}}"
-                                            name="Rate{{Reg_no.id}}" value="{{Reg_no.Rate}}" style="width:60px">
+                                    <td><input type="text" class="col-xs-2" id="Rate{{forloop.counter}}"
+                                            name="Rate{{forloop.counter}}" value="{{Reg_no.Rate}}" style="width:60px">
                                     </td>
-                                    <td><input type="text" class="col-xs-2" id="Amount{{Reg_no.id}}"
-                                            name="Amount{{Reg_no.id}}" value="{{Reg_no.Amount}}" style="width:60px">
+                                    <td><input type="text" class="col-xs-2" id="Amount{{forloop.counter}}"
+                                            name="Amount{{forloop.counter}}" value="{{Reg_no.Amount}}" style="width:60px">
                                     </td>
-                                    <td><input type="text" class="col-xs-2" id="Last_order{{Reg_no.id}}"
-                                            name="Last_order{{Reg_no.id}}" value="{{Reg_no.Last_order}}"
+                                    <td><input type="text" class="col-xs-2" id="Last_order{{forloop.counter}}"
+                                            name="Last_order{{forloop.counter}}" value="{{Reg_no.Last_order}}"
                                             style="width:80px">
                                     </td>
                                     {% endif %}
                                 </tr>
+                                {% endfor %}
+                                
                                 {% if not Feild_Type %}
                                 <button type="button" class="add-row" value="Add Row" {{Feild_Type}}>Add Row</button>
-                                <h2 id="counting"></h2>
+                                
                                 <input type="hidden" id="txtRowCount" name="txtRowCount" value="">
                                 <button type="button" class="delete-row" {{Feild_Type}}>Delete Row</button>
                                 {% endif %}
-                                {% endfor %}
-
                             </tbody>
                         </table>
                     
