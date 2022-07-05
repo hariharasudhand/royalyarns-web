@@ -10,8 +10,8 @@
     </script> -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-    rel="stylesheet">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+    rel="stylesheet"> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
@@ -582,10 +582,9 @@
                                 {% endfor %}
                                 
                                 {% if not Feild_Type %}
-                                <button type="button" class="add-row" value="Add Row" {{Feild_Type}}>Add Row</button>
-                                
+                                <span class="add-row fa fa-plus-square-o w-25 p-3" value="Add Row" {{Feild_Type}}></span>
                                 <input type="hidden" id="txtRowCount" name="txtRowCount" value="">
-                                <button type="button" class="delete-row" {{Feild_Type}}>Delete Row</button>
+                               <span class="delete-row fa fa-minus-square-o w-25 p-3" value="Delete Row" {{Feild_Type}}></span>
                                 {% endif %}
                             </tbody>
                         </table>
