@@ -71,7 +71,7 @@
         //initialising a variable name row_count
         var row_count = 0;
         //printing default value of row_count that is 0 in h2 tag
-        // document.getElementById("counting").innerText = row_count;
+        document.getElementById("counting").innerText = row_count;
 
         //creation of increment function
         function increment() {
@@ -351,11 +351,21 @@
     /*  Comment Box CSS */
     @import url(//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css);
 
+    
     .detailBox {
-        width:100%;
-        border:1px solid #bbb;
+        width:240%;
+        border:2px solid rgb(36, 35, 35);
         margin:50px;
+        display: flex;
+        padding-bottom: 20px;
     }
+    .left{
+            flex: 50%;
+        }
+    .right{
+        flex: 25%;
+    }
+   
     .titleBox {
         background-color:#fdfdfd;
         padding:10px;
@@ -368,7 +378,7 @@
 
     .commentBox {
         padding:10px;
-        border-top:1px dotted #bbb;
+        border-top:1px dotted rgb(24, 24, 24);
     }
     .commentBox .form-group:first-child, .actionBox .form-group:first-child {
         width:80%;
@@ -415,7 +425,7 @@
         font-size:11px;
     }
     .actionBox {
-        border-top:1px dotted #bbb;
+        border-top:1px dotted rgb(17, 16, 16);
         padding:10px;
     }
     </style>
@@ -583,31 +593,41 @@
                     <div class="alert alert-danger" role="alert">
                         Please Click on Save only if there is a change
                     </div>
-                    <div class="d-grid gap-2">
+                    <!-- <div class="d-grid gap-2">
                         <button type="submit"
                             class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save
                             and Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
                         <button type="button" id="cancelAction"
                             class="btn btn-primary btn-lg btn-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Proceed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-                        <!-- <input type="hidden" id="txtcancel" name="txtcancel" value=""> -->
-                    </div>
+                        
+                    </div> -->
+                    <!--
+                        Change button size using bootstrap
+                    -->
+                    <div class="d-grid gap-2">
+                        <input class="btn btn-primary" value="&nbsp;&nbsp;&nbsp;&nbsp;save and proceed&nbsp;&nbsp;&nbsp;&nbsp;" type="submit">
+                        <input class="btn btn-primary" id="cancelAction" value="&nbsp;&nbsp;&nbsp;&nbsp;proceed &nbsp;&nbsp;&nbsp;&nbsp;">
+                   </div>
                    
                         <!-- new comments box-->
 
-                        <div class="detailBox">
-                            <div class="titleBox">
-                              <label>Comments</label>
-                                <button type="button" class="close" aria-hidden="true">&times;</button>
-                            </div>
-                            <div class="commentBox">
-                                
-                                <p class="taskDescription">Comments will be notified to users via email, easy way to interact with business users</p>
-                            </div>
-                            <div class="actionBox">
-                                <ul class="commentList">
-                                    {% for id in data3 %}
-                                    <li>
-                                        <div class="commenterImage">
+
+                        <!-- new comments box-->
+                        
+                            
+                                <div class="detailBox">
+                                    <div class="left">
+                                    <div class="titleBox">
+                                        <label>Comments</label>
+                                    </div>
+                                <div class="commentBox">
+                                    <p class="taskDescription"><i>Interact with your partner</i></p>
+                                </div>
+                                <div class="actionBox">
+                                    <ul class="commentList">
+                                        {% for id in data3 %} 
+                                        <li>
+                                            <div class="commenterImage">
                                             ---     {{id.UserId}}  ---  
                                         </div>
                                         <div class="commentText">
@@ -616,17 +636,22 @@
                                         </div>
                                     </li>
                                     {% endfor %}
+                                    </ul>
+                                    </div>
+                                    </div>
                                     
                                 </ul>
                                 <!-- <form method="post" class="form-block"> -->
+                                    <div class="right">
+                               
                                     <div class="form-group">
                                        
-                                        <textarea style="height:250px;width:750px" class="border-10"
-                                            class="form-input form-control-lg mb-2"  id="Ccomment"
-                                            name="Ccomment" value="" placeholder="Your text"></textarea>
+                                        <center><textarea style="height:250px;width:400px; border: solid rgb(55, 53, 53) 2px;" 
+                                            class="form-control" required="" id="Ccomment" aria-describedby="emailHelp"
+                                            name="Ccomment" value="" placeholder="Your text"></textarea></center>
                                     </div>
                                     <div class="form-group">
-                                        <button id="commentAction" class="btn btn-default">Add</button>
+                                       <center> <button id="commentAction" class="btn btn-default" style="width: 15%;; background-color: #85daf7;" >Add</button></center>
                                     </div>
                                     <input type="hidden" id="txtcancel" name="txtcancel" value="">
                                     {% if messages %}
@@ -636,7 +661,7 @@
                                         {% endfor %}
                                     </div>
                                     {% endif %}
-                                <!-- </form> -->
+                                    <!-- </form> -->
                             </div>
                         </div>
                         <!-- Ends-->
@@ -644,10 +669,7 @@
 
                    
                 </div>
-            </div>
-        </div>
-    </div>
-   
+        
     {% else %}
     <h2>No data was found</h2>
     {% endif %}
