@@ -497,10 +497,9 @@
                         </div>
                         <br>
                         <br>
-
-
-                        <!-- Counts in a table-->
-                        <table id="MyTable" class="table table-striped">
+                       <!-- Counts in a table-->
+                        <table id="MyTable" class="table table-striped table-bordered table-sm " cellspacing="0"
+                        width="100%">
                             <thead>
                                 <tr>
                                     <th scope="col">Row_no</th>
@@ -580,10 +579,10 @@
                                     {% endif %}
                                 </tr>
                                 {% endfor %}
-                                
+                                <input type="hidden" id="txtRowCount" name="txtRowCount" value="0">
                                 {% if not Feild_Type %}
                                 <span class="add-row fa fa-plus-square-o w-25 p-3" value="Add Row" {{Feild_Type}}></span>
-                                <input type="hidden" id="txtRowCount" name="txtRowCount" value="">
+                                
                                <span class="delete-row fa fa-minus-square-o w-25 p-3" value="Delete Row" {{Feild_Type}}></span>
                                 {% endif %}
                             </tbody>
@@ -608,13 +607,7 @@
                         <input class="btn btn-primary" id="cancelAction" value="&nbsp;&nbsp;&nbsp;&nbsp;proceed &nbsp;&nbsp;&nbsp;&nbsp;">
                    </div>
                    
-                        <!-- new comments box-->
-
-
-                        <!-- new comments box-->
-                        
-                            
-                                <div class="detailBox">
+                   <div class="detailBox">
                                     <div class="left">
                                     <div class="titleBox">
                                         <label>Comments</label>

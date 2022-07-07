@@ -19,120 +19,68 @@ from datetime import datetime
 
 @csrf_exempt
 def index(request):
-    vReg_no = request.GET.get('Rno')
-    vFlag = request.POST.get('Rno')
+
+    vReg_no = None
     vStatus = ''
-    data = RY_Enquiry_Items.objects.filter(Reg_no=vReg_no)
-    data2 = RY_Enquiry_Header.objects.filter(Reg_no=vReg_no)
 
-    data3 = customer_comments.objects.filter(Reg_no=vReg_no)
-
-    # for dt in data3:
-    #     print(" reg_no", dt.Reg_no)
-    #     print(" comments", dt.Comments)
-
-    #data4 = User_Details.objects.all()
-
-    if vReg_no == None and vFlag == None:
-        context = {}
-        Unread_Data = RY_Enquiry_Header.objects.filter(Status='0')
-        other_status = RY_Enquiry_Header.objects.filter(
-            ~Q(Status='0') & ~Q(Status='3'))
-        Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Status='3')
-
-        context['Unread_Data'] = Unread_Data
-        context['other_status'] = other_status
-        context['Req_Yarn_Price'] = Req_Yarn_Price
-
-        Count_Unr = len(Unread_Data)
-        Count_Upd = len(other_status)
-        Count_RYP = len(Req_Yarn_Price)
-
-        context['Count_Unr'] = Count_Unr
-        context['Count_Upd'] = Count_Upd
-        context['Count_RYP'] = Count_RYP
-        return render(request, 'app/ryn.html', context)
-
-    if vFlag != None:
-        print("vFlag", vFlag)
-        data = RY_Enquiry_Items.objects.filter(Reg_no=vFlag)
-        data2 = RY_Enquiry_Header.objects.filter(Reg_no=vFlag)
-        update_book(request, data, vReg_no, data2)
-
-    form = Ry_En_Form()
+    ##
+    #  Rno (Registation Number) is passed as Query String as
+    #  (GET)
+    #   or
+    #  (POST)
+    ##
     if request.method == 'POST':
-        form = Ry_En_Form(request.POST)
-        if form.is_valid():
-            form.save()
-
-    if len(data2) != 0:
-        for item in data2:
-            Email_Details = item.Email_Details
-            Date = item.Date
-            Mill_Rep = item.Mill_Rep
-            Marketing_Zone = item.Marketing_Zone
-            Mill = item.Mill
-            Customer = item.Customer
-            if item.Status >= '3':
-                vStatus = 'readonly'
-
-    if len(data) != 0:
-
-        # This is the index for item table records, fix this
-        # for item in data:
-        #     Counts = item.Counts
-        #     Quality = item.Quality
-        #     Type = item.Type
-        #     Blend = item.Blend.replace(" ", "")
-        #     Shade = item.Shade
-        #     Shade_Ref = item.Shade_Ref
-        #     Depth = item.Depth
-        #     UOM = item.UOM
-        #     Quantity = item.Quantity
-        #     Status = item.Status
-        #     Rate = item.Rate
-        #     Amount = item.Amount
-        #     Last_order = item.Last_order
-
-        # print("data from database Counts :", Counts)
-        context = {
-            # 'Counts': Counts,
-            # 'Quality': Quality,
-            # 'Type': Type,
-            # 'Blend': Blend,
-            # 'Shade': Shade,
-            # 'Shade_Ref': Shade_Ref,
-            # 'Depth': Depth,
-            # 'UOM': UOM,
-            # 'Quantity': Quantity,
-            # 'Status': Status,
-            'vReg_no': vReg_no,
-            'data': data,
-            'data2': data2,
-            'Email_Details': Email_Details,
-            'Date': Date,
-            'Mill_Rep': Mill_Rep,
-            'Marketing_Zone': Marketing_Zone,
-            'Mill': Mill,
-            'Customer': Customer,
-            'Feild_Type': vStatus,
-            'data3': data3,
-
-        }
+        vReg_no = request.POST.get('Rno')
     else:
-        context = {'Error': 'No data found'
-                   }
+        vReg_no = request.GET.get('Rno')
 
-    return render(request, 'app/ryn2.html', context)
+    print("******* vRegNo", vReg_no)
+    ##
+    #  When the home page is accessed , all enquiries are to be displayed
+    #  Rno will be empty not available in GET or POST varibale vReg_no will be empty
+    ##
+    if vReg_no == None:
+        context = GetLandingPageData(request)
+        #print("**********>> context", context)
+        return render(request, 'app/ryn.html', context)
+    else:
+        ##
+        # Fetch Header Values & Item Values for the supplied RegNo (Registation Number)
+        ##
+        vENQ_Items = RY_Enquiry_Items.objects.filter(Reg_no=vReg_no)
+        vENQ_Header = RY_Enquiry_Header.objects.filter(Reg_no=vReg_no)
+
+        ##
+        # Fetch Comments associated with the RegNo (Registation Number)
+        ##
+        data3 = customer_comments.objects.filter(Reg_no=vReg_no)
+
+        if request.method == 'POST':
+
+            # data = RY_Enquiry_Items.objects.filter(Reg_no=vReg_no)
+            # data2 = RY_Enquiry_Header.objects.filter(Reg_no=vReg_no)
+            update_book(request, vENQ_Items, vReg_no, vENQ_Header)
+
+            # form = Ry_En_Form()
+            # form = Ry_En_Form(request.POST)
+            # if form.is_valid():
+            #     form.save()
+
+        context = prepareUIData(vReg_no, vENQ_Items, vENQ_Header, data3)
+        return render(request, 'app/ryn2.html', context)
 
 
-def update_book(request, data, vReg_no, data2):
+def update_book(request, vENQ_Items, vReg_no, vENQ_Header):
 
     visCancel = request.POST.get('txtcancel')
-
+    #print("***** visCancel", visCancel)
+    vStatus = 0
     if len(visCancel) == 0:
-        vRowCount = int(request.POST.get('txtRowCount'))
-        print("Row Count : ", vRowCount)
+        print("***** txtRowCount", request.POST.get('txtRowCount'))
+        vRowCount = 0
+        if (request.POST.get('txtRowCount') != None):
+            vRowCount = int(request.POST.get('txtRowCount'))
+            print("Row Count : ", vRowCount)
 
         for itemIndex in range(vRowCount):
             vRowIndex = itemIndex+1
@@ -140,9 +88,15 @@ def update_book(request, data, vReg_no, data2):
             DBItemID = request.POST.get('DBID'+str(vRowIndex))
             print("Processing DBItemID", str(DBItemID))
             vStatus = '1'
-            #print("values from form", request.POST.get('Counts'+str(vRowIndex)))
-            Rate = request.POST.get('Rate'+str(vRowIndex))
-            if Rate != None:
+
+            vRate = request.POST.get('Rate'+str(vRowIndex))
+            vAmount = request.POST.get('Amount'+str(vRowIndex))
+            vLast_order = request.POST.get('Last_order'+str(vRowIndex))
+            print("****** Rate", vRate)
+            print("****** Amount", vAmount)
+            print("****** Last Order", vLast_order)
+
+            if vRate != None:
                 vStatus = '4'
 
             # if DBItemID is None that means this is a newly added row, as when the page
@@ -166,7 +120,7 @@ def update_book(request, data, vReg_no, data2):
 
     else:
         print("this is inside else")
-        for item in data:
+        for item in vENQ_Items:
             vid = str(item.id)
             RY_Enquiry_Items.objects.filter(id=vid).update(Status=2)
 
@@ -219,3 +173,62 @@ def validateUser(request):
     else:
         print(" user is not available")
         return render(request=request, template_name="app/loginagain.html")
+
+
+def prepareUIData(vReg_no, vENQ_Items, data2, data3):
+
+    context = {'Error': 'No data found'}
+    vFieldStatus = ''
+    if len(data2) != 0:
+        for item in data2:
+            Email_Details = item.Email_Details
+            Date = item.Date
+            Mill_Rep = item.Mill_Rep
+            Marketing_Zone = item.Marketing_Zone
+            Mill = item.Mill
+            Customer = item.Customer
+            if item.Status >= '3':
+                vFieldStatus = 'readonly'
+
+    if len(vENQ_Items) != 0:
+
+        context = {
+            'vReg_no': vReg_no,
+            'data': vENQ_Items,
+            'data2': data2,
+            'Email_Details': Email_Details,
+            'Date': Date,
+            'Mill_Rep': Mill_Rep,
+            'Marketing_Zone': Marketing_Zone,
+            'Mill': Mill,
+            'Customer': Customer,
+            'Feild_Type': vFieldStatus,
+            'data3': data3,
+
+        }
+
+    return context
+
+
+def GetLandingPageData(request):
+
+    #context = {'Error': 'No data found'}
+    context = {}
+    Unread_Data = RY_Enquiry_Header.objects.filter(Status='0')
+    other_status = RY_Enquiry_Header.objects.filter(
+        ~Q(Status='0') & ~Q(Status='3'))
+    Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Status='3')
+
+    context['Unread_Data'] = Unread_Data
+    context['other_status'] = other_status
+    context['Req_Yarn_Price'] = Req_Yarn_Price
+
+    Count_Unr = len(Unread_Data)
+    Count_Upd = len(other_status)
+    Count_RYP = len(Req_Yarn_Price)
+
+    context['Count_Unr'] = Count_Unr
+    context['Count_Upd'] = Count_Upd
+    context['Count_RYP'] = Count_RYP
+
+    return context
