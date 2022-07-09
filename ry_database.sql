@@ -1,7 +1,8 @@
 CREATE TABLE RY_Enquiry_Header(  
-    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    Id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     Reg_no TEXT,
-    mill TEXT,
+    Mill TEXT,
+    Mill_Rep TEXT,
     Customer TEXT,
     Marketing_Zone TEXT,
     Payment_Term TEXT,
@@ -11,13 +12,12 @@ CREATE TABLE RY_Enquiry_Header(
     Acceptance_from_the_mill TEXT,
     Date TEXT,
     Email_Details TEXT,
-    Mill_Rep TEXT,
     Status TEXT
 
 );
 
 CREATE TABLE RY_Enquiry_Items(  
-    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    Id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     Counts TEXT,
     Quality TEXT,
     Type TEXT,
@@ -29,10 +29,10 @@ CREATE TABLE RY_Enquiry_Items(
     Quantity TEXT,
     Status TEXT,
     Reg_no TEXT,
+    Rate character varying(200),
     Amount character varying(200),
     Last_order TEXT,
-    Rate character varying(200)
-
+    
 );
 
 CREATE TABLE User_Details(  

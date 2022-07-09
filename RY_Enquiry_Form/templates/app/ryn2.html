@@ -14,6 +14,8 @@
     rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
     </script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js">
+    </script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
@@ -44,6 +46,7 @@
     </script>
     <script>
         $(document).ready(function () {
+
             var cancelAction = function () {
                 $('#txtcancel').val("cancel");
                 $('#RYform').submit();
@@ -101,6 +104,20 @@
             var row_count = $('#MyTable >tbody >tr').length;
             //var row_count = 0;
             document.getElementById("counting").innerText = row_count;
+            //show email button
+            var showEmailAction = function () {
+            //   alert("hi");
+              $('#myPopup').fadeIn(1000);
+              $('#myPopup').draggable();
+              $('#hidepop').click(function(){
+                $('#myPopup').fadeOut(1000)();
+                
+            })
+            }
+            $('#showEmailAction').on('click', showEmailAction)
+
+            //Add / Remove Button
+
             $(".add-row").click(function () {
                 row_count = row_count + 1;
                 document.getElementById("counting").innerText = row_count;
@@ -144,7 +161,10 @@
             });
         });
     </script>
-
+            
+        });
+    </script>
+    
     <style>
         .accordion {
             text-align: center;
@@ -234,6 +254,20 @@
             left: 50%;
             margin-left: 50px;
         }
+        .popuptext{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 200px;
+            text-align: center;
+            background-color: #e8eae6;
+            box-sizing: border-box;
+            padding: 10px;
+            z-index: 100;
+            display: none;
+        }
 
         /* Popup arrow */
         .popup .popuptext::after {
@@ -274,6 +308,7 @@
                 opacity: 1;
             }
         }
+
 
         body {
             margin-top: 20px;
@@ -413,8 +448,23 @@
         border-top:1px dotted #bbb;
         padding:10px;
     }
-    </style>
 
+          
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            background-color: black;
+            color: white;
+            border-radius: 50%;
+            padding: 4px;
+        }
+        #myPopup{
+            float: right;
+        }
+
+    </style>
+   
 </head>
 
 <body>
@@ -431,7 +481,18 @@
         <center>
             <h1>Enquiry Validation </h1>
         </center>
+
     </div>
+
+        <!-- <div class="popup"> -->
+                <div  class="btn btn-primary btn-lg btn-block" id="showEmailAction"> Raw Message
+                </div>
+        <!-- </div> -->
+                <div class="popuptext" style="border:solid 1px;" id="myPopup">{{Email_Details}}
+                    <button style="float: right; cursor: pointer;" id="hidepop"> X </button>
+                </div>
+    
+        
     {% if not Error %}
     <div class="col">
         <div class="card">
@@ -440,7 +501,7 @@
             </div>
             <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
                 <div class="card-body">
-                    <form name="RYform" id="RYform" action="" method="post">
+                    <form name="RYform" id="RYform" action="storedata" method="post">
 
                         {% csrf_token %}
                         <div class="container">
@@ -509,13 +570,13 @@
                             <tbody>
                                 <!--- NOTE to MALIKA - your for loop should come here -->
 
-                                {% for Reg_no in data %}
+                                <!-- {% for Reg_no in data %} -->
                                 <tr>
                                     <th scope="row">#</th>
                                     <th scope="row">{{Reg_no.Reg_no}}</th>
 
                                     <td><input type="text" class="form-control" id="Counts{{Reg_no.id}}"
-                                            name="Counts{{Reg_no.id}}" value="{{Reg_no.Counts}}" style="width:40px"
+                                            name="Counts" value="{{Reg_no.Counts}}" style="width:40px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Quality{{Reg_no.id}}"
@@ -528,10 +589,19 @@
                                     </td>
                                     <td><input type="text" class="form-control" id="Blend{{Reg_no.id}}"
                                             name="Blend{{Reg_no.id}}" value="{{Reg_no.Blend}}" style="width:130px"
+                                            name="Quality" value="{{Reg_no.Quality}}" style="width:40px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="YarnType{{Reg_no.id}}"
+                                            name="YarnType" value="{{Reg_no.Type}}" style="width:150px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="Blend{{Reg_no.id}}"
+                                            name="Blend" value="{{Reg_no.Blend}}" style="width:180px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Shade{{Reg_no.id}}"
-                                            name="Shade{{Reg_no.id}}" value="{{Reg_no.Shade}}" style="width:120px"
+                                            name="Shade" value="{{Reg_no.Shade}}" style="width:120px"
                                             {{Feild_Type}}>
                                     </td>
                                     <td> <input type="text" class="form-control" id="Depth{{Reg_no.id}}"
@@ -544,18 +614,27 @@
                                     </td>
                                     <td><input type="text" class="form-control" id="Quantity{{Reg_no.id}}"
                                             name="Quantity{{Reg_no.id}}" value="{{Reg_no.Quantity}}" style="width:120px"
+                                            name="Depth" value="{{Reg_no.Depth}}" style="width:40px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="UOM{{Reg_no.id}}"
+                                            name="UOM" value="{{Reg_no.UOM}}" style="width:40px"
+                                            {{Feild_Type}}>
+                                    </td>
+                                    <td><input type="text" class="form-control" id="Quantity{{Reg_no.id}}"
+                                            name="Quantity" value="{{Reg_no.Quantity}}" style="width:50px"
                                             {{Feild_Type}}>
                                     </td>
 
                                     {% if Feild_Type == 'readonly' %}
                                     <td><input type="text" class="col-xs-2" id="Rate{{Reg_no.id}}"
-                                            name="Rate{{Reg_no.id}}" value="{{Reg_no.Rate}}" style="width:50px">
+                                            name="Rate" value="{{Reg_no.Rate}}" style="width:50px">
                                     </td>
                                     <td><input type="text" class="col-xs-2" id="Amount{{Reg_no.id}}"
-                                            name="Amount{{Reg_no.id}}" value="{{Reg_no.Amount}}" style="width:70px">
+                                            name="Amount" value="{{Reg_no.Amount}}" style="width:70px">
                                     </td>
                                     <td><input type="text" class="col-xs-2" id="Last_order{{Reg_no.id}}"
-                                            name="Last_order{{Reg_no.id}}" value="{{Reg_no.Last_order}}"
+                                            name="Last_order" value="{{Reg_no.Last_order}}"
                                             style="width:80px">
                                     </td>
                                     {% endif %}
@@ -566,6 +645,10 @@
                                 <button type="button" class="delete-row" {{Feild_Type}}>Delete Row</button>
                                 {% endif %}
                                 {% endfor %}
+
+
+
+                                <!-- {% endfor %} -->
 
                             </tbody>
                         </table>
@@ -638,6 +721,17 @@
         </div>
     </div>
    
+                       
+
+                    </form>
+                </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+
     {% else %}
     <h2>No data was found</h2>
     {% endif %}
