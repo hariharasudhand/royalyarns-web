@@ -146,7 +146,7 @@
         input[type=text],
         input[type=password] {
             width: 100%;
-            padding: 12px 20px;
+            padding: 12px 30px;
             margin: 8px 0;
             display: inline-block;
             border: 1px solid #ccc;
@@ -316,14 +316,14 @@
     {% if not Error %}
     <section>
         <div class="tab">
-            <button class="tablinks" onclick="openCity(event, 'Unread')">Unread<font color='red'>(<b>{{Count_Unr}}</b>)
+            <button class="tablinks" onclick="openTab(event, 'Unread')">Unread<font color='red'>(<b>{{Count_Unr}}</b>)
                 </font>
             </button>
-            <!-- <button class="tablinks" onclick="openCity(event, 'Quotation')">Ready for Quotation<font color='red'>
+            <!-- <button class="tablinks" onclick="openTab(event, 'Quotation')">Ready for Quotation<font color='red'>
                     (<b>{{Count_Rfq}}</b>)</button> -->
-            <button class="tablinks" onclick="openCity(event, 'ReqYarnPrice')">Sent for Yarn Pricing <font color='red'>
+            <button class="tablinks" onclick="openTab(event, 'ReqYarnPrice')">Sent for Yarn Pricing <font color='red'>
                     (<b>{{Count_RYP}}</b>)</button>
-            <button class="tablinks" onclick="openCity(event, 'Updated')">other_status<font color='red'>
+            <button class="tablinks" onclick="openTab(event, 'Updated')">other_status<font color='red'>
                     (<b>{{Count_Upd}}</b>)</button>
         </div>
 
@@ -348,36 +348,35 @@
                     <tr>
                         <!-- <th scope="row">{{UnrData.Reg_no}}</th> -->
                         <td><input type="text" class="form-control" id="Rno{{UnrData.Reg_no}}"
-                                name="Rno{{UnrData.Reg_no}}" value="{{UnrData.Reg_no}}" style="width:50px;">
+                            name="Rno{{UnrData.Reg_no}}" value="{{UnrData.Reg_no}}" style="width:80px;">
                         </td>
-                        <td><input type="text" class="form-control" id="Mill{{UnrData.Mill}}"
-                                name="Mill{{UnrData.Mill}}" value="{{UnrData.Mill}}" style="width: 80px;">
+                        <td><input type="text" class="form-control" id="Mill{{UnrData.Mill}}" 
+                                name="Mill{{UnrData.Mill}}" value="{{UnrData.Mill}}" style="width: 200px;">
                         </td>
                         <td><input type="text" class="form-control" id="Customer{{UnrData.Customer}}"
-                                name="Customer{{UnrData.Customer}}" value="{{UnrData.Customer}}" style="width: 80px;">
+                                name="Customer{{UnrData.Customer}}" value="{{UnrData.Customer}}" style="width: 200px;">
                         </td>
                         <td><input type="text" class="form-control" id="Marketing_Zone{{UnrData.Marketing_Zone}}"
                                 name="Marketing_Zone{{UnrData.Marketing_Zone}}" value="{{UnrData.Marketing_Zone}}"
-                                style="width: 80px;">
+                                style="width: 200px;">
                         </td>
                         <td><input type="text" class="form-control"
                                 id="Replied_From_the_mill{{UnrData.Replied_From_the_mill}}"
                                 name="Replied_From_the_mill{{UnrData.Replied_From_the_mill}}"
-                                value="{{UnrData.Replied_From_the_mill}}" style="width:80px;">
+                                value="{{UnrData.Replied_From_the_mill}}" style="width:200px;">
                         </td>
 
                         <td><input type="text" class="form-control"
                                 id="Acceptance_from_the_mill{{UnrData.Acceptance_from_the_mill}}"
                                 name="Acceptance_from_the_mill{{UnrData.Acceptance_from_the_mill}}"
-                                value="{{UnrData.Acceptance_from_the_mill}}" style="width: 80px;">
+                                value="{{UnrData.Acceptance_from_the_mill}}" style="width: 200px;">
                         </td>
                         <td><input type="text" class="form-control" id="Date{{UnrData.Date}}"
-                                name="Date{{UnrData.Date}}" value="{{UnrData.Date}}" style="width: 80px;">
+                                name="Date{{UnrData.Date}}" value="{{UnrData.Date}}" style="width: 200px;">
                         </td>
                         <td>
-                            <a href="?Rno={{UnrData.Reg_no}}" class="btn btn-info" role="button">Veiw</a>
+                            <a href="?Rno={{UnrData.Reg_no}}" class="btn btn-info" role="button">View</a>
                         </td>
-
                     </tr>
 
                     {% endfor %}
@@ -403,36 +402,36 @@
                     <tr>
                         <!-- <th scope="row">{{UprData.Reg_no}}</th> -->
                         <td><input type="text" class="form-control" id="Rno{{UprData.Reg_no}}"
-                                name="Rno{{UprData.Reg_no}}" value="{{UprData.Reg_no}}" style="width:50px;">
+                                name="Rno{{UprData.Reg_no}}" value="{{UprData.Reg_no}}" style="width:80px;">
                         </td>
                         <td><input type="text" class="form-control" id="Mill{{UprData.Mill}}"
-                                name="Mill{{UprData.Mill}}" value="{{UprData.Mill}}" style="width:80px;">
+                                name="Mill{{UprData.Mill}}" value="{{UprData.Mill}}" style="width:180px;">
                         </td>
                         <td><input type="text" class="form-control" id="Customer{{UprData.Customer}}"
-                                name="Customer{{UprData.Customer}}" value="{{UprData.Customer}}" style="width:80px;">
+                                name="Customer{{UprData.Customer}}" value="{{UprData.Customer}}" style="width:180px;">
                         </td>
                         <td><input type="text" class="form-control" id="Marketing_Zone{{UprData.Marketing_Zone}}"
                                 name="Marketing_Zone{{UprData.Marketing_Zone}}" value="{{UprData.Marketing_Zone}}"
-                                style="width:80px;">
+                                style="width:180px;">
                         </td>
                         <td><input type="text" class="form-control"
                                 id="Replied_From_the_mill{{UprData.Replied_From_the_mill}}"
                                 name="Replied_From_the_mill{{UprData.Replied_From_the_mill}}"
-                                value="{{UprData.Replied_From_the_mill}}" style="width:80px;">
+                                value="{{UprData.Replied_From_the_mill}}" style="width:180px;">
                         </td>
                         <td><input type="text" class="form-control"
                                 id="Acceptance_from_the_mill{{UprData.Acceptance_from_the_mill}}"
                                 name="Acceptance_from_the_mill{{UprData.Acceptance_from_the_mill}}"
-                                value="{{UprData.Acceptance_from_the_mill}}" style="width:80px;">
+                                value="{{UprData.Acceptance_from_the_mill}}" style="width:180px;">
                         </td>
                         <td><input type="text" class="form-control" id="Date{{UprData.Date}}"
-                                name="Date{{UprData.Date}}" value="{{UprData.Date}}" style="width:80px;">
+                                name="Date{{UprData.Date}}" value="{{UprData.Date}}" style="width:180px;">
                         </td>
                         <td><input type="text" class="form-control" id="Status{{UprData.Status}}"
-                                name="Date{{UprData.Status}}" value="{{UprData.Status}}" style="width:80px;">
+                                name="Date{{UprData.Status}}" value="{{UprData.Status}}" style="width:180px;">
                         </td>
                         <td>
-                            <a href="?Rno={{UprData.Reg_no}}" class="btn btn-info" role="button">Veiw</a>
+                            <a href="?Rno={{UprData.Reg_no}}" class="btn btn-info" role="button">View</a>
 
                         </td>
                     </tr>
@@ -457,33 +456,33 @@
                     {% for RFQData in Ready_For_Quotation %}
                     <tr>
                         <td><input type="text" class="form-control" id="Rno{{RFQData.Reg_no}}"
-                                name="Rno{{RFQData.Reg_no}}" value="{{RFQData.Reg_no}}" style="width:50px;">
+                                name="Rno{{RFQData.Reg_no}}" value="{{RFQData.Reg_no}}" style="width:80px;">
                         </td>
                         <td><input type="text" class="form-control" id="Mill{{RFQData.Mill}}"
-                                name="Mill{{RFQData.Mill}}" value="{{RFQData.Mill}}" style="width:80px;">
+                                name="Mill{{RFQData.Mill}}" value="{{RFQData.Mill}}" style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control" id="Customer{{RFQData.Customer}}"
-                                name="Customer{{RFQData.Customer}}" value="{{RFQData.Customer}}" style="width:80px;">
+                                name="Customer{{RFQData.Customer}}" value="{{RFQData.Customer}}" style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control" id="Marketing_Zone{{RFQData.Marketing_Zone}}"
                                 name="Marketing_Zone{{RFQData.Marketing_Zone}}" value="{{RFQData.Marketing_Zone}}"
-                                style="width:80px;">
+                                style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control"
                                 id="Replied_From_the_mill{{RFQData.Replied_From_the_mill}}"
                                 name="Replied_From_the_mill{{RFQData.Replied_From_the_mill}}"
-                                value="{{RFQData.Replied_From_the_mill}}" style="width:80px;">
+                                value="{{RFQData.Replied_From_the_mill}}" style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control"
                                 id="Acceptance_from_the_mill{{RFQData.Acceptance_from_the_mill}}"
                                 name="Acceptance_from_the_mill{{RFQData.Acceptance_from_the_mill}}"
-                                value="{{RFQData.Acceptance_from_the_mill}}" style="width:80px;">
+                                value="{{RFQData.Acceptance_from_the_mill}}" style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control" id="Date{{RFQData.Date}}"
-                                name="Date{{RFQData.Date}}" value="{{RFQData.Date}}" style="width:80px;">
+                                name="Date{{RFQData.Date}}" value="{{RFQData.Date}}" style="width:200px;">
                         </td>
                         <td>
-                            <a href="?Rno={{RFQData.Reg_no}}" class="btn btn-info" role="button">Veiw</a>
+                            <a href="?Rno={{RFQData.Reg_no}}" class="btn btn-info" role="button">View</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -509,33 +508,33 @@
                     {% for RYPData in Req_Yarn_Price %}
                     <tr>
                         <td><input type="text" class="form-control" id="Rno{{RYPData.Reg_no}}"
-                                name="Rno{{RYPData.Reg_no}}" value="{{RYPData.Reg_no}}" style="width:50px;">
+                                name="Rno{{RYPData.Reg_no}}" value="{{RYPData.Reg_no}}" style="width:80px;">
                         </td>
                         <td><input type="text" class="form-control" id="Mill{{RYPData.Mill}}"
-                                name="Mill{{RYPData.Mill}}" value="{{RYPData.Mill}}" style="width:80px;">
+                                name="Mill{{RYPData.Mill}}" value="{{RYPData.Mill}}" style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control" id="Customer{{RYPData.Customer}}"
-                                name="Customer{{RYPData.Customer}}" value="{{RYPData.Customer}}" style="width:80px;">
+                                name="Customer{{RYPData.Customer}}" value="{{RYPData.Customer}}" style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control" id="Marketing_Zone{{RYPData.Marketing_Zone}}"
                                 name="Marketing_Zone{{RYPData.Marketing_Zone}}" value="{{RYPData.Marketing_Zone}}"
-                                style="width:80px;">
+                                style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control"
                                 id="Replied_From_the_mill{{RYPData.Replied_From_the_mill}}"
                                 name="Replied_From_the_mill{{RYPData.Replied_From_the_mill}}"
-                                value="{{RYPData.Replied_From_the_mill}}" style="width:80px;">
+                                value="{{RYPData.Replied_From_the_mill}}" style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control"
                                 id="Acceptance_from_the_mill{{RYPData.Acceptance_from_the_mill}}"
                                 name="Acceptance_from_the_mill{{RYPData.Acceptance_from_the_mill}}"
-                                value="{{RYPData.Acceptance_from_the_mill}}" style="width:80px;">
+                                value="{{RYPData.Acceptance_from_the_mill}}" style="width:200px;">
                         </td>
                         <td><input type="text" class="form-control" id="Date{{RYPData.Date}}"
-                                name="Date{{RYPData.Date}}" value="{{RYPData.Date}}" style="width:80px;">
+                                name="Date{{RYPData.Date}}" value="{{RYPData.Date}}" style="width:200px;">
                         </td>
                         <td>
-                            <a href="?Rno={{RYPData.Reg_no}}" class="btn btn-info" role="button">Veiw</a>
+                            <a href="?Rno={{RYPData.Reg_no}}" class="btn btn-info" role="button">View</a>
                         </td>
                     </tr>
                     {% endfor %}
@@ -543,7 +542,7 @@
             </table>
         </div>
         <script>
-            function openCity(evt, cityName) {
+            function openTab(evt, tabName) {
                 var i, tabcontent, tablinks;
                 tabcontent = document.getElementsByClassName("tabcontent");
                 for (i = 0; i < tabcontent.length; i++) {
@@ -553,7 +552,7 @@
                 for (i = 0; i < tablinks.length; i++) {
                     tablinks[i].className = tablinks[i].className.replace(" active", "");
                 }
-                document.getElementById(cityName).style.display = "block";
+                document.getElementById(tabName).style.display = "block";
                 evt.currentTarget.className += " active";
             }
         </script>

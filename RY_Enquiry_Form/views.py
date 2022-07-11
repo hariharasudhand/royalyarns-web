@@ -2,7 +2,6 @@ from genericpath import exists
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import AuthenticationForm
 from ast import Store
-from asyncio.windows_events import NULL
 from dataclasses import dataclass
 from django.shortcuts import redirect, render
 from django import http
@@ -152,6 +151,7 @@ def command_update(request, vReg_no):
 def ryn2(request):
     return render(request, 'app/ryn2.html')
 
+
 def register(request):
     return render(request, 'app/register.html')
 
@@ -176,30 +176,30 @@ def validateUser(request):
         print(" user is not available")
         return render(request=request, template_name="app/loginagain.html")
 
-def storedata(request):
-        if request.method == 'POST':
-            a=request.POST["Counts"]
-            b=request.POST["Quality"]
-            c=request.POST["YarnType"]
-            d=request.POST["Blend"]
-            e=request.POST["Shade"]
-            f=request.POST["Depth"]
-            g=request.POST["UOM"]
-            h=request.POST["Quantity"]
-            
-            store=RY_Enquiry_Items()
-            store.Counts=a
-            store.Quality=b
-            store.Type=c
-            store.Blend=d
-            store.Shade=e
-            store.Depth=f
-            store.UOM=g
-            store.Quantity=h
-            store.save()
-            
-            return render(request , 'app/ryn2.html')
 
+def storedata(request):
+    if request.method == 'POST':
+        a = request.POST["Counts"]
+        b = request.POST["Quality"]
+        c = request.POST["YarnType"]
+        d = request.POST["Blend"]
+        e = request.POST["Shade"]
+        f = request.POST["Depth"]
+        g = request.POST["UOM"]
+        h = request.POST["Quantity"]
+
+        store = RY_Enquiry_Items()
+        store.Counts = a
+        store.Quality = b
+        store.Type = c
+        store.Blend = d
+        store.Shade = e
+        store.Depth = f
+        store.UOM = g
+        store.Quantity = h
+        store.save()
+
+        return render(request, 'app/ryn2.html')
 
 
 def prepareUIData(vReg_no, vENQ_Items, data2, data3):

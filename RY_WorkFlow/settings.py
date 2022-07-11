@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'RY_WorkFlow.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'teratta_db',
+        'NAME': 'terattadb',
         'USER': 'postgres',
         'PASSWORD': 'adminadmin',
         'HOST': 'localhost',
