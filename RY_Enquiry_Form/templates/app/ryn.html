@@ -32,9 +32,11 @@
 
     <script>
         $(document).ready(function () {
-            /*jQuery.noConflict();
-            $("#myModal").modal('show');*/
-            /* $("#myModal").modal({ active: 0 });*/
+           alert(sessionStorage.getItem("vUser"));
+           if (sessionStorage.getItem("vUser") == null) {
+                alert("redirct to login page");
+
+           }
         });       
     </script>
     <style>
@@ -310,6 +312,7 @@
             <h1>Enquiry Validation </h1>
         </center>
     </header>
+
     {% if not Error %}
     <section>
         <div class="tab">
@@ -556,7 +559,7 @@
         </script>
     </section>
     {% else %}
-    <h2>No data was found</h2>
+    <h2>No data was found </h2>
     {% endif %}
 </body>
 
