@@ -4,19 +4,6 @@
 <head>
 
     <title>Terata Enquiry Dashboard</title>
-    <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" /> -->
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js">
-    </script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
-    </script> -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
-    <!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link href="//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
@@ -32,11 +19,11 @@
 
     <script>
         $(document).ready(function () {
-           alert(sessionStorage.getItem("vUser"));
-           if (sessionStorage.getItem("vUser") == null) {
-                alert("redirct to login page");
+        //    alert(sessionStorage.getItem("vUser"));
+        //    if (sessionStorage.getItem("vUser") == null) {
+        //         alert("redirct to login page");
 
-           }
+        //    }
         });       
     </script>
     <style>
@@ -277,14 +264,14 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 
-    <div id="myModal" class="modal fade" role="dialog">
+    <!-- <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <form class="modal-content animate" action="/login" method="post">
-                <!-- <div class="imgcontainer">
+                 <div class="imgcontainer">
                     <span onclick="document.getElementById('myModal').style.display='none'" class="close"
                         title="Close Modal">&times;</span>
                     <img src="images/Terata.jpeg" alt="Login" class="avatar">
-                </div> -->
+                </div> 
                 <div class="modal-content">
                     <div class="container">
                         <label for="uname"><b>Username</b></label>
@@ -295,13 +282,13 @@
                         <button type="submit">Login</button>
                     </div>
                     <div class="container" style="background-color:#566d4a">
-                        <!-- <button type="button" onclick="document.getElementById('myModal').style.display='none'"
-                            class="cancelbtn">Cancel</button> -->
+                        <button type="button" onclick="document.getElementById('myModal').style.display='none'"
+                            class="cancelbtn">Cancel</button>
                     </div>
                 </div>
             </form>
         </div>
-    </div>
+    </div> -->
     <header>
 
         <div class="rounded float-start">
@@ -316,18 +303,28 @@
     {% if not Error %}
     <section>
         <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Unread')">Unread<font color='red'>(<b>{{Count_Unr}}</b>)
-                </font>
-            </button>
+        {% for key, value in full.items %}
+            {% if key|first in 'full' %}
+
+            {% else %}
+                    <button class="tablinks" onclick="openTab(event, '{{ key }}')">{{ key }}
+                        </font>
+                    </button>
+                
+            {% endif %}
+        {% endfor %}
+        </div>
             <!-- <button class="tablinks" onclick="openTab(event, 'Quotation')">Ready for Quotation<font color='red'>
                     (<b>{{Count_Rfq}}</b>)</button> -->
-            <button class="tablinks" onclick="openTab(event, 'ReqYarnPrice')">Sent for Yarn Pricing <font color='red'>
+            <!-- <button class="tablinks" onclick="openTab(event, 'ReqYarnPrice')">Sent for Yarn Pricing <font color='red'>
                     (<b>{{Count_RYP}}</b>)</button>
             <button class="tablinks" onclick="openTab(event, 'Updated')">other_status<font color='red'>
-                    (<b>{{Count_Upd}}</b>)</button>
-        </div>
-
-        <div id="Unread" class="tabcontent">
+                    (<b>{{Count_Upd}}</b>)</button> -->
+        
+    {% for key, value in full.items %}
+        {% if key|first in 'full' %}
+        {% else %}
+        <div id='{{ key }}' class="tabcontent">
             <table class="table table-hover table-sm">
                 <thead>
                     <tr>
@@ -343,7 +340,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for UnrData in Unread_Data %}
+                    {% for UnrData in value %}
 
                     <tr>
                         <!-- <th scope="row">{{UnrData.Reg_no}}</th> -->
@@ -380,167 +377,12 @@
                     </tr>
 
                     {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
         </div>
-        <div id="Updated" class="tabcontent">
-            <table class="table table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">Reg_no</th>
-                        <th scope="col">Mill</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Marketing_Zone</th>
-                        <th scope="col">Replied_From_the_mill</th>
-                        <th scope="col">Acceptance_from_the_mill</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for UprData in other_status %}
-                    <tr>
-                        <!-- <th scope="row">{{UprData.Reg_no}}</th> -->
-                        <td><input type="text" class="form-control" id="Rno{{UprData.Reg_no}}"
-                                name="Rno{{UprData.Reg_no}}" value="{{UprData.Reg_no}}" style="width:80px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Mill{{UprData.Mill}}"
-                                name="Mill{{UprData.Mill}}" value="{{UprData.Mill}}" style="width:180px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Customer{{UprData.Customer}}"
-                                name="Customer{{UprData.Customer}}" value="{{UprData.Customer}}" style="width:180px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Marketing_Zone{{UprData.Marketing_Zone}}"
-                                name="Marketing_Zone{{UprData.Marketing_Zone}}" value="{{UprData.Marketing_Zone}}"
-                                style="width:180px;">
-                        </td>
-                        <td><input type="text" class="form-control"
-                                id="Replied_From_the_mill{{UprData.Replied_From_the_mill}}"
-                                name="Replied_From_the_mill{{UprData.Replied_From_the_mill}}"
-                                value="{{UprData.Replied_From_the_mill}}" style="width:180px;">
-                        </td>
-                        <td><input type="text" class="form-control"
-                                id="Acceptance_from_the_mill{{UprData.Acceptance_from_the_mill}}"
-                                name="Acceptance_from_the_mill{{UprData.Acceptance_from_the_mill}}"
-                                value="{{UprData.Acceptance_from_the_mill}}" style="width:180px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Date{{UprData.Date}}"
-                                name="Date{{UprData.Date}}" value="{{UprData.Date}}" style="width:180px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Status{{UprData.Status}}"
-                                name="Date{{UprData.Status}}" value="{{UprData.Status}}" style="width:180px;">
-                        </td>
-                        <td>
-                            <a href="?Rno={{UprData.Reg_no}}" class="btn btn-info" role="button">View</a>
-
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div id="Quotation" class="tabcontent">
-            <table class="table table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">Reg_no</th>
-                        <th scope="col">Mill</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Marketing_Zone</th>
-                        <th scope="col">Replied_From_the_mill</th>
-                        <th scope="col">Acceptance_from_the_mill</th>
-                        <th scope="col">Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for RFQData in Ready_For_Quotation %}
-                    <tr>
-                        <td><input type="text" class="form-control" id="Rno{{RFQData.Reg_no}}"
-                                name="Rno{{RFQData.Reg_no}}" value="{{RFQData.Reg_no}}" style="width:80px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Mill{{RFQData.Mill}}"
-                                name="Mill{{RFQData.Mill}}" value="{{RFQData.Mill}}" style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Customer{{RFQData.Customer}}"
-                                name="Customer{{RFQData.Customer}}" value="{{RFQData.Customer}}" style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Marketing_Zone{{RFQData.Marketing_Zone}}"
-                                name="Marketing_Zone{{RFQData.Marketing_Zone}}" value="{{RFQData.Marketing_Zone}}"
-                                style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control"
-                                id="Replied_From_the_mill{{RFQData.Replied_From_the_mill}}"
-                                name="Replied_From_the_mill{{RFQData.Replied_From_the_mill}}"
-                                value="{{RFQData.Replied_From_the_mill}}" style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control"
-                                id="Acceptance_from_the_mill{{RFQData.Acceptance_from_the_mill}}"
-                                name="Acceptance_from_the_mill{{RFQData.Acceptance_from_the_mill}}"
-                                value="{{RFQData.Acceptance_from_the_mill}}" style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Date{{RFQData.Date}}"
-                                name="Date{{RFQData.Date}}" value="{{RFQData.Date}}" style="width:200px;">
-                        </td>
-                        <td>
-                            <a href="?Rno={{RFQData.Reg_no}}" class="btn btn-info" role="button">View</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
-        </div>
-        <div id="ReqYarnPrice" class="tabcontent">
-
-            <table class="table table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">Reg_no</th>
-                        <th scope="col">Mill</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Marketing_Zone</th>
-                        <th scope="col">Replied_From_the_mill</th>
-                        <th scope="col">Acceptance_from_the_mill</th>
-                        <th scope="col">Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for RYPData in Req_Yarn_Price %}
-                    <tr>
-                        <td><input type="text" class="form-control" id="Rno{{RYPData.Reg_no}}"
-                                name="Rno{{RYPData.Reg_no}}" value="{{RYPData.Reg_no}}" style="width:80px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Mill{{RYPData.Mill}}"
-                                name="Mill{{RYPData.Mill}}" value="{{RYPData.Mill}}" style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Customer{{RYPData.Customer}}"
-                                name="Customer{{RYPData.Customer}}" value="{{RYPData.Customer}}" style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Marketing_Zone{{RYPData.Marketing_Zone}}"
-                                name="Marketing_Zone{{RYPData.Marketing_Zone}}" value="{{RYPData.Marketing_Zone}}"
-                                style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control"
-                                id="Replied_From_the_mill{{RYPData.Replied_From_the_mill}}"
-                                name="Replied_From_the_mill{{RYPData.Replied_From_the_mill}}"
-                                value="{{RYPData.Replied_From_the_mill}}" style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control"
-                                id="Acceptance_from_the_mill{{RYPData.Acceptance_from_the_mill}}"
-                                name="Acceptance_from_the_mill{{RYPData.Acceptance_from_the_mill}}"
-                                value="{{RYPData.Acceptance_from_the_mill}}" style="width:200px;">
-                        </td>
-                        <td><input type="text" class="form-control" id="Date{{RYPData.Date}}"
-                                name="Date{{RYPData.Date}}" value="{{RYPData.Date}}" style="width:200px;">
-                        </td>
-                        <td>
-                            <a href="?Rno={{RYPData.Reg_no}}" class="btn btn-info" role="button">View</a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+           
+        {% endfor %}
         <script>
             function openTab(evt, tabName) {
                 var i, tabcontent, tablinks;

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class RY_Enquiry_Items(models.Model):
-    Id = models.IntegerField(null=True)
+    # Id = models.IntegerField(null=True)
     Counts = models.TextField(max_length=200,  null=True)
     Quality = models.TextField(max_length=200,  null=True)
     Type = models.TextField(max_length=200,  null=True)
@@ -15,16 +15,19 @@ class RY_Enquiry_Items(models.Model):
     Quantity = models.TextField(max_length=200,  null=True)
     Status = models.TextField(max_length=200,  null=True)
     Reg_no = models.TextField(max_length=200,  null=True)
-    Rate = models.ImageField(max_length=200,  null=True)
-    Amount = models.ImageField(max_length=200,  null=True)
-    Last_order = models.TextField(max_length=200,  null=True)
+    Supplier_Rate = models.ImageField(max_length=200,  null=True)
+    Supplier_Amount = models.ImageField(max_length=200,  null=True)
+    Supplier_Last_order = models.TextField(max_length=200,  null=True)
+    Agent_Rate = models.ImageField(max_length=200,  null=True)
+    Agent_Amount = models.ImageField(max_length=200,  null=True)
+    Agent_Last_order = models.TextField(max_length=200,  null=True)
 
     class Meta:
         db_table = 'RY_Enquiry_Items'
         ordering = ['Reg_no']
 
     def __str__(self):
-        return self.Rate + ' ' + self.Amount + ' ' + self.Last_order + ' ' + self.Counts + ' ' + self.Quality + ' ' + self.Type + ' ' + self.Blend + ' ' + self.Shade + ' ' + self.Shade_Ref + ' ' + self.Depth + ' ' + self.UOM + ' ' + self.Quantity + ' ' + self.Reg_no + ' ' + self.Status + '' + self.Id
+        return self.Agent_Rate + ' ' + self.Agent_Amount + ' ' + self.Agent_Last_order + self.Supplier_Rate + ' ' + self.Supplier_Amount + ' ' + self.Supplier_Last_order + ' ' + self.Counts + ' ' + self.Quality + ' ' + self.Type + ' ' + self.Blend + ' ' + self.Shade + ' ' + self.Shade_Ref + ' ' + self.Depth + ' ' + self.UOM + ' ' + self.Quantity + ' ' + self.Reg_no + ' ' + self.Status + '' + self.Id
 
 
 class RY_Enquiry_Header(models.Model):

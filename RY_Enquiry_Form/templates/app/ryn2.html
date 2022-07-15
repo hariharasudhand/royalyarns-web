@@ -59,14 +59,21 @@
     </script>
     <script>
         $(document).ready(function () {
+
+            var saveAndProceed = function(){
+                $('#hBtnAction').val("sap");
+                $('#RYform').submit();
+            }
+            $('#saveAndProceed').on('click', saveAndProceed)
+
             var cancelAction = function () {
-                $('#txtcancel').val("cancel");
+                $('#hBtnAction').val("cancel");
                 $('#RYform').submit();
             }
             $('#cancelAction').on('click', cancelAction)
 
             var commentAction = function () {
-                $('#txtcancel').val("comment");
+                $('#hBtnAction').val("comment");
                 
                 $('#RYform').submit();
                 /*window.location("app/ryn.html")*/
@@ -525,27 +532,27 @@
                                 </span><br><br>
                                 <span class="label label-default">Date:<br>
                                     <input type="text" class="form-control" id="Date" name="Date" value='{{Date}}'
-                                        {{Feild_Type}} style="width:100px; border: solid rgb(183, 146, 146) 1px;">
+                                        {{Default_Enq_Fileds}} style="width:100px; border: solid rgb(183, 146, 146) 1px;">
                                 </span><br><br>
                                 <span class="label label-default">Marketing_Zone:<br>
                                     <input type="text" class="form-control" id="Marketing_Zone" name="Marketing_Zone"
-                                        value='{{Marketing_Zone}}' {{Feild_Type}} style="width:150px; border: solid rgb(183, 146, 146) 1px;">
+                                        value='{{Marketing_Zone}}' {{Default_Enq_Fileds}} style="width:150px; border: solid rgb(183, 146, 146) 1px;">
                                 </span><br><br>
                                 </div>
                                 <div class="right2" style="left: 450px;">
                                 <span class="label label-default">Mill:<br>
                                         <input type="text" class="form-control" id="Mill" name="Mill" value='{{Mill}}'
-                                            {{Feild_Type}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                            {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
                                     </span><br><br>
                             <!-- </div> -->
                             <!-- <div class="row"> -->
                                 <span class="label label-default">Mill_Rep:<br>
                                     <input type="text" class="form-control" id="Mill_Rep" name="Mill_Rep"
-                                        value='{{Mill_Rep}}' {{Feild_Type}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                        value='{{Mill_Rep}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
                                 </span><br><br>
                                 <span class="label label-default">Customer:<br>
                                     <input type="text" class="form-control" id="Customer" name="Customer"
-                                        value='{{Customer}}' {{Feild_Type}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                        value='{{Customer}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
                                 </span><br><br>
                                 </div>
                             <!-- </div> -->
@@ -568,7 +575,7 @@
                                     <th scope="col">Depth</th>
                                     <th scope="col">UOM</th>
                                     <th scope="col">Quantity</th>
-                                    {% if Feild_Type == 'readonly' %}
+                                    {% if Default_Enq_Fileds == 'readonly' %}
                                     <th scope="col">Rate</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Last order</th>
@@ -590,56 +597,76 @@
 
                                     <td><input type="text" class="form-control" id="Counts{{forloop.counter}}"
                                             name="Counts{{forloop.counter}}" value="{{Reg_no.Counts}}" style="width:60px"
-                                            {{Feild_Type}}>
+                                            {{Default_Enq_Fileds}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Quality{{forloop.counter}}"
                                             name="Quality{{forloop.counter}}" value="{{Reg_no.Quality}}" style="width:60px"
-                                            {{Feild_Type}}>
+                                            {{Default_Enq_Fileds}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="YarnType{{forloop.counter}}"
                                             name="YarnType{{forloop.counter}}" value="{{Reg_no.Type}}" style="width:100px"
-                                            {{Feild_Type}}>
+                                            {{Default_Enq_Fileds}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Blend{{forloop.counter}}"
                                             name="Blend{{forloop.counter}}" value="{{Reg_no.Blend}}" style="width:250px"
-                                            {{Feild_Type}}>
+                                            {{Default_Enq_Fileds}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Shade{{forloop.counter}}"
                                             name="Shade{{forloop.counter}}" value="{{Reg_no.Shade}}" style="width:150px"
-                                            {{Feild_Type}}>
+                                            {{Default_Enq_Fileds}}>
                                     </td>
                                     <td> <input type="text" class="form-control" id="Depth{{forloop.counter}}"
                                             name="Depth{{forloop.counter}}" value="{{Reg_no.Depth}}" style="width:100px"
-                                            {{Feild_Type}}>
+                                            {{Default_Enq_Fileds}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="UOM{{forloop.counter}}"
                                             name="UOM{{forloop.counter}}" value="{{Reg_no.UOM}}" style="width:60px"
-                                            {{Feild_Type}}>
+                                            {{Default_Enq_Fileds}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Quantity{{forloop.counter}}"
                                             name="Quantity{{forloop.counter}}" value="{{Reg_no.Quantity}}" style="width:80px"
-                                            {{Feild_Type}}>
+                                            {{Default_Enq_Fileds}}>
                                     </td>
 
-                                    {% if Feild_Type == 'readonly' %}
-                                    <td><input type="text" class="col-xs-2" id="Rate{{forloop.counter}}"
-                                            name="Rate{{forloop.counter}}" value="{{Reg_no.Rate}}" style="width:60px">
+                                    {% if Default_Enq_Fileds == 'readonly' %}
+                                   
+                                    <td>
+                                        <input type="text" class="col-xs-2" id="Rate{{forloop.counter}}"
+                                            name="Rate{{forloop.counter}}" value="{{Reg_no.Rate}}" style="width:60px" {{Supplier_Fileds}}>
+                                            {% if Supplier_Fileds == 'readonly' %}
+                                                <input type="text" class="col-xs-2" id="Arate{{forloop.counter}}"
+                                                name="Arate{{forloop.counter}}" value="{{Reg_no.Arate}}" style="width:60px">
+                                            {% endif %}
                                     </td>
                                     <td><input type="text" class="col-xs-2" id="Amount{{forloop.counter}}"
-                                            name="Amount{{forloop.counter}}" value="{{Reg_no.Amount}}" style="width:60px">
+                                            name="Amount{{forloop.counter}}" value="{{Reg_no.Amount}}" style="width:60px" {{Supplier_Fileds}}>
+                                            {% if Supplier_Fileds == 'readonly' %}
+                                            <input type="text" class="col-xs-2" id="Aamount{{forloop.counter}}"
+                                            name="Aamount{{forloop.counter}}" value="{{Reg_no.Aamount}}" style="width:60px">
+                                            {% endif %}
                                     </td>
                                     <td><input type="text" class="col-xs-2" id="Last_order{{forloop.counter}}"
                                             name="Last_order{{forloop.counter}}" value="{{Reg_no.Last_order}}"
-                                            style="width:80px">
+                                            style="width:80px" {{Supplier_Fileds}}>
+                                        
+                                            {% if Supplier_Fileds == 'readonly' %}
+                                            <input type="text" class="col-xs-2" id="Alast_order{{forloop.counter}}"
+                                            name="Alast_order{{forloop.counter}}" value="{{Reg_no.Alast_order}}"
+                                            style="width:80px" >
+                                            {% endif %}
                                     </td>
                                     {% endif %}
+                                    
+
                                 </tr>
                                 {% endfor %}
-
-                                {% if not Feild_Type %}&nbsp;&nbsp;&nbsp;&nbsp;
-                                <span class="add-row fa fa-plus-square " style="font-size: x-large; color:#008CBA;" value="Add Row" {{Feild_Type}}></span>
+                                
                                 <input type="hidden" id="txtRowCount" name="txtRowCount" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                               <span class="delete-row fa fa-minus-square" style="font-size: x-large; color:#008CBA;" value="Delete Row" {{Feild_Type}}></span>
+
+                                {% if not Default_Enq_Fileds %}
+                                <span class="add-row fa fa-plus-square " style="font-size: x-large; color:#008CBA;" value="Add Row" {{Default_Enq_Fileds}}></span>
+                                
+                               <span class="delete-row fa fa-minus-square" style="font-size: x-large; color:#008CBA;" value="Delete Row" {{Default_Enq_Fileds}}></span>
 
                                 {% endif %}
                             </tbody>
@@ -652,8 +679,8 @@
                         Change button size using bootstrap
                     -->
                     <div class="d-grid gap-2">
-                        <input class="btn btn-primary" value="&nbsp;&nbsp;&nbsp;&nbsp;save and proceed&nbsp;&nbsp;&nbsp;&nbsp;" type="submit">&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input class="btn btn-primary" id="cancelAction" value="&nbsp;&nbsp;&nbsp;&nbsp;proceed &nbsp;&nbsp;&nbsp;&nbsp;">
+                        <input class="btn btn-primary" id="saveAndProceed" value="save and proceed">
+                        <input class="btn btn-primary" id="cancelAction" value=" proceed ">
                    </div>
                    
                    <div class="detailBox">
@@ -695,7 +722,7 @@
                                     <div class="form-group">
                                        <center> <button id="commentAction" class="btn btn-default" style="width: 15%;; background-color: #85daf7;" >Add</button></center>
                                     </div>
-                                    <input type="hidden" id="txtcancel" name="txtcancel" value="">
+                                    <input type="hidden" id="hBtnAction" name="hBtnAction" value="">
                                     {% if messages %}
                                     <div class="alert alert-success alert-dismissible">
                                         {% for message in messages %}
