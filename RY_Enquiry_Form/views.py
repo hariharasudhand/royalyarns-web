@@ -1,4 +1,5 @@
 from genericpath import exists
+import re
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import AuthenticationForm
 from ast import Store
@@ -72,7 +73,11 @@ def index(request):
             #     form.save()
 
         context = __prepareUIData(vReg_no, vENQ_Items, vENQ_Header, data3)
-        return render(request, 'app/ryn2.html', context)
+        print("Status of Enq ", context['vStatus'])
+        if (context['vStatus'] == '5'):
+            return render(request, 'app/quotation.html', context)
+        else:
+            return render(request, 'app/ryn2.html', context)
 
 
 def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
@@ -119,27 +124,41 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
             vUOM = request.POST.get('UOM'+str(vRowIndex))
             vQuantity = request.POST.get('Quantity'+str(vRowIndex))
 
+            # Supplier Entered Rates
             vRate = request.POST.get('Rate'+str(vRowIndex))
             vAmount = request.POST.get('Amount'+str(vRowIndex))
             vLast_order = request.POST.get('Last_order'+str(vRowIndex))
+
+            # Agent ReEntered Rates
+            vARate = request.POST.get('Arate'+str(vRowIndex))
+            vAAmount = request.POST.get('Aamount'+str(vRowIndex))
+            vALast_order = request.POST.get('Alast_order'+str(vRowIndex))
+
             print("****** Rate", vRate)
             print("****** Amount", vAmount)
             print("****** Last Order", vLast_order)
 
-            if vRate != None:
+            print("****** Rate", vARate)
+            print("****** Amount", vAAmount)
+            print("****** Last Order", vALast_order)
+
+            if vARate != None:
+                vStatus = '5'
+            elif vRate != None:
                 vStatus = '4'
 
             # if DBItemID is None that means this is a newly added row, as when the page
             # loads db record index will be filled in the hidden field which is queried and
             # stored above in DBItemID field
             if DBItemID != None:
+                print("inside updating existing", vStatus)
                 vDAO.StoreEnquiryItem(DBItemID, vReg_no, vCounts, vQuality, vYarnType, vBlend,
-                                      vShade, vDepth, vUOM, vQuantity, vRate, vAmount, vLast_order, vStatus, 1)
+                                      vShade, vDepth, vUOM, vQuantity, vRate, vAmount, vLast_order, vStatus, 1, vARate, vAAmount, vALast_order)
 
             else:
                 # else insert new value.
                 vDAO.StoreEnquiryItem(DBItemID, vReg_no, vCounts, vQuality, vYarnType, vBlend,
-                                      vShade, vDepth, vUOM, vQuantity, vRate, vAmount, vLast_order, vStatus, 0)
+                                      vShade, vDepth, vUOM, vQuantity, vRate, vAmount, vLast_order, vStatus, 0, vARate, vAAmount, vALast_order)
 
         vDAO.StoreEnquiryHeader(vReg_no, vMill, vDate,
                                 vMill_Rep, vCustomer, vMarketing_Zone, vStatus)
@@ -177,6 +196,27 @@ def ryn2(request):
 
 def register(request):
     return render(request, 'app/register.html')
+
+
+def confirmpo(request):
+
+    vReg_no = ''
+    vPONumber = ''
+
+    if request.method == 'POST':
+        vReg_no = request.POST.get('Rno')
+        vPONumber = request.POST.get('txtPONumber')
+
+    print("vReg_no", vReg_no)
+    print("vPONumber", vPONumber)
+
+    return render(request, 'app/confirmpo.html')
+
+
+def __handle_uploaded_file(f):
+    with open(f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
 
 
 @csrf_exempt
@@ -229,6 +269,8 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3):
     context = {'Error': 'No data found'}
     Default_Enq_Fileds = ''
     Supplier_Fileds = ''
+    Quotation_ready = ''
+    vStatus = ''
     vFieldStatus = ''
     if len(data2) != 0:
         for item in data2:
@@ -239,11 +281,16 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3):
             Mill = item.Mill
             Customer = item.Customer
             # Item Status >= 3 is for Supplier to enter Rates
-            Supplier_Fileds = ''
+            vStatus = item.Status
+            print("status in view :", vStatus)
+
             if item.Status >= '3':
                 Default_Enq_Fileds = 'readonly'
             if item.Status >= '4':
                 Supplier_Fileds = 'readonly'
+            if item.Status >= '5':
+                # Probably there is a better status - i will use this in the Agent ReEntered Field as readonly
+                Quotation_ready = 'readonly'
 
     if len(vENQ_Items) != 0:
 
@@ -259,6 +306,8 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3):
             'Customer': Customer,
             'Default_Enq_Fileds': Default_Enq_Fileds,
             'Supplier_Fileds': Supplier_Fileds,
+            'Quotation_ready': Quotation_ready,
+            'vStatus': vStatus,
             'data3': data3,
 
         }

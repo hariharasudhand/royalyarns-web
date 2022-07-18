@@ -7,6 +7,6 @@ urlpatterns = [
     path('ryn2', views.ryn2, name='ryn2'),
     path('', views.register, name="register"),
     path("login", views.validateUser, name="login"),
-    # path('storedata', views.storedata, name='storedata'),
+    path('confirmpo', views.confirmpo, name='confirmpo'),
 
 ]

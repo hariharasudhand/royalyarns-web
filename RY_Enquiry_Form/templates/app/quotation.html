@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Terata Enquiry Confirmation Form</title>
+    <title>Quotation from Agent {% now "DATE_FORMAT" %} </title>
     <!-- <link href="//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
@@ -24,32 +24,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        /*document.getElementById("current_date").innerHTML = Date();*/
         $(document).ready(function () {
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = today.getFullYear();
-
-            today = mm + '/' + dd + '/' + yyyy;
-            /*document.write(today);*/
-            document.getElementById("current_date").innerText = today;
-        });
-        </script>
-        <script>
-            $(document).ready(function () {
             var showEmailAction = function () {
             //   alert("hi");
-              $('#myPopup').fadeIn(1000);
+            $('#myPopup').fadeIn(1000);
             $('#myPopup').resizable().draggable();
               $('#hidepop').click(function(){
                 $('#myPopup').fadeOut(1000);
-                })
+               })
             }
             $('#showEmailAction').on('click', showEmailAction)
         });
-        
-        // console.log("popup")
+    // console.log("popup")
     </script>
     <script>
         function onButtonClick() {
@@ -59,7 +45,6 @@
     </script>
     <script>
         $(document).ready(function () {
-
             var saveAndProceed = function(){
                 $('#hBtnAction').val("sap");
                 $('#RYform').submit();
@@ -71,16 +56,6 @@
                 $('#RYform').submit();
             }
             $('#cancelAction').on('click', cancelAction)
-
-            var commentAction = function () {
-                $('#hBtnAction').val("comment");
-                
-                $('#RYform').submit();
-                /*window.location("app/ryn.html")*/
-                /*$('#RYform').trigger("reset");
-                $(this).closest('#RYform').find("textarea").val("");*/
-            }
-            $('#commentAction').on('click', commentAction)
 
         });
         if (window.history.replaceState) {
@@ -114,18 +89,22 @@
             //Set total row count of Enquiry Items on load in hidden field
             $("#txtRowCount").val(row_count);
 
+            //alert(" find total");
+            //calculate total
+           
+            //alert(" total rows"+row_count);
+            var totalAmount = 0;
+            for ( i = 1;i<row_count;i++){
+                
+                var row_rate = parseInt($('#Arate'+i).val());
+                var row_quantity = parseInt($('#Quantity'+i).val());
+
+                totalAmount = totalAmount + (row_rate * row_quantity);
+            }
+            $("div.txtTotalAmount").text(totalAmount.toLocaleString('en-IN'));
+
             $(".add-row").click(function () {
                 row_count = row_count + 1;
-                // document.getElementById("counting").innerText = row_count;
-                // var Counts = $("#Counts").val();
-                // var Quality = $("#Quality").val();
-                // var Type = $("#Type").val();
-                // var Blend = $("#Blend").val();
-                // var Shade = $("#Shade").val();
-                // var Depth = $("#Depth").val();
-                // var UOM = $("#UOM").val();
-                // var Quantity = $("#Quantity").val();
-                // var markup = "<tr><td>" + row_count + "</td><td><input type='checkbox' name='record'>" + name + "</td><td><input type='text' class='form-control' >" + Counts + "</td><td><input type='text' class='form-control' >" + Quality + "</td><td><input type='text' class='form-control' >" + Type + "</td><td><input type='text' class='form-control' >" + Blend + "</td><td><input type='text' class='form-control' >" + Shade + "</td><td><input type='text' class='form-control' >" + Depth + "</td><td><input type='text' class='form-control' >" + UOM + "</td><td><input type='text' class='form-control' >" + Quantity + "</td></tr>";
                 var markup = "<tr>";
                 markup+= "<th scope=\"row\">"+row_count+"</th>";
                 markup+= "<td scope=\"row\"><input type='checkbox' name='record'> </td>";
@@ -304,7 +283,7 @@
 
         body {
             margin-top: 20px;
-            background-color: #e9ebee;
+            background-color: #ffffff;
         }
 
        
@@ -494,74 +473,53 @@
         crossorigin="anonymous"></script>
 
         {% load static %}
-        <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="100%" height="100">
-            <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
-            <!-- <input class="btn btn-primary" id="Logout" type="button" value="Logout"> -->
-            <i class="fa fa-sign-out" style="font-size: x-large; color: #fc054f;" ></i></div>
+        <div class="topleft">
+            <img src="{% static 'images/RYN_logo.jpeg'%}" alt="no image" max-width="100%" height="100">
+            <h6> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;#4 / 32, 7th Cross Street, College Road,</small><br>
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Tirupur - 641602 - INDIA </small><br>
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91 421 2201222, 2247333 </small><br>
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Email: support@rayaalyarns.com </small><br>
+            </h6>
+            
+        </div>
+           <!-- <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
+           <input class="btn btn-primary" id="Logout" type="button" value="Logout"> 
+            <i class="fa fa-sign-out" style="font-size: x-large; color: #fc054f;" ></i></div> -->
             <div class="topcenter">
-                <h1>Enquiry Validation </h1>
+                <blockquote class="blockquote text-right">
+                    <p class="mb-0">Quotation 104 - Page Industires Pvt Ltd </p>
+                    <footer class="blockquote-footer">{% now "DATE_FORMAT" %} <cite title="Source Title">&nbsp;&nbsp;Quotation No : 104</cite></footer>
+                  </blockquote>
+                <h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h2>
+                <h4>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small class="text-muted"></small></h4>
+                
             </div>
-        
     
     {% if not Error %}
-    <div class="col">
+    <!-- <div class="col"> -->
         <div class="text-right">
             <div  class="btn btn-primary" id="showEmailAction"> Raw Message
             </div>
-            </div>
-            <div class="popuptext" style="border:solid 1px;" id="myPopup">
+        </div>
+        <div class="popuptext" style="border:solid 1px;" id="myPopup">
                 <button class='btn btn-danger' style="float: right; cursor: pointer;" id="hidepop"> X </button>
                 <center>{{Email_Details}}</center>
-            </div>
-
-        <div class="card">
-            <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
-                Enquiry Form
-            </div>
-            <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
-                <div class="card-body">
-                    <form name="RYform" id="RYform" action="" method="post">
-
+        </div>
+        <!-- <div class="card-body"> -->
+        
+            <blockquote class="blockquote text-center">
+                <p class="mb-0">Thank You for your business</p>
+                <p class="mb-0">We have reviewed your enquiry and have the best price   
+                    from </p>
+                <footer class="blockquote-footer">
+                    Vardhman Textiles Limited (Unit-Arihant Spinning Mills)</footer>
+              </blockquote>
+    
+                    <form name="RYform" id="RYform" action="/confirmpo" method="post" entype="multipart/form-data">
                         {% csrf_token %}
-                        <div class="container">
-                            <!-- <div class="row"> -->
-                                <div class="left2">
-                                <span class="label label-default">Reg_No<br>
-                                    <input type="text" class="form-control" id="Rno" name="Rno" value={{vReg_no}}
-                                    readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
-                                </span><br><br>
-                                <span class="label label-default">Date:<br>
-                                    <input type="text" class="form-control" id="Date" name="Date" value='{{Date}}'
-                                        {{Default_Enq_Fileds}} style="width:100px; border: solid rgb(183, 146, 146) 1px;">
-                                </span><br><br>
-                                <span class="label label-default">Marketing_Zone:<br>
-                                    <input type="text" class="form-control" id="Marketing_Zone" name="Marketing_Zone"
-                                        value='{{Marketing_Zone}}' {{Default_Enq_Fileds}} style="width:150px; border: solid rgb(183, 146, 146) 1px;">
-                                </span><br><br>
-                                </div>
-                                <div class="right2" style="left: 450px;">
-                                <span class="label label-default">Mill:<br>
-                                        <input type="text" class="form-control" id="Mill" name="Mill" value='{{Mill}}'
-                                            {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
-                                    </span><br><br>
-                            <!-- </div> -->
-                            <!-- <div class="row"> -->
-                                <span class="label label-default">Mill_Rep:<br>
-                                    <input type="text" class="form-control" id="Mill_Rep" name="Mill_Rep"
-                                        value='{{Mill_Rep}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
-                                </span><br><br>
-                                <span class="label label-default">Customer:<br>
-                                    <input type="text" class="form-control" id="Customer" name="Customer"
-                                        value='{{Customer}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
-                                </span><br><br>
-                                </div>
-                            <!-- </div> -->
-                        </div>
-                       
-                        <!-- Counts in a table-->
                         <table id="MyTable" class="table table-striped">
-
-                            <thead>
+                           <thead>
                                 <tr>
                                     <th scope="col">Row_no</th>
                                     <th scope="col"></th>
@@ -573,175 +531,104 @@
                                     <th scope="col">Depth</th>
                                     <th scope="col">UOM</th>
                                     <th scope="col">Quantity</th>
-                                    {% if Default_Enq_Fileds == 'readonly' %}
                                     <th scope="col">Rate</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Last order</th>
-                                    {% endif %}
-
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--- NOTE to MALIKA - your for loop should come here -->
-                                   
-                                {% for Reg_no in data %}
+                                
                                
-                              
+                                {% for Reg_no in data %}
                                 <tr>
                                     <th scope="row">{{forloop.counter}} <input type="hidden"  id="DBID{{forloop.counter}}"
                                         name="DBID{{forloop.counter}}" value="{{Reg_no.id}}" style="width:60px"
                                     ></th>
-                                    <th scope="row"></th>
+                                    <th scope="row"><input</th>
 
                                     <td><input type="text" class="form-control" id="Counts{{forloop.counter}}"
                                             name="Counts{{forloop.counter}}" value="{{Reg_no.Counts}}" style="width:60px"
-                                            {{Default_Enq_Fileds}}>
+                                            {{Quotation_ready}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Quality{{forloop.counter}}"
                                             name="Quality{{forloop.counter}}" value="{{Reg_no.Quality}}" style="width:60px"
-                                            {{Default_Enq_Fileds}}>
+                                            {{Quotation_ready}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="YarnType{{forloop.counter}}"
                                             name="YarnType{{forloop.counter}}" value="{{Reg_no.Type}}" style="width:100px"
-                                            {{Default_Enq_Fileds}}>
+                                            {{Quotation_ready}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Blend{{forloop.counter}}"
                                             name="Blend{{forloop.counter}}" value="{{Reg_no.Blend}}" style="width:250px"
-                                            {{Default_Enq_Fileds}}>
+                                            {{Quotation_ready}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Shade{{forloop.counter}}"
                                             name="Shade{{forloop.counter}}" value="{{Reg_no.Shade}}" style="width:150px"
-                                            {{Default_Enq_Fileds}}>
+                                            {{Quotation_ready}}>
                                     </td>
                                     <td> <input type="text" class="form-control" id="Depth{{forloop.counter}}"
-                                            name="Depth{{forloop.counter}}" value="{{Reg_no.Depth}}" style="width:100px"
-                                            {{Default_Enq_Fileds}}>
+                                            name="Depth{{forloop.counter}}" value="{{Reg_no.Depth}}" style="width:60px"
+                                            {{Quotation_ready}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="UOM{{forloop.counter}}"
                                             name="UOM{{forloop.counter}}" value="{{Reg_no.UOM}}" style="width:60px"
-                                            {{Default_Enq_Fileds}}>
+                                            {{Quotation_ready}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Quantity{{forloop.counter}}"
                                             name="Quantity{{forloop.counter}}" value="{{Reg_no.Quantity}}" style="width:80px"
-                                            {{Default_Enq_Fileds}}>
+                                            {{Quotation_ready}}>
                                     </td>
-
-                                    {% if Default_Enq_Fileds == 'readonly' %}
-                                   
                                     <td>
-                                        <input type="text" class="form-control col-xs-2" id="Rate{{forloop.counter}}"
-                                            name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:60px" {{Supplier_Fileds}}>
-                                            {% if Supplier_Fileds == 'readonly' %}
-                                                <input type="text" class="form-control col-xs-2" id="Arate{{forloop.counter}}"
-                                                name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:60px" {{Quotation_ready}}>
-                                            {% endif %}
+                                       <input type="text" class="form-control col-xs-2" id="Arate{{forloop.counter}}"
+                                        name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:60px" {{Quotation_ready}}>
                                     </td>
-                                    <td><input type="text" class="form-control col-xs-2" id="Amount{{forloop.counter}}"
-                                            name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:60px" {{Supplier_Fileds}}>
-                                            {% if Supplier_Fileds == 'readonly' %}
-                                            <input type="text" class="form-control col-xs-2" id="Aamount{{forloop.counter}}"
-                                            name="Aamount{{forloop.counter}}" value="{{Reg_no.Agent_Amount}}" style="width:60px" {{Quotation_ready}}>
-                                            {% endif %}
+                                    <td>
+                                     <input type="text" class="form-control col-xs-2" id="Aamount{{forloop.counter}}"
+                                        name="Aamount{{forloop.counter}}" value="{{Reg_no.Agent_Amount}}" style="width:60px" {{Quotation_ready}}>
+                                  </td>
+                                   <td>
+                                      <input type="text" class="form-control col-xs-2" id="Alast_order{{forloop.counter}}"
+                                      name="Alast_order{{forloop.counter}}" value="{{Reg_no.Agent_Last_order}}"
+                                      style="width:80px" {{Quotation_ready}}>
                                     </td>
-                                    <td><input type="text" class="form-control col-xs-2" id="Last_order{{forloop.counter}}"
-                                            name="Last_order{{forloop.counter}}" value="{{Reg_no.Supplier_Last_order}}"
-                                            style="width:80px" {{Supplier_Fileds}}>
-                                        
-                                            {% if Supplier_Fileds == 'readonly' %}
-                                            <input type="text" class="form-control col-xs-2" id="Alast_order{{forloop.counter}}"
-                                            name="Alast_order{{forloop.counter}}" value="{{Reg_no.Agent_Last_order}}"
-                                            style="width:80px" {{Quotation_ready}}>
-                                            {% endif %}
-                                    </td>
-                                    {% endif %}
-                                    
-
                                 </tr>
                                 {% endfor %}
-                                
-                                <input type="hidden" id="txtRowCount" name="txtRowCount" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <tr class="table-success">
+                                    <td colspan="11" align="right"> Total <small class="text-muted"> INR  ( Excluding GST)</small> </td>
+                                    
+                                <td colspan="1">
+                                    <div class="txtTotalAmount"> </div>
+                                </td>
+                                <td></td>  
 
-                                {% if not Default_Enq_Fileds %}
-                                <div class="alert alert-danger" role="alert">
-                                    <center>Click (+) symbol to ADD Rows (-)  to DELETE rows</center>  
-                                </div>
-                                <span class="add-row fa fa-plus-square " style="font-size: x-large; color:#008CBA;" value="Add Row" {{Default_Enq_Fileds}}></span>
-                                
-                                <span class="delete-row fa fa-minus-square" style="font-size: x-large; color:#008CBA;" value="Delete Row" {{Default_Enq_Fileds}}></span>
-
-                                {% endif %}
+                                </tr>
+                                <input type="hidden" id="txtRowCount" name="txtRowCount" value="">
+                                <input type="hidden" name="Rno" id="Rno" value="{{vReg_no}}">
                             </tbody>
                         </table>
-                    
-                    <div class="alert alert-danger" role="alert">
-                        Please Click on Save only if there is a change
-                    </div>
-                    <!--
-                        Change button size using bootstrap
-                    -->
-                    <div class="d-grid gap-2">
-                        <input class="btn btn-primary" id="saveAndProceed" value="save and proceed">
-                        <input class="btn btn-primary" id="cancelAction" value=" proceed ">
-                   </div>
-                   
-                   <div class="detailBox">
-                                    <div class="left">
-                                    <div class="titleBox">
-                                        <label>Comments</label>
-                                    </div>
-                                <div class="commentBox">
-                                    <div class="alert alert-danger" role="alert">
-                                        <p class="taskDescription"><i>Interact with your partner</i></p></div>
-                                </div>
-                                <div class="actionBox">
-                                    <ul class="commentList">
-                                        {% for id in data3 %} 
-                                        <li>
-                                            <div class="commenterImage">
-                                            ---     {{id.UserId}}  ---  
-                                        </div>
-                                        <div class="commentText">
-                                            <p class="">{{id.Comments}}</p> <span class="date sub-text">{{id.DT}}</span>
-                        
-                                        </div>
-                                    </li>
-                                    {% endfor %}
-                                    </ul>
-                                    </div>
-                                    </div>
-                                    
-                                </ul>
-                                <!-- <form method="post" class="form-block"> -->
-                                    <div class="right">
-                               
-                                    <div class="form-group">
-                                       
-                                        <center><textarea style="height:250px;width:400px; border: solid rgb(183, 146, 146) 1px;" 
-                                            class="form-control" required="" id="Ccomment" aria-describedby="emailHelp"
-                                            name="Ccomment" value="" placeholder="Your text"></textarea></center>
-                                    </div>
-                                    <div class="form-group">
-                                       <center> <button id="commentAction" class="btn btn-default" style="width: 15%;; background-color: #85daf7;" >Add</button></center>
-                                    </div>
-                                    <input type="hidden" id="hBtnAction" name="hBtnAction" value="">
-                                    {% if messages %}
-                                    <div class="alert alert-success alert-dismissible">
-                                        {% for message in messages %}
-                                        <p>{{ message }}</p>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
-                                    <!-- </form> -->
-                            </div>
-                        </div>
-                        <!-- Ends-->
-                    </form>  
+                        <br><br>
 
-                   
-                </div>
-            </div>
-        </div>
-    </div>
+                        <div class="form-group">
+                          <label for="email"> &nbsp;&nbsp;&nbsp;&nbsp;Enter Purcahse Order Number :</label>
+                          &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control" placeholder="Enter PO # " id="txtPONumber"  name="txtPONumber" style="width:160px">
+                        </div>
+                        <div class="form-group">
+                          <label for="pwd"> &nbsp;&nbsp;&nbsp;&nbsp; Attach Purcahse Order PDF:</label>
+                          &nbsp;&nbsp;&nbsp;&nbsp;<input type="file"  name="txtPOPDF" multiple/>
+                          <!-- &nbsp;&nbsp;&nbsp;&nbsp;<label class="custom-file-label" for="inputGroupFile01">Choose</label> -->
+                        </div>
+                        <div class="form-group form-check">
+                            <input class="btn btn-primary" id="saveAndProceed" value="Confirm Order">
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                      <input class="btn btn-primary" id="cancelAction" value=" Cancel ">
+                        </label>
+                        </div>
+                        
+                        
+                        <br>
+                    
+            </form>  
+            <br><br>
         
     {% else %}
     <h2>No data was found</h2>
