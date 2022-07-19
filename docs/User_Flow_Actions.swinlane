@@ -1,0 +1,87 @@
+title: User Flow & Actions - (Handling Enquiry) - 02
+
+--: _**Block - 4**_
+
+group: Internal Agent Staff Review & Yarn Price Requirment
+
+Agent --> Agent:opensEmailAndClicksonLink
+
+Agent --> Portal:clickAction
+note: if SaveAndProceed button is clicked Status will be updated as _**1**_
+
+Status = 1 means there are fields to be updated in the ERP as well as in internal RPA DB and then the status is changed to 3 by RPA in above `Block 2`
+
+Status = 2 means there are no updates to the ERP as well as in internal RPA DB and then the status is changed to 3 by RPA in above `Block 2`
+
+After Status changed to 3 flow continues in `Block - 5` , when the supplier user recives the email and submits their price per enquiry item.
+
+end
+--: _**Block - 4**_ Ends
+
+--: _**Block - 5**_
+
+group: Internal Supplier Staff submit Yarn Price Requirment to Agent
+
+Supplier --> Supplier:opensEmailAndClicksonLink
+
+Supplier --> Portal:clickAction
+note: if SaveAndProceed button is clicked Status will be updated as _**5**_
+
+There will be Rate,Amount and Last Order fields that the supplier has entered which will be saved against the enquiry.
+
+Flow Continues at `Block - 2`
+
+end
+
+--: _**Block - 5**_ Ends
+
+--: _**Block - 6**_
+
+group: Internal Buyer Staff reviews Yarn Quotation and Confirm PO
+
+Buyer --> Buyer:opensEmailAndClicksonLink
+
+Buyer --> Portal:clickAction
+note: if Confirm PO button is clicked Status will be updated as _**7**_
+
+Buyer will update their PO Number and also upload the PO PDF, this will trigger an email to Agent.
+
+Flow Continues at `Block - 2`
+
+end
+
+--: _**Block - 7**_
+
+group: Internal Agents Staff reviews PO & Confirms PO with MD
+
+Agent --> Agent:opensEmailAndClicksonLink
+
+Agent --> Portal:clickAction
+note: Agent will enter Purcahse Confirmation from Customer details as mentioned in the document "PurcahseConfirmationfromCustomer_4.doc" - they will enter Quantity Details , Other Details and Pay Mode and Bank Details.
+
+--: Portal Save Action
+Agent --> Portal:saveAction
+
+note: Agent saves details into a new Table that holds Purcahse Confirmation details, along with Reg_no , please note at this stage PC_no ( Purchase Confirmation Number will be empty - purcahse confirmation number will only be available upon entry into the ERP.
+
+Status to be updated as 8 and storeed in RPADB
+
+Flow Continues at `Block - 2`
+
+end
+
+--: _**Block - 7**_ Ends
+
+--: _**Block - 8**_
+
+MD --> Portal : approveAction
+Portal -> Portal : updateSatus(`IN` status = 10)
+
+--: _**Block - 8**_ Ends
+
+--: _**Block - 8**_
+
+Supplier --> Portal : openEmailAndClickLink
+Portal -> Portal : updateCOPNumber(`IN` COP_no & status = 12)
+
+--: _**Block - 8**_ Ends

@@ -1,0 +1,111 @@
+title: Gateway_Bot Flow  - (Handling Enquiry) - 01 
+
+--: _**Block - 1**_
+group:  _Email Enquiry from Buyer to Agent Group Email address_
+  
+  Buyer -> Agent:sendEnquiryEmail( `IN`  tabular_or_non-tabulardata)
+end
+
+--: _**Block - 1**_ Ends
+
+--: _**Block - 2**_
+
+group: _Gateway_Bot continuosly running in loop,Agent's  machine _
+
+Gateway_Bot --> Gateway_Bot : initMainFunction
+note:  This is triggered every _**1 min**_ 
+
+
+if: If  _**ENQ_STATUS**_ is 1 then
+
+Gateway_Bot --> Gateway_Bot: storeinERP  (`IN` enquiryModel )
+
+note:  Update Status as  _**3**_
+
+Gateway_Bot --> Agent: sendEmail `IN` (link and message)
+
+else: _**ENQ_STATUS**_ is 2 then
+
+note:  Update Status as  _**3**_
+
+Gateway_Bot --> Agent: sendEmail `IN` (link and message)
+
+else: _**ENQ_STATUS**_ is 5 then
+
+Gateway_Bot --> Gateway_Bot: saveinERP  (`IN` enquiryModel)
+
+Gateway_Bot --> Gateway_Bot: updateinRPADB  (`IN` Status)
+
+note:  Update Status as  _**6**_
+
+Gateway_Bot --> Buyer: sendQuotationEmail  (`IN` link and message)
+
+
+else: _**ENQ_STATUS**_ is 8 then
+
+Gateway_Bot -> Gateway_Bot : pickPurcahseConfirmdationData (`OUT` enquiryModel)
+
+Gateway_Bot -> Gateway_Bot : saveERP ( `IN` enquiryModel) --> `OUT` PC_no
+
+Gateway_Bot -> Gateway_Bot : updateRPADB(`IN` Pc_no & Status = 9)
+
+if: database and erp entry is sucessful
+
+Gateway_Bot -> MD : triggerPOConfirmation (`IN` message and link
+
+
+
+else: _**ENQ_STATUS**_ is 10 then
+
+Gateway_Bot -> Gateway_Bot : initateSalesConfirmationFlow_INERP
+
+Gateway_Bot -> Gateway_Bot : getSCNumber() `OUT` SC_no
+
+Gateway_Bot -> Gateway_Bot : updatePurchase_Sales_ConfirmationTable(`IN` SC_no & Status = 11)
+
+Gateway_Bot -> Supplier : sendMailAskCOPNumber_UI(message and link)
+
+else: _**ENQ_STATUS**_ is 12 then
+
+Gateway_Bot -> Gateway_Bot : takeCOPNumberFromRPADBAndUpdateinERP
+
+Gateway_Bot -> Gateway_Bot : changeRPAStatusTo(`IN` status = 13)
+
+
+end
+
+--: _**Block - 2**_ Ends
+
+
+
+
+--: _**Block - 3**_
+
+group:  _Gateway_Bot Check for new Emails_
+
+if: If a new  _**tabularEmailEnquiry is found**_
+
+  Gateway_Bot -> Gateway_Bot: invokeTabularParsing `OUT` enquiryModel
+  
+else: if _**nonTabularEmailEnquiry**_ is found
+
+  Gateway_Bot -> Gateway_Bot: invokeNonTabularParsing `OUT` enquiryModel
+
+
+Gateway_Bot -> Gateway_Bot:validate(`IN` enquiryModel)
+note:  Counts,Quality,Blend,Quantity,ShadeRef, _**1 min**_ , if any of these values are missing it had to be indicated in the UI that these are missing, so that the Agent can enter them.
+
+
+Gateway_Bot -> Gateway_Bot:storeRPADB(`IN` enquiryModel)
+note:  Insert Status as _**0**_
+Gateway_Bot -> Gateway_Bot:storeERP(`IN` enquiryModel)
+
+Gateway_Bot -> Agent: sendConfirmationEmail
+note:  Any mandatory fields missing should be intimated to Internal Agent user, email should have link to the Enquiry which Agent users alone can see 
+end
+
+end
+--: _**Block - 3**_ Ends
+
+
+
