@@ -1,14 +1,8 @@
-title: Gateway_Bot Flow  - (Handling Enquiry) - 01 
+title: SALES PROCESS - Bot Actions : (Handling Enquiry) - 01 
 
---: _**Block - 1**_
-group:  _Email Enquiry from Buyer to Agent Group Email address_
-  
-  Buyer -> Agent:sendEnquiryEmail( `IN`  tabular_or_non-tabulardata)
-end
 
---: _**Block - 1**_ Ends
 
---: _**Block - 2**_
+--: _**Step - 2**_
 
 group: _Gateway_Bot continuosly running in loop,Agent's  machine _
 
@@ -16,70 +10,74 @@ Gateway_Bot --> Gateway_Bot : initMainFunction
 note:  This is triggered every _**1 min**_ 
 
 
-if: If  _**ENQ_STATUS**_ is 1 then
+if: {fab-font-awesome} Status  = 1 then
 
 Gateway_Bot --> Gateway_Bot: storeinERP  (`IN` enquiryModel )
 
-note:  Update Status as  _**3**_
+Gateway_Bot --> Agent: triggerEmail `IN` (link and message)
 
-Gateway_Bot --> Agent: sendEmail `IN` (link and message)
+note: {fab-font-awesome} Set Status  = 3
 
-else: _**ENQ_STATUS**_ is 2 then
+else: {fab-font-awesome} Status  = 2  then
 
-note:  Update Status as  _**3**_
+Gateway_Bot --> Agent: triggerEmail `IN` (link and message)
 
-Gateway_Bot --> Agent: sendEmail `IN` (link and message)
+note: {fab-font-awesome} Set Status  = 3
 
-else: _**ENQ_STATUS**_ is 5 then
+else: {fab-font-awesome} Status  =  5 then
 
 Gateway_Bot --> Gateway_Bot: saveinERP  (`IN` enquiryModel)
 
 Gateway_Bot --> Gateway_Bot: updateinRPADB  (`IN` Status)
 
-note:  Update Status as  _**6**_
+note:  {fab-font-awesome} Set Status  = 6
 
-Gateway_Bot --> Buyer: sendQuotationEmail  (`IN` link and message)
+Gateway_Bot --> Buyer: triggerEmail  (`IN` link and message)
 
 
-else: _**ENQ_STATUS**_ is 8 then
+else: {fab-font-awesome}  Status  == 8 then
 
 Gateway_Bot -> Gateway_Bot : pickPurcahseConfirmdationData (`OUT` enquiryModel)
 
 Gateway_Bot -> Gateway_Bot : saveERP ( `IN` enquiryModel) --> `OUT` PC_no
 
+note:  {fab-font-awesome} Set Status  = 9
 Gateway_Bot -> Gateway_Bot : updateRPADB(`IN` Pc_no & Status = 9)
 
 if: database and erp entry is sucessful
 
-Gateway_Bot -> MD : triggerPOConfirmation (`IN` message and link
+Gateway_Bot -> MD : triggerEmail (`IN` message and link
+
+note: `TO:DO` Lokeswari to get confirmation from Ramya - what happens after MD approval, is MD approval over email - how is it linked to the ERP.
 
 
 
-else: _**ENQ_STATUS**_ is 10 then
+else: if {fab-font-awesome}  Status  = 10 then
 
 Gateway_Bot -> Gateway_Bot : initateSalesConfirmationFlow_INERP
 
 Gateway_Bot -> Gateway_Bot : getSCNumber() `OUT` SC_no
 
-Gateway_Bot -> Gateway_Bot : updatePurchase_Sales_ConfirmationTable(`IN` SC_no & Status = 11)
+note:  {fab-font-awesome} Set Status  = 11
+Gateway_Bot -> Gateway_Bot :updatePurchase_Sales_ConfirmationTable(`IN` SC_no & Status = 11)
 
-Gateway_Bot -> Supplier : sendMailAskCOPNumber_UI(message and link)
+Gateway_Bot -> Supplier : triggerEmail(message and link)
 
-else: _**ENQ_STATUS**_ is 12 then
+else: if {fab-font-awesome}  Status  = 12 then
 
 Gateway_Bot -> Gateway_Bot : takeCOPNumberFromRPADBAndUpdateinERP
-
+note:  {fab-font-awesome} Set Status  = 13
 Gateway_Bot -> Gateway_Bot : changeRPAStatusTo(`IN` status = 13)
 
 
 end
 
---: _**Block - 2**_ Ends
+--: _**Step - 2**_ Ends
 
 
 
 
---: _**Block - 3**_
+--: _**Step - 3**_
 
 group:  _Gateway_Bot Check for new Emails_
 
@@ -96,8 +94,9 @@ Gateway_Bot -> Gateway_Bot:validate(`IN` enquiryModel)
 note:  Counts,Quality,Blend,Quantity,ShadeRef, _**1 min**_ , if any of these values are missing it had to be indicated in the UI that these are missing, so that the Agent can enter them.
 
 
+
 Gateway_Bot -> Gateway_Bot:storeRPADB(`IN` enquiryModel)
-note:  Insert Status as _**0**_
+note:  {fab-font-awesome} Set Status = 0  
 Gateway_Bot -> Gateway_Bot:storeERP(`IN` enquiryModel)
 
 Gateway_Bot -> Agent: sendConfirmationEmail
@@ -105,7 +104,7 @@ note:  Any mandatory fields missing should be intimated to Internal Agent user, 
 end
 
 end
---: _**Block - 3**_ Ends
+--: _**Step - 3**_ Ends
 
 
 
