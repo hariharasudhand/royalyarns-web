@@ -74,7 +74,7 @@ def index(request):
 
         context = __prepareUIData(vReg_no, vENQ_Items, vENQ_Header, data3)
         print("Status of Enq ", context['vStatus'])
-        if (context['vStatus'] == '5'):
+        if (context['vStatus'] == '6'):
             return render(request, 'app/quotation.html', context)
         else:
             return render(request, 'app/ryn2.html', context)
@@ -219,24 +219,24 @@ def __handle_uploaded_file(f):
             destination.write(chunk)
 
 
-@csrf_exempt
-def validateUser(request):
-    vUser = request.POST.get('uname')
-    vPassword = request.POST.get('psw')
-    vRole = ''
-    # print(vUser, vPassword, "***********************")
-    # add one more filter for password roles:agent,buyer and 3,4 suplier
-    # when user role is 0,1,2 agent then only see home page if the status is 5
-    vData3 = vDAO.GetUserInfo(vUser, vPassword)
-    for item in vData3:
-        vRole = item.Role
-    print(vRole, "/*/////////*/*****//////////")
-    if vData3.count() != 0:
-        print("user is available")
-        return render(request=request, template_name="app/ryn.html")
-    else:
-        print(" user is not available")
-        return render(request=request, template_name="app/loginagain.html")
+# @csrf_exempt
+# def validateUser(request):
+#     vUser = request.POST.get('uname')
+#     vPassword = request.POST.get('psw')
+#     vRole = ''
+#     # print(vUser, vPassword, "***********************")
+#     # add one more filter for password roles:agent,buyer and 3,4 suplier
+#     # when user role is 0,1,2 agent then only see home page if the status is 5
+#     vData3 = vDAO.GetUserInfo(vUser, vPassword)
+#     for item in vData3:
+#         vRole = item.Role
+#     print(vRole, "/*/////////*/*****//////////")
+#     if vData3.count() != 0:
+#         print("user is available")
+#         return render(request=request, template_name="app/ryn.html")
+#     else:
+#         print(" user is not available")
+#         return render(request=request, template_name="app/loginagain.html")
 
 
 # def storedata(request):
@@ -313,3 +313,83 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3):
         }
 
     return context
+
+##
+#  Authentication Functions
+##
+
+# start of login form validation
+
+
+@csrf_exempt
+def checklogin(request):
+    # getting the input from the Login from:
+    if request.method == "POST":
+        username = request.POST.get('uname')
+        password = request.POST.get('pwd')
+
+        # validate the username and Password from the database:
+        if User_Details.objects.filter(UserName=username, Password=password):
+            # stored the all data in vData3:
+            vData3 = User_Details.objects.filter(
+                UserName=username, Password=password)
+            request.session['user'] = username
+            print(username)
+            # Getting the Role  of the User from Data base
+            vRole = vData3[0].Role
+            # Checking UserName or Password in data base or wrong password:
+            if None == vData3 or len(vData3) == 0:
+                messages.success(request, "Unvalid User Name or Password!")
+                return render(request, 'app/ryn_login.html')
+
+            else:
+                # getting the cookies from the login Page using Context:
+                context = {
+                    'username': username,
+                    'role': vRole,
+                }
+                response = redirect('/', context)
+                # setting cookies
+                response.set_cookie('username', username)
+                response.set_cookie('role', vRole)
+                return response
+                # end of the setting cookies
+        # end of the validation
+        else:
+            messages.success(request, "Invalid User Name or Password!")
+            return redirect('/login')
+    else:
+        return redirect('/login')
+
+
+# #end of the validation login Form.
+
+def base(request):
+    if request.method == "GET":
+        # getting cookies
+        print("hello world")
+        if 'role' in request.COOKIES and 'username' in request.COOKIES:
+            context = {
+                'username': request.COOKIES['username'],
+                'role': request.COOKIES.get('role'),
+            }
+            return render(request, 'app/base.html', context)
+            print("hello hello")
+        else:
+            print("hello django")
+            return render(request, 'app/ryn_login.html')
+
+
+def logout(request):
+    response = HttpResponseRedirect(reverse('login'))
+
+    # deleting cookies
+    response.delete_cookie('username')
+    response.delete_cookie('logged_in')
+    response.delete_cookie('role')
+
+    return response
+
+
+def login(request):
+    return render(request, 'app/ryn_login.html')

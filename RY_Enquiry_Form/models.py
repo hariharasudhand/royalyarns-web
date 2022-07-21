@@ -57,6 +57,42 @@ class RY_Enquiry_Header(models.Model):
         return self.Mill_Rep + ' ' + self.Reg_no + ' ' + self.Mill + ' ' + self.Customer + ' ' + self.Marketing_Zone + ' ' + self.Payment_Term + ' ' + self.Narration + ' ' + self.Reason_For_Non_Acception + ' ' + self.Reason_For_Non_Acception + ' ' + self.Acceptance_from_the_mill + ' ' + self.Date + '' + self.Email_Details + ' ' + self.Status
 
 
+# class RY_Purcahse_Sales_Confirmation(models.Model):
+#     # Id = models.IntegerField(null=True)
+#     PC_no = models.TextField(max_length=200,  null=True)
+#     SC_no = models.TextField(max_length=200,  null=True)
+#     Cop_no = models.TextField(max_length=200,  null=True)
+#     Reg_no = models.TextField(max_length=200,  null=True)
+#     QD_Fab_FeederStripes = models.TextField(max_length=20,  null=True)
+#     QD_Fab_Jacquard = models.TextField(max_length=20,  null=True)
+#     QD_Fab_MiniJag = models.TextField(max_length=20,  null=True)
+#     QD_Fab_Auto_Stripes = models.TextField(max_length=20,  null=True)
+#     QD_Fab_SingleJersey = models.TextField(max_length=20,  null=True)
+#     QD_Fab_PbyK = models.TextField(max_length=20,  null=True)
+#     QD_Fab_Interlock = models.TextField(max_length=20,  null=True)
+#     QD_Fab_Rib = models.TextField(max_length=20,  null=True)
+#     QD_Fab_DyeingWhite = models.TextField(max_length=20,  null=True)
+#     QD_Fab_DyeingLight = models.TextField(max_length=20,  null=True)
+#     QD_Fab_DyeingMedium = models.TextField(max_length=20,  null=True)
+#     QD_Fab_DyeingDark = models.TextField(max_length=20,  null=True)
+#     QD_Fab_OtherWhite = models.TextField(max_length=20,  null=True)
+#     QD_Fab_OtherLight = models.TextField(max_length=20,  null=True)
+#     QD_Fab_OtherMedium = models.TextField(max_length=20,  null=True)
+#     QD_Fab_OtherDark = models.TextField(max_length=20,  null=True)
+#     QD_PayMode = models.TextField(max_length=20,  null=True)
+#     QD_PayRS = models.TextField(max_length=20,  null=True)
+#     QD_PayNo = models.TextField(max_length=200,  null=True)
+#     QD_PayDate = models.TextField(max_length=50,  null=True)
+#     QD_PayBank = models.TextField(max_length=200,  null=True)
+
+#     class Meta:
+#         db_table = 'RY_Purcahse_Sales_Confirmation'
+#         ordering = ['Reg_no']
+
+#     def __str__(self):
+#         return ''
+
+
 class User_Details(models.Model):
     id = models.IntegerField(primary_key=True)
     UserName = models.TextField(max_length=200,  null=True)
