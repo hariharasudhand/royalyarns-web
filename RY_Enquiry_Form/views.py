@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 from genericpath import exists
 import re
 from django.views.decorators.csrf import csrf_exempt
@@ -23,11 +24,24 @@ from datetime import datetime
 vDAO = DAO("dao")
 
 
+# @csrf_exempt
+# def checkUserCookie(request):
+
+#     if request.COOKIES.get('role') == None:
+#         return render(request, 'app/ryn_login.html')
+
+
 @csrf_exempt
 def index(request):
 
     vReg_no = None
     vStatus = ''
+
+    # #
+    # TO:DO - put this inside a reusable method checkLoginStatus
+    #
+    if request.COOKIES.get('role') == None:
+        return render(request, 'app/ryn_login.html')
 
     ##
     #  Rno (Registation Number) is passed as Query String as
@@ -191,14 +205,29 @@ def __command_update(request, vReg_no):
 
 
 def ryn2(request):
+    # #
+    # TO:DO - put this inside a reusable method checkLoginStatus
+    #
+    if request.COOKIES.get('role') == None:
+        return render(request, 'app/ryn_login.html')
     return render(request, 'app/ryn2.html')
 
 
 def register(request):
+    # #
+    # TO:DO - put this inside a reusable method checkLoginStatus
+    #
+    if request.COOKIES.get('role') == None:
+        return render(request, 'app/ryn_login.html')
     return render(request, 'app/register.html')
 
 
 def confirmpo(request):
+    # #
+    # TO:DO - put this inside a reusable method checkLoginStatus
+    #
+    if request.COOKIES.get('role') == None:
+        return render(request, 'app/ryn_login.html')
 
     vReg_no = ''
     vPONumber = ''
@@ -217,51 +246,6 @@ def __handle_uploaded_file(f):
     with open(f.name, 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-
-
-# @csrf_exempt
-# def validateUser(request):
-#     vUser = request.POST.get('uname')
-#     vPassword = request.POST.get('psw')
-#     vRole = ''
-#     # print(vUser, vPassword, "***********************")
-#     # add one more filter for password roles:agent,buyer and 3,4 suplier
-#     # when user role is 0,1,2 agent then only see home page if the status is 5
-#     vData3 = vDAO.GetUserInfo(vUser, vPassword)
-#     for item in vData3:
-#         vRole = item.Role
-#     print(vRole, "/*/////////*/*****//////////")
-#     if vData3.count() != 0:
-#         print("user is available")
-#         return render(request=request, template_name="app/ryn.html")
-#     else:
-#         print(" user is not available")
-#         return render(request=request, template_name="app/loginagain.html")
-
-
-# def storedata(request):
-#     if request.method == 'POST':
-#         a = request.POST["Counts"]
-#         b = request.POST["Quality"]
-#         c = request.POST["YarnType"]
-#         d = request.POST["Blend"]
-#         e = request.POST["Shade"]
-#         f = request.POST["Depth"]
-#         g = request.POST["UOM"]
-#         h = request.POST["Quantity"]
-
-#         store = RY_Enquiry_Items()
-#         store.Counts = a
-#         store.Quality = b
-#         store.Type = c
-#         store.Blend = d
-#         store.Shade = e
-#         store.Depth = f
-#         store.UOM = g
-#         store.Quantity = h
-#         store.save()
-
-#         return render(request, 'app/ryn2.html')
 
 
 def __prepareUIData(vReg_no, vENQ_Items, data2, data3):
@@ -324,60 +308,35 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3):
 @csrf_exempt
 def checklogin(request):
     # getting the input from the Login from:
+    username = None
+    password = None
+
     if request.method == "POST":
         username = request.POST.get('uname')
         password = request.POST.get('pwd')
 
-        # validate the username and Password from the database:
-        if User_Details.objects.filter(UserName=username, Password=password):
-            # stored the all data in vData3:
-            vData3 = User_Details.objects.filter(
-                UserName=username, Password=password)
-            request.session['user'] = username
-            print(username)
-            # Getting the Role  of the User from Data base
-            vRole = vData3[0].Role
-            # Checking UserName or Password in data base or wrong password:
-            if None == vData3 or len(vData3) == 0:
-                messages.success(request, "Unvalid User Name or Password!")
-                return render(request, 'app/ryn_login.html')
+    # Check username and password combines exists in the database,
+    # if so fetch the role
+    vData3 = vDAO.GetUserInfo(username, password)
+    if len(vData3) > 0:
 
-            else:
-                # getting the cookies from the login Page using Context:
-                context = {
-                    'username': username,
-                    'role': vRole,
-                }
-                response = redirect('/', context)
-                # setting cookies
-                response.set_cookie('username', username)
-                response.set_cookie('role', vRole)
-                return response
-                # end of the setting cookies
-        # end of the validation
-        else:
-            messages.success(request, "Invalid User Name or Password!")
-            return redirect('/login')
+        # request.session['user'] = username
+        # request.session['role'] =
+
+        # getting the cookies from the login Page using Context:
+        # context = {
+        #     'username': username,
+        #     'role': vRole,
+        # }
+        response = redirect('/')
+        # setting cookies
+        response.set_cookie('username', username)
+        response.set_cookie('role', vData3[0].Role)
+        return response
+
     else:
-        return redirect('/login')
-
-
-# #end of the validation login Form.
-
-def base(request):
-    if request.method == "GET":
-        # getting cookies
-        print("hello world")
-        if 'role' in request.COOKIES and 'username' in request.COOKIES:
-            context = {
-                'username': request.COOKIES['username'],
-                'role': request.COOKIES.get('role'),
-            }
-            return render(request, 'app/base.html', context)
-            print("hello hello")
-        else:
-            print("hello django")
-            return render(request, 'app/ryn_login.html')
+        messages.success(request, "Unvalid User Name or Password!")
+        return render(request, 'app/ryn_login.html')
 
 
 def logout(request):
