@@ -496,8 +496,9 @@
         {% load static %}
         <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="100%" height="100">
             <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
-            <!-- <input class="btn btn-primary" id="Logout" type="button" value="Logout"> -->
-            <i class="fa fa-sign-out" style="font-size: x-large; color: #fc054f;" ></i></div>
+                <a href="/logout"> <input class="btn btn-primary" id="Logout" type="button" value="Logout"></a>
+            
+        </div>
             <div class="topcenter">
                 <h1>Enquiry Validation </h1>
             </div>
@@ -554,7 +555,11 @@
                                     <input type="text" class="form-control" id="Customer" name="Customer"
                                         value='{{Customer}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
                                 </span><br><br>
-                                </div>
+                                {% for d in det %}
+                                <input type="text" class="form-control" id="UserName" name="UserName"
+                                        value='{{d.UserName}}' style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                        {% endfor %}
+                                    </div>
                             <!-- </div> -->
                         </div>
                        
@@ -687,24 +692,41 @@
                    <div class="detailBox">
                                     <div class="left">
                                     <div class="titleBox">
-                                        <label>Comments</label>
+                                        <div class="form-group">
+                                            <label for="sel1">Comment to:</label>
+                                            <select class="form-control" id="vComments_to" name="vComments_to">
+                                                {% if vRole == 'agent' %}
+                                                    <option value="agent">Internal</option>
+                                                    <option value="supplier">Supplier</option>
+                                                    <option value="buyer">Buyer</option>
+                                                    <option value="*">All</option>
+                                                {% elif vRole == 'buyer' %}
+                                                    <option value="buyer">Internal</option>
+                                                    <option value="agent">Agent</option>
+                                                    <option value="*">All</option>    
+                                                {% else %}
+                                                    <option value="supplier">Internal</option>
+                                                    <option value="agent">Agent</option>
+                                                    <option value="*">All</option>
+                                                {% endif %}  
+                                            </select>                                                 
+                                        </div> 
                                     </div>
-                                <div class="commentBox">
+                                <!-- <div class="commentBox">
                                     <div class="alert alert-danger" role="alert">
                                         <p class="taskDescription"><i>Interact with your partner</i></p></div>
-                                </div>
+                                                                                   
+                                            
+                                </div> -->
                                 <div class="actionBox">
                                     <ul class="commentList">
                                         {% for id in data3 %} 
                                         <li>
-                                            <div class="commenterImage">
-                                            ---     {{id.UserId}}  ---  
-                                        </div>
-                                        <div class="commentText">
-                                            <p class="">{{id.Comments}}</p> <span class="date sub-text">{{id.DT}}</span>
-                        
-                                        </div>
-                                    </li>
+                                            <div class="card bg-light text-dark">
+                                                <div class="card-body"> <pre>  {{id.Comments}} </pre>  -- <span class="date sub-text"> <b>{{id.CreatedByUser}} </b> - {{id.DT}}</span> --</div>
+                                              </div>
+               
+                                            </li>
                                     {% endfor %}
                                     </ul>
                                     </div>

@@ -10,7 +10,7 @@ from django import http
 from psycopg2 import Date
 from django.http import HttpResponseRedirect
 from .forms import Ry_En_Form, Ry_En_Header, User_Form, Comment_Form
-# from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments
+from .models import purchase, User_Details
 from .DAO import DAO
 from django.urls import reverse
 
@@ -35,12 +35,13 @@ vDAO = DAO("dao")
 def index(request):
 
     vReg_no = None
+    vLoggedInRole = request.COOKIES.get('role')
     vStatus = ''
 
     # #
     # TO:DO - put this inside a reusable method checkLoginStatus
     #
-    if request.COOKIES.get('role') == None:
+    if vLoggedInRole == None:
         return render(request, 'app/ryn_login.html')
 
     ##
@@ -73,7 +74,7 @@ def index(request):
         ##
         # Fetch Comments associated with the RegNo (Registation Number)
         ##
-        data3 = vDAO.GetComments(vReg_no)
+        data3 = vDAO.GetComments(vReg_no, vLoggedInRole)
 
         if request.method == 'POST':
 
@@ -86,7 +87,8 @@ def index(request):
             # if form.is_valid():
             #     form.save()
 
-        context = __prepareUIData(vReg_no, vENQ_Items, vENQ_Header, data3)
+        context = __prepareUIData(
+            vReg_no, vENQ_Items, vENQ_Header, data3, vLoggedInRole)
         print("Status of Enq ", context['vStatus'])
         if (context['vStatus'] == '6'):
             return render(request, 'app/quotation.html', context)
@@ -95,12 +97,14 @@ def index(request):
 
 
 def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
-
+    vUserID = request.COOKIES.get('username')
     vMill = request.POST.get('Mill')
     vDate = request.POST.get('Date')
     vMill_Rep = request.POST.get('Mill_Rep')
     vCustomer = request.POST.get('Customer')
     vMarketing_Zone = request.POST.get('Marketing_Zone')
+    vUser = request.POST.get('UserName')
+    vNow = datetime.now()
 
     ##
     # *** vBtnAction field points to hBtnAction hidden field in the form
@@ -167,15 +171,18 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
             if DBItemID != None:
                 print("inside updating existing", vStatus)
                 vDAO.StoreEnquiryItem(DBItemID, vReg_no, vCounts, vQuality, vYarnType, vBlend,
-                                      vShade, vDepth, vUOM, vQuantity, vRate, vAmount, vLast_order, vStatus, 1, vARate, vAAmount, vALast_order)
+                                      vShade, vDepth, vUOM, vQuantity, vRate, vAmount, vLast_order, vStatus, 1,
+                                      vARate, vAAmount, vALast_order, vUserID, vNow)
 
             else:
                 # else insert new value.
                 vDAO.StoreEnquiryItem(DBItemID, vReg_no, vCounts, vQuality, vYarnType, vBlend,
-                                      vShade, vDepth, vUOM, vQuantity, vRate, vAmount, vLast_order, vStatus, 0, vARate, vAAmount, vALast_order)
+                                      vShade, vDepth, vUOM, vQuantity, vRate, vAmount,
+                                      vLast_order, vStatus, 0, vARate, vAAmount, vALast_order,
+                                      vUserID, vNow)
 
         vDAO.StoreEnquiryHeader(vReg_no, vMill, vDate,
-                                vMill_Rep, vCustomer, vMarketing_Zone, vStatus)
+                                vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUserID, vNow)
 
     elif vBtnAction == 'comment':
         print("this is inside elseif")
@@ -188,15 +195,20 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
 
 
 def __command_update(request, vReg_no):
-    vCommand = request.POST.get('Ccomment')
-    vCustomer = request.POST.get('Customer')
+    vComments = request.POST.get('Ccomment')
     now = datetime.now()
+    vUserID = request.COOKIES.get('username')
+    print('this is userName', vUserID)
+    vRole = request.COOKIES.get('role')
+    vNow = datetime.now()
     vDT = now.strftime("%d/%m/%Y:%H:%M:%S")
+    vComments_to = request.POST.get('vComments_to')
+
     print("this is time and date", vDT)
 
-    if len(vCommand) != 0:
+    if len(vComments) != 0:
 
-        vDAO.StoreComments(vCommand, vReg_no, vCustomer, vDT)
+        vDAO.StoreComments(vComments, vReg_no, vUserID, vDT, vComments_to)
         # messages.success(request, 'Form successfully submitted')
         return http.HttpResponseRedirect('')
 
@@ -208,9 +220,12 @@ def ryn2(request):
     # #
     # TO:DO - put this inside a reusable method checkLoginStatus
     #
+
     if request.COOKIES.get('role') == None:
         return render(request, 'app/ryn_login.html')
-    return render(request, 'app/ryn2.html')
+
+    res = User_Details.objesct.get(id=id)
+    return render(request, 'app/ryn2.html', {'det': res})
 
 
 def register(request):
@@ -235,11 +250,18 @@ def confirmpo(request):
     if request.method == 'POST':
         vReg_no = request.POST.get('Rno')
         vPONumber = request.POST.get('txtPONumber')
+        vPOPdf = request.FILES['txtPOPDF']
 
-    print("vReg_no", vReg_no)
-    print("vPONumber", vPONumber)
+        store = purchase()
+        store.pono = vPONumber
+        store.popdf = vPOPdf
+        store.save()
+        print("vReg_no", vReg_no)
+        print("vPONumber", vPONumber)
 
-    return render(request, 'app/confirmpo.html')
+        return render(request, 'app/confirmpo.html')
+    else:
+        return render(request, 'app/quotations.html')
 
 
 def __handle_uploaded_file(f):
@@ -248,7 +270,7 @@ def __handle_uploaded_file(f):
             destination.write(chunk)
 
 
-def __prepareUIData(vReg_no, vENQ_Items, data2, data3):
+def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vRole):
 
     context = {'Error': 'No data found'}
     Default_Enq_Fileds = ''
@@ -293,6 +315,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3):
             'Quotation_ready': Quotation_ready,
             'vStatus': vStatus,
             'data3': data3,
+            'vRole': vRole
 
         }
 

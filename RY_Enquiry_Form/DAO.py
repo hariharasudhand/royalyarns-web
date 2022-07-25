@@ -60,17 +60,29 @@ class DAO:
     # Wrapper method that fetches enquiry comments details of supplied Reg_No
     # TO:DO Check if the logged in Role has access to the comments
     ##
-    def GetComments(self, vReg_no):
-        return customer_comments.objects.filter(Reg_no=vReg_no)
+    def GetComments(self, vReg_no, vLoggedInRole):
+        print('vLoggedInRole', vLoggedInRole)
+        if (vLoggedInRole == 'agent'):
+            return customer_comments.objects.filter(Reg_no=vReg_no)
+        elif (vLoggedInRole == 'supplier'):
+            print("inside supplier", vLoggedInRole)
+            return customer_comments.objects.filter(Reg_no=vReg_no).filter(
+                ~Q(Commments_to="agent") & ~Q(Commments_to="buyer"))
 
+        else:
+            print("inside Buyer", vLoggedInRole)
+            return customer_comments.objects.filter(Reg_no=vReg_no).filter(
+                ~Q(Commments_to="agent") & ~Q(Commments_to="supplier"))
      ##
     # GetUserInfo
     # Wrapper method that fetches userinfo
     ##
+
     def GetUserInfo(self, vUser, vPassword):
         return User_Details.objects.filter(
             UserName=vUser, Password=vPassword)
     ##
+
     # StoreEnquiry wrapper method that
     # Updates Enquiry Header
     # Inserts or Updates Enquiry Items - based on vDBFlag
@@ -78,27 +90,30 @@ class DAO:
     # if vDBFlag = 0 inserts new entry
     ##
 
-    def StoreEnquiryItem(self, vDBItemID, vReg_no, vCounts, vQuality, vType, vBlend, vShade, vDepth, vUOM, vQuantity, vSupplier_Rate, vSupplier_Amount, vSupplier_Last_order, vStatus, vDBFlag, vARate, vAAmount, vALast_order):
+    def StoreEnquiryItem(self, vDBItemID, vReg_no, vCounts, vQuality, vType, vBlend, vShade, vDepth, vUOM, vQuantity, vSupplier_Rate, vSupplier_Amount, vSupplier_Last_order, vStatus, vDBFlag, vARate, vAAmount, vALast_order, vUserID, vNow):
 
         if (vDBFlag == 1):
             RY_Enquiry_Items.objects.filter(id=vDBItemID, Reg_no=vReg_no).update(
-                Counts=vCounts, Quality=vQuality, Type=vType, Blend=vBlend, Shade=vShade, Depth=vDepth, UOM=vUOM, Quantity=vQuantity, Supplier_Rate=vSupplier_Rate, Supplier_Amount=vSupplier_Amount, Supplier_Last_order=vSupplier_Last_order, Agent_Rate=vARate, Agent_Amount=vAAmount, Agent_Last_order=vALast_order, Status=vStatus)
+                Counts=vCounts, Quality=vQuality, Type=vType, Blend=vBlend, Shade=vShade, Depth=vDepth, UOM=vUOM, Quantity=vQuantity, Supplier_Rate=vSupplier_Rate, Supplier_Amount=vSupplier_Amount, Supplier_Last_order=vSupplier_Last_order, Agent_Rate=vARate, Agent_Amount=vAAmount,
+                Agent_Last_order=vALast_order, Status=vStatus, CreatedByUser='RPABOT', LastUpdateby=vUserID, LastUpdateddate=vNow)
 
         else:
 
             ryNewItem = RY_Enquiry_Items(Reg_no=vReg_no, Counts=vCounts, Quality=vQuality, Type=vType, Blend=vBlend, Shade=vShade,
-                                         Depth=vDepth, UOM=vUOM, Quantity=vQuantity, Supplier_Rate=vSupplier_Rate, Supplier_Amount=vSupplier_Amount, Supplier_Last_order=vSupplier_Last_order, Agent_Rate=vARate, Agent_Amount=vAAmount, Agent_Last_order=vALast_order, Status=vStatus)
+                                         Depth=vDepth, UOM=vUOM, Quantity=vQuantity, Supplier_Rate=vSupplier_Rate, Supplier_Amount=vSupplier_Amount,
+                                         Supplier_Last_order=vSupplier_Last_order, Agent_Rate=vARate, Agent_Amount=vAAmount, Agent_Last_order=vALast_order,
+                                         Status=vStatus, CreatedByUser='RPABOT', LastUpdateby=vUserID, LastUpdateddate=vNow)
             ryNewItem.save()
 
-    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus):
+    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow):
         # TO:DO Header is always an update - this has to check if there is a change only then this should be
         # updated
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
-            Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=vStatus)
+            Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=vStatus, LastUpdateby=vUser, LastUpdateddate=vNow)
 
-    def StoreComments(self, vCommand, vReg_no, vCustomer, vDT):
+    def StoreComments(self, vComments, vReg_no, vUserID, vDT, vComments_to):
         customer_comments.objects.create(
-            Comments=vCommand, Reg_no=vReg_no, UserId=vCustomer, DT=vDT)
+            Comments=vComments, Reg_no=vReg_no, Commments_to=vComments_to, DT=vDT, CreatedByUser=vUserID, Created_Date=vDT)
 
     def UpdateEnquiryStatus(self, vReg_no, vStatus):
 

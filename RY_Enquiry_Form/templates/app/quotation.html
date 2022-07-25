@@ -463,6 +463,12 @@
         border-top:1px dotted rgb(17, 16, 16);
         padding:10px;
     }
+    .topright {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 18px;
+        }
     </style>
 
 </head>
@@ -481,7 +487,8 @@
                 <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91 421 2201222, 2247333 </small><br>
                 <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Email: support@rayaalyarns.com </small><br>
             </h6>
-            
+            <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
+                <a href="/logout"> <input class="btn btn-primary" id="Logout" type="button" value="Logout"></a>
         </div>
            <!-- <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
            <input class="btn btn-primary" id="Logout" type="button" value="Logout"> 
@@ -516,8 +523,7 @@
                     Vardhman Textiles Limited (Unit-Arihant Spinning Mills)</footer>
               </blockquote>
     
-                    <form name="RYform" id="RYform" action="/confirmpo" method="post" entype="multipart/form-data">
-                        {% csrf_token %}
+                    
                         <table id="MyTable" class="table table-striped">
                            <thead>
                                 <tr>
@@ -607,7 +613,8 @@
                             </tbody>
                         </table>
                         <br><br>
-
+                        <form name="RYform" id="RYform" action="/confirmpo" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
                         <div class="form-group">
                           <label for="email"> &nbsp;&nbsp;&nbsp;&nbsp;Enter Purcahse Order Number :</label>
                           &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control" placeholder="Enter PO # " id="txtPONumber"  name="txtPONumber" style="width:160px">

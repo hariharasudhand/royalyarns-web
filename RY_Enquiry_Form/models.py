@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -21,6 +22,9 @@ class RY_Enquiry_Items(models.Model):
     Agent_Rate = models.ImageField(max_length=200,  null=True)
     Agent_Amount = models.ImageField(max_length=200,  null=True)
     Agent_Last_order = models.TextField(max_length=200,  null=True)
+    CreatedByUser = models.TextField(max_length=200, null=True)
+    LastUpdateby = models.TextField(max_length=200, null=True)
+    LastUpdateddate = models.TextField(max_length=200, null=True)
 
     class Meta:
         db_table = 'RY_Enquiry_Items'
@@ -48,6 +52,9 @@ class RY_Enquiry_Header(models.Model):
     Date = models.TextField(max_length=200,  null=True)
     Email_Details = models.TextField(max_length=200,  null=True)
     Status = models.TextField(max_length=200, null=True)
+    CreatedByUser = models.TextField(max_length=200, null=True)
+    LastUpdateby = models.TextField(max_length=200, null=True)
+    LastUpdateddate = models.TextField(max_length=200, null=True)
 
     class Meta:
         db_table = 'RY_Enquiry_Header'
@@ -109,10 +116,12 @@ class User_Details(models.Model):
 
 class customer_comments(models.Model):
     id = models.AutoField(primary_key=True)
-    UserId = models.TextField(max_length=200,  null=True)
+    Commments_to = models.TextField(max_length=100,  null=True)
     Comments = models.TextField(max_length=200,  null=True)
     Reg_no = models.TextField(max_length=200,  null=True)
     DT = models.TextField(max_length=200,  null=True)
+    CreatedByUser = models.TextField(max_length=100, null=True)
+    Created_Date = models.TextField(max_length=100, null=True)
 
     class Meta:
         db_table = 'customer_comments'
@@ -120,3 +129,12 @@ class customer_comments(models.Model):
 
     def __str__(self):
         return self.id + ' ' + self.UserId + ' ' + self.Comments + ' ' + self.Reg_no + ' ' + self.DT
+
+
+class purchase(models.Model):
+    id = models.AutoField(primary_key=True)
+    pono = models.CharField(max_length=200, null=True)
+    popdf = models.CharField(max_length=500, null=True)
+
+    class Meta:
+        db_table = 'purchase_details'

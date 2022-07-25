@@ -197,6 +197,12 @@
             color: rgb(186, 50, 50);
             cursor: pointer;
         }
+        .topright {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 18px;
+        }
 
         /* Add Zoom Animation */
         .animate {
@@ -242,6 +248,8 @@
         <div class="rounded float-start">
             {% load static %}
             <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60">
+            <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
+                <a href="/logout"> <input class="btn btn-primary" id="Logout" type="button" value="Logout"></a>
         </div>
         <center>
             <h1>Order Confirmation </h1>
