@@ -36,6 +36,7 @@ def index(request):
 
     vReg_no = None
     vLoggedInRole = request.COOKIES.get('role')
+    vLoggedInUserID = request.COOKIES.get('username')
     vStatus = ''
 
     # #
@@ -61,7 +62,7 @@ def index(request):
     #  Rno will be empty not available in GET or POST varibale vReg_no will be empty
     ##
     if vReg_no == None:
-        context = vDAO.GetLandingPageData()
+        context = vDAO.GetLandingPageData(vLoggedInUserID)
         #print("**********>> context", context)
         return render(request, 'app/ryn.html', context)
     else:
@@ -88,7 +89,7 @@ def index(request):
             #     form.save()
 
         context = __prepareUIData(
-            vReg_no, vENQ_Items, vENQ_Header, data3, vLoggedInRole)
+            vReg_no, vENQ_Items, vENQ_Header, data3, vLoggedInRole, vLoggedInUserID)
         print("Status of Enq ", context['vStatus'])
         if (context['vStatus'] == '6'):
             return render(request, 'app/quotation.html', context)
@@ -270,7 +271,7 @@ def __handle_uploaded_file(f):
             destination.write(chunk)
 
 
-def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vRole):
+def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vRole, vLoggedInUserID):
 
     context = {'Error': 'No data found'}
     Default_Enq_Fileds = ''
@@ -285,7 +286,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vRole):
             Mill_Rep = item.Mill_Rep
             Marketing_Zone = item.Marketing_Zone
             Mill = item.Mill
-            Customer = item.Customer
+            #Customer = item.Customer
             # Item Status >= 3 is for Supplier to enter Rates
             vStatus = item.Status
             print("status in view :", vStatus)
@@ -309,14 +310,13 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vRole):
             'Mill_Rep': Mill_Rep,
             'Marketing_Zone': Marketing_Zone,
             'Mill': Mill,
-            'Customer': Customer,
             'Default_Enq_Fileds': Default_Enq_Fileds,
             'Supplier_Fileds': Supplier_Fileds,
             'Quotation_ready': Quotation_ready,
             'vStatus': vStatus,
             'data3': data3,
-            'vRole': vRole
-
+            'vRole': vRole,
+            'user': vLoggedInUserID
         }
 
     return context

@@ -15,7 +15,7 @@ class DAO:
     # to logined in Role Agent or Supplier or Buyer
     ##
 
-    def GetLandingPageData(self):
+    def GetLandingPageData(self, vLoggedInUserID):
 
         # context = {'Error': 'No data found'}
         context = {}
@@ -34,7 +34,7 @@ class DAO:
         context['YarnPrice('+Count_RYP+')'] = Req_Yarn_Price
         context['ForQuote('+Count_RFQ+')'] = Ready_for_Quote
         context['Others('+Count_Others+')'] = other_status
-
+        context['user'] = vLoggedInUserID
         context['full'] = context
 
         return context

@@ -484,6 +484,20 @@
         border-top:1px dotted rgb(17, 16, 16);
         padding:10px;
     }
+    .userCircle {
+            border-radius: 50%;
+            background: #289c34;
+            border: 1px solid #289c34;
+            color: #e6f2ea;
+            text-align: center;
+            display: block;
+            margin: 0px;
+            position: relative;
+            height: 42px;
+            width: 42px;
+            z-index: 0;
+            font: 32px  Courier New;
+        }
     </style>
 
 </head>
@@ -495,13 +509,11 @@
 
         {% load static %}
         <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="100%" height="100">
-            <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
-                <a href="/logout"> <input class="btn btn-primary" id="Logout" type="button" value="Logout"></a>
-            
+        <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
         </div>
-            <div class="topcenter">
+        <div class="topcenter">
                 <h1>Enquiry Validation </h1>
-            </div>
+        </div>
         
     
     {% if not Error %}
@@ -587,11 +599,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!--- NOTE to MALIKA - your for loop should come here -->
-                                   
-                                {% for Reg_no in data %}
-                               
-                              
+                            {% for Reg_no in data %}
                                 <tr>
                                     <th scope="row">{{forloop.counter}} <input type="hidden"  id="DBID{{forloop.counter}}"
                                         name="DBID{{forloop.counter}}" value="{{Reg_no.id}}" style="width:60px"
@@ -723,8 +731,12 @@
                                         {% for id in data3 %} 
                                         <li>
                                             <div class="card bg-light text-dark">
-                                                <div class="card-body"> <pre>  {{id.Comments}} </pre>  -- <span class="date sub-text"> <b>{{id.CreatedByUser}} </b> - {{id.DT}}</span> --</div>
-                                              </div>
+                                                {% if id.CreatedByUser == user %}
+                                                <div class="card-body"> <span class="mb-0">  {{id.Comments}} </span>  -- <span class="date mb-0"> <b>You </b> </span> <span class="date sub-text mb-0">- {{id.DT}}</span> --</div>
+                                                {% else %}
+                                                <div class="card-body"> <span class="mb-0">  {{id.Comments}} </span>  -- <span class="date mb-0"> <b>{{id.CreatedByUser |capfirst}} </b></span> <span class="date sub-text mb-0"> - {{id.DT}}</span> --</div>
+                                                {% endif %}
+                                            </div>
                
                                             </li>
                                     {% endfor %}

@@ -242,6 +242,32 @@
                 width: 50%;
             }
         }
+        .topright {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 18px;
+        }
+        .topcenter {
+            position: absolute;
+            top: 50px;
+            right: 610px;
+        }
+        .userCircle {
+            border-radius: 50%;
+            background: #289c34;
+            border: 1px solid #289c34;
+            color: #e6f2ea;
+            text-align: center;
+            display: block;
+            margin: 0px;
+            position: relative;
+            height: 42px;
+            width: 42px;
+            z-index: 0;
+
+            font: 32px  Courier New;
+        }
     </style>
 </head>
 <script>
@@ -294,6 +320,8 @@
         <div class="rounded float-start">
             {% load static %}
             <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60">
+            <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+        </div>
         </div>
         <center>
             <h1>Enquiry Validation </h1>
@@ -306,10 +334,12 @@
         {% for key, value in full.items %}
             {% if key|first in 'full' %}
 
+            {% elif key|first in 'user' %}
+            
             {% else %}
-                    <button class="tablinks" onclick="openTab(event, '{{ key }}')">{{ key }}
-                        </font>
-                    </button>
+              <button class="tablinks" onclick="openTab(event, '{{ key }}')">{{ key }}
+                 </font>
+               </button>
                 
             {% endif %}
         {% endfor %}
