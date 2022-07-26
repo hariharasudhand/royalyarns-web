@@ -241,6 +241,20 @@
                 width: 50%;
             }
         }
+        .userCircle {
+            border-radius: 50%;
+            background: #289c34;
+            border: 1px solid #289c34;
+            color: #e6f2ea;
+            text-align: center;
+            display: block;
+            margin: 0px;
+            position: relative;
+            height: 42px;
+            width: 42px;
+            z-index: 0;
+            font: 32px  Courier New;
+        }
     </style>
 </head>
 <body>
@@ -248,9 +262,8 @@
         <div class="rounded float-start">
             {% load static %}
             <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60">
-            <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
-                <a href="/logout"> <input class="btn btn-primary" id="Logout" type="button" value="Logout"></a>
-        </div>
+            <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+            </div>
         <center>
             <h1>Order Confirmation </h1>
         </center>

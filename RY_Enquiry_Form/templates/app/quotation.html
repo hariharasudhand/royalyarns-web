@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -469,6 +470,20 @@
             right: 30px;
             font-size: 18px;
         }
+    .userCircle {
+            border-radius: 50%;
+            background: #289c34;
+            border: 1px solid #289c34;
+            color: #e6f2ea;
+            text-align: center;
+            display: block;
+            margin: 0px;
+            position: relative;
+            height: 42px;
+            width: 42px;
+            z-index: 0;
+            font: 32px  Courier New;
+        }
     </style>
 
 </head>
@@ -487,9 +502,8 @@
                 <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91 421 2201222, 2247333 </small><br>
                 <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Email: support@rayaalyarns.com </small><br>
             </h6>
-            <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
-                <a href="/logout"> <input class="btn btn-primary" id="Logout" type="button" value="Logout"></a>
-        </div>
+            <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+            </div>
            <!-- <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
            <input class="btn btn-primary" id="Logout" type="button" value="Logout"> 
             <i class="fa fa-sign-out" style="font-size: x-large; color: #fc054f;" ></i></div> -->
@@ -613,8 +627,9 @@
                             </tbody>
                         </table>
                         <br><br>
-                        <form name="RYform" id="RYform" action="/confirmpo" method="post" enctype="multipart/form-data">
+                        <form name="RYform" id="RYform" action="/confirmpo" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
+
                         <div class="form-group">
                           <label for="email"> &nbsp;&nbsp;&nbsp;&nbsp;Enter Purcahse Order Number :</label>
                           &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control" placeholder="Enter PO # " id="txtPONumber"  name="txtPONumber" style="width:160px">
