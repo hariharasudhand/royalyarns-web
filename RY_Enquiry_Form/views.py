@@ -62,7 +62,7 @@ def index(request):
     #  Rno will be empty not available in GET or POST varibale vReg_no will be empty
     ##
     if vReg_no == None:
-        context = vDAO.GetLandingPageData(vLoggedInUserID)
+        context = vDAO.GetLandingPageData(vLoggedInUserID, vLoggedInRole)
         #print("**********>> context", context)
         return render(request, 'app/ryn.html', context)
     else:
@@ -91,7 +91,8 @@ def index(request):
         context = __prepareUIData(
             vReg_no, vENQ_Items, vENQ_Header, data3, vLoggedInRole, vLoggedInUserID)
         print("Status of Enq ", context['vStatus'])
-        if (context['vStatus'] == '6'):
+        if (context['vStatus'] == 6):
+            print("Its is status 6", vStatus)
             return render(request, 'app/quotation.html', context)
         else:
             return render(request, 'app/ryn2.html', context)
@@ -259,6 +260,7 @@ def confirmpo(request):
         store.save()
         print("vReg_no", vReg_no)
         print("vPONumber", vPONumber)
+        print("vPOpodf",vPOPdf)
 
         return render(request, 'app/confirmpo.html')
     else:
@@ -271,16 +273,20 @@ def __handle_uploaded_file(f):
             destination.write(chunk)
 
 
-def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vRole, vLoggedInUserID):
+def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInUserID):
 
     context = {'Error': 'No data found'}
     Default_Enq_Fileds = ''
     Supplier_Fileds = ''
     Quotation_ready = ''
     vStatus = ''
+    Default_Role_Base = ''
     vFieldStatus = ''
+    
+    
     if len(data2) != 0:
         for item in data2:
+            
             Email_Details = item.Email_Details
             Date = item.Date
             Mill_Rep = item.Mill_Rep
@@ -288,17 +294,38 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vRole, vLoggedInUserID):
             Mill = item.Mill
             #Customer = item.Customer
             # Item Status >= 3 is for Supplier to enter Rates
-            vStatus = item.Status
+            vStatus = int(item.Status)
             print("status in view :", vStatus)
-
-            if item.Status >= '3':
+                      
+            vUserAction = vDAO.GetUserActionByRole(vLoggedInRole, vStatus)
+            print("vUserAction.Action", len(vUserAction))
+            if len(vUserAction) <= 0 :
+                context = {'Error': 'User: ' +  vLoggedInUserID + 'Is Not Authorized to View Record Number :' + vReg_no, 'vStatus':vStatus}
+                return context
+            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'agent'):
                 Default_Enq_Fileds = 'readonly'
-            if item.Status >= '4':
-                Supplier_Fileds = 'readonly'
-            if item.Status >= '5':
-                # Probably there is a better status - i will use this in the Agent ReEntered Field as readonly
+            elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'supplier'):
+                Supplier_Fileds = ''
+                Default_Enq_Fileds = 'readonly'
+            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'supplier') and (vStatus >=5 ):
+                Default_Enq_Fileds = 'readonly'
                 Quotation_ready = 'readonly'
+            elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'agent') and (vStatus >=5 ):
+                Default_Enq_Fileds = 'readonly'
+            else:
+                Default_Enq_Fileds = ''
+                # if vStatus =='3':
+                    
 
+            # if vStatus >= 3:
+            #     Default_Enq_Fileds = 'readonly'
+            if vStatus >= 4:
+                
+                Supplier_Fileds = 'readonly'
+            # if vStatus >= 5:
+            #     # Probably there is a better status - i will use this in the Agent ReEntered Field as readonly
+            #     Quotation_ready = 'readonly'
+            # print("Default_Enq_Fileds in view :", Default_Enq_Fileds)
     if len(vENQ_Items) != 0:
 
         context = {
@@ -313,9 +340,10 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vRole, vLoggedInUserID):
             'Default_Enq_Fileds': Default_Enq_Fileds,
             'Supplier_Fileds': Supplier_Fileds,
             'Quotation_ready': Quotation_ready,
+            'Default_Role_Base':Default_Role_Base,
             'vStatus': vStatus,
             'data3': data3,
-            'vRole': vRole,
+            'vLoggedInRole': vLoggedInRole,
             'user': vLoggedInUserID
         }
 
@@ -375,3 +403,4 @@ def logout(request):
 
 def login(request):
     return render(request, 'app/ryn_login.html')
+

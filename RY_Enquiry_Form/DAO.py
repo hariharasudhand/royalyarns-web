@@ -1,4 +1,4 @@
-from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments
+from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments,User_Role_Action
 from django.db.models import Q
 
 
@@ -15,34 +15,73 @@ class DAO:
     # to logined in Role Agent or Supplier or Buyer
     ##
 
-    def GetLandingPageData(self, vLoggedInUserID):
+    ##
+# GetLandingPageData gets the overall enquiries
+# TO:DO This has to be modified to query enquiries related
+# to logined in Role Agent or Supplier or Buyer
+##
+
+    def GetLandingPageData(self, vLoggedInUserID, vLoggedInRole):
 
         # context = {'Error': 'No data found'}
         context = {}
-        Unread_Data = RY_Enquiry_Header.objects.filter(Status='0')
-        other_status = RY_Enquiry_Header.objects.filter(
-            ~Q(Status='0') & ~Q(Status='3') & ~Q(Status='4'))
-        Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Status='3')
-        Ready_for_Quote = RY_Enquiry_Header.objects.filter(Status='4')
+        Unread_Data = []
+        other_status = []
+        Req_Yarn_Price = []
+        Ready_for_Quote = []
+
+        if (vLoggedInRole == 'agent'):
+        # Query and Fetch only status that an AGENT should see
+            Unread_Data = RY_Enquiry_Header.objects.filter(Status='0')
+            Internal_Review = RY_Enquiry_Header.objects.filter(
+            ~Q(Status='0') & ~Q(Status='3') & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+            # & ~Q(Status='4')
+            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(
+            ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='5') & ~Q(Status='6'))
+            Ready_for_Quote = RY_Enquiry_Header.objects.filter(
+            ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') & ~Q(Status='4'))
+
+        elif (vLoggedInRole == 'supplier'):
+            # Query and Fetch only status that an SUPPLIER should see
+            Unread_Data = RY_Enquiry_Header.objects.filter(Status='3')
+            Internal_Review = RY_Enquiry_Header.objects.filter(
+                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
+                 & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Status='4')
+            Ready_for_Quote = RY_Enquiry_Header.objects.filter(Status='5')
+        else:
+        # Query and Fetch only status that an BUYER should see
+            Unread_Data = RY_Enquiry_Header.objects.filter(
+                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
+                 & ~Q(Status='4')  & ~Q(Status='5'))
+            Internal_Review = RY_Enquiry_Header.objects.filter(
+                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
+                 & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(
+                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
+                 & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+            Ready_for_Quote = RY_Enquiry_Header.objects.filter(
+                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
+                 & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
 
         Count_Unr = str(len(Unread_Data))
         Count_RYP = str(len(Req_Yarn_Price))
         Count_RFQ = str(len(Ready_for_Quote))
-        Count_Others = str(len(other_status))
+        Count_Others = str(len(Internal_Review))
 
         context['Unread('+Count_Unr+')'] = Unread_Data
         context['YarnPrice('+Count_RYP+')'] = Req_Yarn_Price
         context['ForQuote('+Count_RFQ+')'] = Ready_for_Quote
-        context['Others('+Count_Others+')'] = other_status
+        context['InternalReview('+Count_Others+')'] = Internal_Review
         context['user'] = vLoggedInUserID
         context['full'] = context
 
         return context
-    ##
-    # GetEnquiryHeader
-    # Wrapper method that fetches enquiry header details of supplied Reg_No
-    # TO:DO Check if the logged in Role has access to the Reg_No
-    ##
+##
+# GetEnquiryHeader
+# Wrapper method that fetches enquiry header details of supplied Reg_No
+# TO:DO Check if the logged in Role has access to the Reg_No
+##
 
     def GetEnquiryHeader(self, vReg_no):
         return RY_Enquiry_Header.objects.filter(Reg_no=vReg_no)
@@ -63,16 +102,17 @@ class DAO:
     def GetComments(self, vReg_no, vLoggedInRole):
         print('vLoggedInRole', vLoggedInRole)
         if (vLoggedInRole == 'agent'):
-            return customer_comments.objects.filter(Reg_no=vReg_no)
+            return customer_comments.objects.filter(Reg_no=vReg_no).filter(
+                ~Q(Commments_to="buyer2") & ~Q(Commments_to="supplier2") & ~Q(Commments_to="buyer3") & ~Q(Commments_to="supplier3"))
         elif (vLoggedInRole == 'supplier'):
             print("inside supplier", vLoggedInRole)
             return customer_comments.objects.filter(Reg_no=vReg_no).filter(
-                ~Q(Commments_to="agent") & ~Q(Commments_to="buyer"))
+                ~Q(Commments_to="agent1") & ~Q(Commments_to="buyer1") & ~Q(Commments_to="buyer2")& ~Q(Commments_to="agent2"))
 
         else:
             print("inside Buyer", vLoggedInRole)
             return customer_comments.objects.filter(Reg_no=vReg_no).filter(
-                ~Q(Commments_to="agent") & ~Q(Commments_to="supplier"))
+                ~Q(Commments_to="agent1") & ~Q(Commments_to="supplier1")& ~Q(Commments_to="agent3") & ~Q(Commments_to="supplier3"))
      ##
     # GetUserInfo
     # Wrapper method that fetches userinfo
@@ -119,3 +159,7 @@ class DAO:
 
         RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status=vStatus)
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Status=vStatus)
+
+    def GetUserActionByRole(self, vLoggedInRole, vStatus):
+        
+        return User_Role_Action.objects.filter(Role=vLoggedInRole).filter(Status=vStatus)

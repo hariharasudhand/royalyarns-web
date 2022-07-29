@@ -409,9 +409,10 @@
     }
 
     .detailBox {
-        width:240%;
+        width:220%;
         border:1px solid rgb(204, 167, 167);
-        margin:50px;
+        margin-top:40px;
+        margin-left: 04%;
         display: flex;
         padding-bottom: 20px;
     }
@@ -590,7 +591,7 @@
                                     <th scope="col">Depth</th>
                                     <th scope="col">UOM</th>
                                     <th scope="col">Quantity</th>
-                                    {% if Default_Enq_Fileds == 'readonly' %}
+                                    {% if vStatus >= 3 %}
                                     <th scope="col">Rate</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Last order</th>
@@ -639,27 +640,44 @@
                                             {{Default_Enq_Fileds}}>
                                     </td>
 
-                                    {% if Default_Enq_Fileds == 'readonly' %}
-                                   
+                                    {% if vStatus >= 3 %}
+                                    
                                     <td>
+                                        {% if vLoggedInRole == 'agent' %}
                                         <input type="text" class="form-control col-xs-2" id="Rate{{forloop.counter}}"
+                                            name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:60px" {{Default_Enq_Fileds}}>
+                                        {% else %}    
+                                            <input type="text" class="form-control col-xs-2" id="Rate{{forloop.counter}}
                                             name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:60px" {{Supplier_Fileds}}>
+                                        {% endif %}    
                                             {% if Supplier_Fileds == 'readonly' %}
                                                 <input type="text" class="form-control col-xs-2" id="Arate{{forloop.counter}}"
                                                 name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:60px" {{Quotation_ready}}>
                                             {% endif %}
                                     </td>
-                                    <td><input type="text" class="form-control col-xs-2" id="Amount{{forloop.counter}}"
+                                    <td>
+                                        {% if vLoggedInRole == 'agent' %}
+                                        <input type="text" class="form-control col-xs-2" id="Amount{{forloop.counter}}"
+                                            name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:60px" {{Default_Enq_Fileds}}>
+                                        {% else %}
+                                        <input type="text" class="form-control col-xs-2" id="Amount{{forloop.counter}}"
                                             name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:60px" {{Supplier_Fileds}}>
+                                        {% endif %}
                                             {% if Supplier_Fileds == 'readonly' %}
                                             <input type="text" class="form-control col-xs-2" id="Aamount{{forloop.counter}}"
                                             name="Aamount{{forloop.counter}}" value="{{Reg_no.Agent_Amount}}" style="width:60px" {{Quotation_ready}}>
                                             {% endif %}
                                     </td>
-                                    <td><input type="text" class="form-control col-xs-2" id="Last_order{{forloop.counter}}"
+                                    <td>
+                                        {% if vLoggedInRole == 'agent' %}
+                                        <input type="text" class="form-control col-xs-2" id="Last_order{{forloop.counter}}"
+                                            name="Last_order{{forloop.counter}}" value="{{Reg_no.Supplier_Last_order}}"
+                                            style="width:80px" {{Default_Enq_Fileds}}>
+                                        {% else %}
+                                            <input type="text" class="form-control col-xs-2" id="Last_order{{forloop.counter}}"
                                             name="Last_order{{forloop.counter}}" value="{{Reg_no.Supplier_Last_order}}"
                                             style="width:80px" {{Supplier_Fileds}}>
-                                        
+                                        {% endif %}
                                             {% if Supplier_Fileds == 'readonly' %}
                                             <input type="text" class="form-control col-xs-2" id="Alast_order{{forloop.counter}}"
                                             name="Alast_order{{forloop.counter}}" value="{{Reg_no.Agent_Last_order}}"
@@ -702,19 +720,19 @@
                                     <div class="titleBox">
                                         <div class="form-group">
                                             <label for="sel1">Comment to:</label>
-                                            <select class="form-control" id="vComments_to" name="vComments_to">
+                                            <select class="form-control" id="vComments_to" name="vComments_to" style="width: 30%;">
                                                 {% if vRole == 'agent' %}
-                                                    <option value="agent">Internal</option>
-                                                    <option value="supplier">Supplier</option>
-                                                    <option value="buyer">Buyer</option>
+                                                    <option value="agent1">Internal</option>
+                                                    <option value="supplier1">Supplier</option>
+                                                    <option value="buyer1">Buyer</option>
                                                     <option value="*">All</option>
                                                 {% elif vRole == 'buyer' %}
-                                                    <option value="buyer">Internal</option>
-                                                    <option value="agent">Agent</option>
+                                                    <option value="buyer2">Internal</option>
+                                                    <option value="agent2">Agent</option>
                                                     <option value="*">All</option>    
                                                 {% else %}
-                                                    <option value="supplier">Internal</option>
-                                                    <option value="agent">Agent</option>
+                                                    <option value="supplier3">Internal</option>
+                                                    <option value="agent3">Agent</option>
                                                     <option value="*">All</option>
                                                 {% endif %}  
                                             </select>                                                 
@@ -747,6 +765,9 @@
                                 </ul>
                                 <!-- <form method="post" class="form-block"> -->
                                     <div class="right">
+                                        <div class="form-group">
+                                            <center> <button id="commentAction" class="btn btn-default" style="width: 15%;; background-color: #85daf7; margin-top: 37px; margin-right: 65%;" >Add</button></center>
+                                         </div>
                                
                                     <div class="form-group">
                                        
@@ -754,9 +775,7 @@
                                             class="form-control" required="" id="Ccomment" aria-describedby="emailHelp"
                                             name="Ccomment" value="" placeholder="Your text"></textarea></center>
                                     </div>
-                                    <div class="form-group">
-                                       <center> <button id="commentAction" class="btn btn-default" style="width: 15%;; background-color: #85daf7;" >Add</button></center>
-                                    </div>
+                                    
                                     <input type="hidden" id="hBtnAction" name="hBtnAction" value="">
                                     {% if messages %}
                                     <div class="alert alert-success alert-dismissible">
@@ -778,7 +797,15 @@
     </div>
         
     {% else %}
-    <h2>No data was found</h2>
+    <br>
+    <br>
+    <div class="alert alert-danger" role="alert">
+
+        Error UnAuthorized Access
+    </div>
+    <p class="lead">
+        {{Error}}
+      </p>
     {% endif %}
 
 </body>

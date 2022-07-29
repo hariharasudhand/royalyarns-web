@@ -138,3 +138,12 @@ class purchase(models.Model):
 
     class Meta:
         db_table = 'purchase_details'
+
+class User_Role_Action(models.Model):
+    id = models.AutoField(primary_key=True)
+    Role = models.CharField(max_length=10, null=True)
+    Status = models.CharField(max_length=10, null=True)
+    Action = models.CharField(max_length=10, null=True)
+
+    class Meta:
+        db_table = 'User_Role_Action'
