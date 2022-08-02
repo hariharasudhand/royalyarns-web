@@ -1,5 +1,6 @@
-from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments,User_Role_Action, Upload_Data
+from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data
 from django.db.models import Q
+from .ExcelUtlis import ExcelUtlis
 
 
 class DAO:
@@ -31,38 +32,43 @@ class DAO:
         Ready_for_Quote = []
 
         if (vLoggedInRole == 'agent'):
-        # Query and Fetch only status that an AGENT should see
+            # Query and Fetch only status that an AGENT should see
             Unread_Data = RY_Enquiry_Header.objects.filter(Status='0')
             Internal_Review = RY_Enquiry_Header.objects.filter(
-            ~Q(Status='0') & ~Q(Status='3') & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+                ~Q(Status='0') & ~Q(Status='3') & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
             # & ~Q(Status='4')
             Req_Yarn_Price = RY_Enquiry_Header.objects.filter(
-            ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='5') & ~Q(Status='6'))
+                ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='5') & ~Q(Status='6'))
             Ready_for_Quote = RY_Enquiry_Header.objects.filter(
-            ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') & ~Q(Status='4'))
+                ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') & ~Q(Status='4'))
 
         elif (vLoggedInRole == 'supplier'):
             # Query and Fetch only status that an SUPPLIER should see
             Unread_Data = RY_Enquiry_Header.objects.filter(Status='3')
             Internal_Review = RY_Enquiry_Header.objects.filter(
-                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
-                 & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+                ~Q(Status='0') & ~Q(Status='1') & ~Q(
+                    Status='2') & ~Q(Status='3')
+                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
             Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Status='4')
             Ready_for_Quote = RY_Enquiry_Header.objects.filter(Status='5')
         else:
-        # Query and Fetch only status that an BUYER should see
+            # Query and Fetch only status that an BUYER should see
             Unread_Data = RY_Enquiry_Header.objects.filter(
-                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
-                 & ~Q(Status='4')  & ~Q(Status='5'))
+                ~Q(Status='0') & ~Q(Status='1') & ~Q(
+                    Status='2') & ~Q(Status='3')
+                & ~Q(Status='4') & ~Q(Status='5'))
             Internal_Review = RY_Enquiry_Header.objects.filter(
-                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
-                 & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+                ~Q(Status='0') & ~Q(Status='1') & ~Q(
+                    Status='2') & ~Q(Status='3')
+                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
             Req_Yarn_Price = RY_Enquiry_Header.objects.filter(
-                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
-                 & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+                ~Q(Status='0') & ~Q(Status='1') & ~Q(
+                    Status='2') & ~Q(Status='3')
+                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
             Ready_for_Quote = RY_Enquiry_Header.objects.filter(
-                 ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') 
-                 & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+                ~Q(Status='0') & ~Q(Status='1') & ~Q(
+                    Status='2') & ~Q(Status='3')
+                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
 
         Count_Unr = str(len(Unread_Data))
         Count_RYP = str(len(Req_Yarn_Price))
@@ -107,12 +113,12 @@ class DAO:
         elif (vLoggedInRole == 'supplier'):
             print("inside supplier", vLoggedInRole)
             return customer_comments.objects.filter(Reg_no=vReg_no).filter(
-                ~Q(Commments_to="agent1") & ~Q(Commments_to="buyer1") & ~Q(Commments_to="buyer2")& ~Q(Commments_to="agent2"))
+                ~Q(Commments_to="agent1") & ~Q(Commments_to="buyer1") & ~Q(Commments_to="buyer2") & ~Q(Commments_to="agent2"))
 
         else:
             print("inside Buyer", vLoggedInRole)
             return customer_comments.objects.filter(Reg_no=vReg_no).filter(
-                ~Q(Commments_to="agent1") & ~Q(Commments_to="supplier1")& ~Q(Commments_to="agent3") & ~Q(Commments_to="supplier3"))
+                ~Q(Commments_to="agent1") & ~Q(Commments_to="supplier1") & ~Q(Commments_to="agent3") & ~Q(Commments_to="supplier3"))
      ##
     # GetUserInfo
     # Wrapper method that fetches userinfo
@@ -161,26 +167,28 @@ class DAO:
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Status=vStatus)
 
     def GetUserActionByRole(self, vLoggedInRole, vStatus):
-        
+
         return User_Role_Action.objects.filter(Role=vLoggedInRole).filter(Status=vStatus)
     #
-    ##Get for ExcelFile
+    # Get for ExcelFile
     #
-    def GetUpload_Data(self,Upload):
+
+    def GetUpload_Data(self, Upload):
 
         return User_Role_Action.objects.filter(Upload_file=Upload)
 
     #
-    ##Upload for ExcelFile
+    # Upload for ExcelFile
     #
-    def StoreUpload_Data(self, Upload, vDate, vUser):
+    def StoreUpload_Data(self, vExcelPath, vDate, vUser):
+
+        vExcelFileURL = "/Users/harid/work/weeroda/RoyalYarns/teratta-app/media/"+vExcelPath.name
+        print('Processing Upload Excel File Name : ', vExcelFileURL)
+
+        excelUtil = ExcelUtlis(vExcelFileURL)
 
         Upload_Data.objects.create(
-            Upload_file=Upload, Date=vDate, Upload_by=vUser, Upload_Status='1', Process_Status='0'
+            Upload_file=vExcelPath, Date=vDate, Upload_by=vUser, Upload_Status='1', Process_Status='0'
         )
-
-    #
-    ##insert data
-    #
-    def StoreDispatchExcel(self, vExcelPath):
-        
+        print("Excel File Uploaded in location : ", vExcelFileURL)
+        print(excelUtil.GetInsertQueryList(vExcelFileURL))

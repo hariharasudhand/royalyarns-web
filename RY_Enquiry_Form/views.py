@@ -22,7 +22,7 @@ from django.contrib import auth
 from datetime import datetime
 #from .ExcelUtlis import ExcelUtlis
 
-vDAO = DAO("dao")   
+vDAO = DAO("dao")
 #vExcelUtlis = ExcelUtlis("excelutlis")
 
 # @csrf_exempt
@@ -261,7 +261,7 @@ def confirmpo(request):
         store.save()
         print("vReg_no", vReg_no)
         print("vPONumber", vPONumber)
-        print("vPOpodf",vPOPdf)
+        print("vPOpodf", vPOPdf)
 
         return render(request, 'app/confirmpo.html')
     else:
@@ -283,11 +283,10 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
     vStatus = ''
     Default_Role_Base = ''
     vFieldStatus = ''
-    
-    
+
     if len(data2) != 0:
         for item in data2:
-            
+
             Email_Details = item.Email_Details
             Date = item.Date
             Mill_Rep = item.Mill_Rep
@@ -297,31 +296,31 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             # Item Status >= 3 is for Supplier to enter Rates
             vStatus = int(item.Status)
             print("status in view :", vStatus)
-                      
+
             vUserAction = vDAO.GetUserActionByRole(vLoggedInRole, vStatus)
             print("vUserAction.Action", len(vUserAction))
-            if len(vUserAction) <= 0 :
-                context = {'Error': 'User: ' +  vLoggedInUserID + 'Is Not Authorized to View Record Number :' + vReg_no, 'vStatus':vStatus}
+            if len(vUserAction) <= 0:
+                context = {'Error': 'User: ' + vLoggedInUserID +
+                           'Is Not Authorized to View Record Number :' + vReg_no, 'vStatus': vStatus}
                 return context
             elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'agent'):
                 Default_Enq_Fileds = 'readonly'
             elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'supplier'):
                 Supplier_Fileds = ''
                 Default_Enq_Fileds = 'readonly'
-            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'supplier') and (vStatus >=5 ):
+            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'supplier') and (vStatus >= 5):
                 Default_Enq_Fileds = 'readonly'
                 Quotation_ready = 'readonly'
-            elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'agent') and (vStatus >=5 ):
+            elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'agent') and (vStatus >= 5):
                 Default_Enq_Fileds = 'readonly'
             else:
                 Default_Enq_Fileds = ''
                 # if vStatus =='3':
-                    
 
             # if vStatus >= 3:
             #     Default_Enq_Fileds = 'readonly'
             if vStatus >= 4:
-                
+
                 Supplier_Fileds = 'readonly'
             # if vStatus >= 5:
             #     # Probably there is a better status - i will use this in the Agent ReEntered Field as readonly
@@ -341,7 +340,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             'Default_Enq_Fileds': Default_Enq_Fileds,
             'Supplier_Fileds': Supplier_Fileds,
             'Quotation_ready': Quotation_ready,
-            'Default_Role_Base':Default_Role_Base,
+            'Default_Role_Base': Default_Role_Base,
             'vStatus': vStatus,
             'data3': data3,
             'vLoggedInRole': vLoggedInRole,
@@ -405,14 +404,14 @@ def logout(request):
 def login(request):
     return render(request, 'app/ryn_login.html')
 
+
 def UploadExcel(request):
     if request.method == "POST":
         vUpload = request.FILES['upload']
-        print(vUpload)
+        # print(vUpload)
         vDate = datetime.now()
         vUser = request.COOKIES.get('username')
-        # return excel._make_response(vUpload.get_sheet(),"xslx") 
+        # return excel._make_response(vUpload.get_sheet(),"xslx")
 
-        
-        vDAO.StoreUpload_Data(vUpload, vDate,vUser)
+        vDAO.StoreUpload_Data(vUpload, vDate, vUser)
     return render(request, 'app/ryn.html')
