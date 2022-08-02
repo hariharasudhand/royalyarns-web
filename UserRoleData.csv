@@ -1,0 +1,13 @@
+id,Role,Status,Action
+9,supplier,4,W
+11,supplier,5,R
+10,supplier,6,R
+12,buyer,6,W
+8,supplier,3,W
+2,agent,1,R
+1,agent,0,R
+3,agent,2,W
+4,agent,3,R
+5,agent,4,R
+7,agent,6,R
+6,agent,5,W

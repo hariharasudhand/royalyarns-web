@@ -721,12 +721,12 @@
                                         <div class="form-group">
                                             <label for="sel1">Comment to:</label>
                                             <select class="form-control" id="vComments_to" name="vComments_to" style="width: 30%;">
-                                                {% if vRole == 'agent' %}
+                                                {% if vLoggedInRole == 'agent' %}
                                                     <option value="agent1">Internal</option>
                                                     <option value="supplier1">Supplier</option>
                                                     <option value="buyer1">Buyer</option>
                                                     <option value="*">All</option>
-                                                {% elif vRole == 'buyer' %}
+                                                {% elif vLoggedInRole == 'buyer' %}
                                                     <option value="buyer2">Internal</option>
                                                     <option value="agent2">Agent</option>
                                                     <option value="*">All</option>    

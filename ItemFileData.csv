@@ -1,0 +1,2 @@
+id,Counts,Quality,Type,Blend,Shade,Shade_Ref,Depth,UOM,Quantity,Status,Reg_no,Supplier_Rate,Supplier_Amount,Supplier_Last_order,Agent_Rate,Agent_Amount,Agent_Last_order,CreatedByUser,LastUpdateby,LastUpdateddate
+14,40s,100,cotton,28%,40%,suresh,100,100,100,1,1,,,,,,,RPABOT,agent,2022-07-29 12:36:24.400304

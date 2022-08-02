@@ -134,7 +134,7 @@ class customer_comments(models.Model):
 class purchase(models.Model):
     id = models.AutoField(primary_key=True)
     pono = models.CharField(max_length=200, null=True)
-    popdf = models.CharField(max_length=500, null=True)
+    popdf = models.FileField(max_length=500, null=True)
 
     class Meta:
         db_table = 'purchase_details'
@@ -147,3 +147,10 @@ class User_Role_Action(models.Model):
 
     class Meta:
         db_table = 'User_Role_Action'
+
+class Upload_data(models.Model):
+    id = models.AutoField(primary_key=True)
+    Upload_file = models.FileField(max_length=300, null=True)
+
+    class Meta:
+        db_table = 'Upload_data'

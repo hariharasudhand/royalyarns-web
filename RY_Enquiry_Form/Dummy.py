@@ -91,8 +91,7 @@ def index(request):
         context = __prepareUIData(
             vReg_no, vENQ_Items, vENQ_Header, data3, vLoggedInRole, vLoggedInUserID)
         print("Status of Enq ", context['vStatus'])
-        if (context['vStatus'] == 6):
-            print("Its is status 6", vStatus)
+        if (context['vStatus'] == '6'):
             return render(request, 'app/quotation.html', context)
         else:
             return render(request, 'app/ryn2.html', context)
@@ -273,7 +272,7 @@ def __handle_uploaded_file(f):
             destination.write(chunk)
 
 
-def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInUserID):
+def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInUserID,):
 
     context = {'Error': 'No data found'}
     Default_Enq_Fileds = ''
@@ -296,36 +295,18 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             # Item Status >= 3 is for Supplier to enter Rates
             vStatus = int(item.Status)
             print("status in view :", vStatus)
-                      
-            vUserAction = vDAO.GetUserActionByRole(vLoggedInRole, vStatus)
-            print("vUserAction.Action", len(vUserAction))
-            if len(vUserAction) <= 0 :
-                context = {'Error': 'User: ' +  vLoggedInUserID + 'Is Not Authorized to View Record Number :' + vReg_no, 'vStatus':vStatus}
-                return context
-            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'agent'):
-                Default_Enq_Fileds = 'readonly'
-            elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'supplier'):
-                Supplier_Fileds = ''
-                Default_Enq_Fileds = 'readonly'
-            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'supplier') and (vStatus >=5 ):
-                Default_Enq_Fileds = 'readonly'
-                Quotation_ready = 'readonly'
-            elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'agent') and (vStatus >=5 ):
-                Default_Enq_Fileds = 'readonly'
-            else:
-                Default_Enq_Fileds = ''
-                # if vStatus =='3':
-                    
+            
+            
 
-            # if vStatus >= 3:
-            #     Default_Enq_Fileds = 'readonly'
+                    
+            if vStatus >= 3:
+                Default_Enq_Fileds = 'readonly'
             if vStatus >= 4:
-                
                 Supplier_Fileds = 'readonly'
-            # if vStatus >= 5:
-            #     # Probably there is a better status - i will use this in the Agent ReEntered Field as readonly
-            #     Quotation_ready = 'readonly'
-            # print("Default_Enq_Fileds in view :", Default_Enq_Fileds)
+            if vStatus >= 5:
+                # Probably there is a better status - i will use this in the Agent ReEntered Field as readonly
+                Quotation_ready = 'readonly'
+            print("Default_Enq_Fileds in view :", Default_Enq_Fileds)
     if len(vENQ_Items) != 0:
 
         context = {
@@ -404,7 +385,3 @@ def logout(request):
 def login(request):
     return render(request, 'app/ryn_login.html')
 
-def UploadExcel(request):
-    if request.method == "POST":
-        Upload = request.FILES('upload')
-    return render(request, 'app/ryn2.html')
