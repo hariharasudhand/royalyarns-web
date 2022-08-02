@@ -7,3 +7,6 @@
 .vscode/
 
 
+*.xlsx
+*.pyc
+*.pyc

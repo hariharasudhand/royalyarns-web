@@ -174,21 +174,4 @@ class DAO:
     #
 
     def GetUpload_Data(self, Upload):
-
         return User_Role_Action.objects.filter(Upload_file=Upload)
-
-    #
-    # Upload for ExcelFile
-    #
-    def StoreUpload_Data(self, vExcelPath, vDate, vUser):
-
-        vExcelFileURL = "/Users/harid/work/weeroda/RoyalYarns/teratta-app/media/"+vExcelPath.name
-        print('Processing Upload Excel File Name : ', vExcelFileURL)
-
-        excelUtil = ExcelUtlis(vExcelFileURL)
-
-        Upload_Data.objects.create(
-            Upload_file=vExcelPath, Date=vDate, Upload_by=vUser, Upload_Status='1', Process_Status='0'
-        )
-        print("Excel File Uploaded in location : ", vExcelFileURL)
-        print(excelUtil.GetInsertQueryList(vExcelFileURL))

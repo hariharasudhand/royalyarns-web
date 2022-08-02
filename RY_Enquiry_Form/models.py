@@ -139,6 +139,7 @@ class purchase(models.Model):
     class Meta:
         db_table = 'purchase_details'
 
+
 class User_Role_Action(models.Model):
     id = models.AutoField(primary_key=True)
     Role = models.CharField(max_length=10, null=True)
@@ -148,6 +149,7 @@ class User_Role_Action(models.Model):
     class Meta:
         db_table = 'User_Role_Action'
 
+
 class Upload_Data(models.Model):
     id = models.AutoField(primary_key=True)
     Upload_file = models.FileField(max_length=300, null=True)
@@ -155,5 +157,6 @@ class Upload_Data(models.Model):
     Upload_by = models.CharField(max_length=100, null=True)
     Upload_Status = models.CharField(max_length=2, null=True)
     Process_Status = models.CharField(max_length=2, null=True)
+
     class Meta:
         db_table = 'Upload_data'

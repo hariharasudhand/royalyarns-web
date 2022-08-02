@@ -12,6 +12,7 @@ from django.http import HttpResponseRedirect
 from .forms import Ry_En_Form, Ry_En_Header, User_Form, Comment_Form
 from .models import purchase, User_Details, Upload_Data
 from .DAO import DAO
+from .DispatchDAO import DispatchDAO
 from django.urls import reverse
 
 from django.shortcuts import render, redirect
@@ -23,6 +24,8 @@ from datetime import datetime
 #from .ExcelUtlis import ExcelUtlis
 
 vDAO = DAO("dao")
+vDispatchDAO = DispatchDAO("DispatchDAO")
+
 #vExcelUtlis = ExcelUtlis("excelutlis")
 
 # @csrf_exempt
@@ -413,5 +416,5 @@ def UploadExcel(request):
         vUser = request.COOKIES.get('username')
         # return excel._make_response(vUpload.get_sheet(),"xslx")
 
-        vDAO.StoreUpload_Data(vUpload, vDate, vUser)
+        vDispatchDAO.StoreUpload_Data(vUpload, vDate, vUser)
     return render(request, 'app/ryn.html')
