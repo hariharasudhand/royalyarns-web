@@ -1,4 +1,4 @@
-from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments,User_Role_Action
+from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments,User_Role_Action, Upload_Data
 from django.db.models import Q
 
 
@@ -163,3 +163,24 @@ class DAO:
     def GetUserActionByRole(self, vLoggedInRole, vStatus):
         
         return User_Role_Action.objects.filter(Role=vLoggedInRole).filter(Status=vStatus)
+    #
+    ##Get for ExcelFile
+    #
+    def GetUpload_Data(self,Upload):
+
+        return User_Role_Action.objects.filter(Upload_file=Upload)
+
+    #
+    ##Upload for ExcelFile
+    #
+    def StoreUpload_Data(self, Upload, vDate, vUser):
+
+        Upload_Data.objects.create(
+            Upload_file=Upload, Date=vDate, Upload_by=vUser, Upload_Status='1', Process_Status='0'
+        )
+
+    #
+    ##insert data
+    #
+    def StoreDispatchExcel(self, vExcelPath):
+        

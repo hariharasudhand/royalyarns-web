@@ -10,7 +10,7 @@ from django import http
 from psycopg2 import Date
 from django.http import HttpResponseRedirect
 from .forms import Ry_En_Form, Ry_En_Header, User_Form, Comment_Form
-from .models import purchase, User_Details
+from .models import purchase, User_Details, Upload_Data
 from .DAO import DAO
 from django.urls import reverse
 
@@ -20,9 +20,10 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib import auth
 from datetime import datetime
+#from .ExcelUtlis import ExcelUtlis
 
-vDAO = DAO("dao")
-
+vDAO = DAO("dao")   
+#vExcelUtlis = ExcelUtlis("excelutlis")
 
 # @csrf_exempt
 # def checkUserCookie(request):
@@ -406,5 +407,12 @@ def login(request):
 
 def UploadExcel(request):
     if request.method == "POST":
-        Upload = request.FILES('upload')
-    return render(request, 'app/ryn2.html')
+        vUpload = request.FILES['upload']
+        print(vUpload)
+        vDate = datetime.now()
+        vUser = request.COOKIES.get('username')
+        # return excel._make_response(vUpload.get_sheet(),"xslx") 
+
+        
+        vDAO.StoreUpload_Data(vUpload, vDate,vUser)
+    return render(request, 'app/ryn.html')

@@ -264,6 +264,12 @@
             right: 30px;
             font-size: 18px;
         }
+        .topright1 {
+            position: absolute;
+            top: 90px;
+            right: 30px;
+            font-size: 13px;
+        }
         .topcenter {
             position: absolute;
             top: 50px;
@@ -418,19 +424,18 @@
         <center>
             <h1>Enquiry Validation </h1>
         </center>
-        <div class="col">
-            <div class="text-right">
-                <div  class="btn btn-primary" id="showEmailAction"> Raw Message
-                </div>
-                </div>
-                <form name="RYform" id="RYform" action="UploadExcel" method="post">
-                    {% csrf_token %}
-                    <div class="popuptext" style="border:solid 1px;" id="myPopup">
-                        <button class='btn btn-danger' style="float: right; cursor: pointer;" id="hidepop"> X </button>
-                        <input type="file" name="upload" value="upload" >
-                        <button type="submit"> Upload</button>
-                    </div>
+                
+                
+                
     </header>
+            
+            <form name="RYform" id="RYform" action="UploadExcel" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+        
+                <input type="file" class="topright1" name="upload" id="upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+                <button class="topright1"type="submit"> Upload</button>
+            </form>
+            
 
     {% if not Error %}
     <section>

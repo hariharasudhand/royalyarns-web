@@ -148,9 +148,12 @@ class User_Role_Action(models.Model):
     class Meta:
         db_table = 'User_Role_Action'
 
-class Upload_data(models.Model):
+class Upload_Data(models.Model):
     id = models.AutoField(primary_key=True)
     Upload_file = models.FileField(max_length=300, null=True)
-
+    Date = models.CharField(max_length=100,  null=True)
+    Upload_by = models.CharField(max_length=100, null=True)
+    Upload_Status = models.CharField(max_length=2, null=True)
+    Process_Status = models.CharField(max_length=2, null=True)
     class Meta:
         db_table = 'Upload_data'
