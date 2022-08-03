@@ -160,3 +160,13 @@ class Upload_Data(models.Model):
 
     class Meta:
         db_table = 'Upload_data'
+
+
+class Email_Distribution_Groups(models.Model):
+    id = models.AutoField(primary_key=True)
+    GroupName = models.CharField(max_length=100, null=True)
+    GroupUsersID = models.CharField(max_length=500, null=True)
+    Status = models.CharField(max_length=10, null=True)
+
+    class Meta:
+        db_table = 'Email_Distribution_Groups'

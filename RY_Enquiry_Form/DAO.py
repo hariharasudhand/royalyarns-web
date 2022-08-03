@@ -175,3 +175,6 @@ class DAO:
 
     def GetUpload_Data(self, Upload):
         return User_Role_Action.objects.filter(Upload_file=Upload)
+
+    def GetGroupEmailList(vGroupName):
+        return None
