@@ -1,0 +1,29 @@
+[
+  {
+    "model": "RY_Enquiry_Form.User_Details",
+    "fields": {
+      "id": 0,
+      "UserName": "supplier",
+      "Password": "supplier",
+      "Role": "supplier"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Details",
+    "fields": {
+      "id": 1,
+      "UserName": "agent",
+      "Password": "agent",
+      "Role": "agent"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Details",
+    "fields": {
+      "id": 2,
+      "UserName": "buyer",
+      "Password": "buyer",
+      "Role": "buyer"
+    }
+  }
+]

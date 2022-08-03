@@ -1,0 +1,90 @@
+[
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "0",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "1",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "2",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "3",
+      "Action": "W"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "4",
+      "Action": "W"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "5",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "6",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "7",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "8",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "9",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "supplier",
+      "Status": "10",
+      "Action": "-"
+    }
+  }
+]

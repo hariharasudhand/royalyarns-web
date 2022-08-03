@@ -1,0 +1,90 @@
+[
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "0",
+      "Action": "W"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "1",
+      "Action": "R"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "2",
+      "Action": "R"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "3",
+      "Action": "R"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "4",
+      "Action": "W"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "5",
+      "Action": "R"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "6",
+      "Action": "R"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "7",
+      "Action": "R"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "8",
+      "Action": "R"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "9",
+      "Action": "R"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "agent",
+      "Status": "10",
+      "Action": "R"
+    }
+  }
+]
