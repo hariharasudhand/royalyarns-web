@@ -1,4 +1,4 @@
-from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data
+from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data, Email_Distribution_Groups
 from django.db.models import Q
 from .ExcelUtlis import ExcelUtlis
 
@@ -176,5 +176,17 @@ class DAO:
     def GetUpload_Data(self, Upload):
         return User_Role_Action.objects.filter(Upload_file=Upload)
 
-    def GetGroupEmailList(vGroupName):
-        return None
+    def GetGroupEmailList(self, vGroupName):
+
+        vQueryResult = Email_Distribution_Groups.objects.filter(
+            GroupName=vGroupName)
+        print("GroupIDs", vQueryResult[0].GroupUsersID)
+        print("Status", vQueryResult[0].Status)
+        if (vQueryResult[0].GroupUsersID != None):
+            vIDs = vQueryResult[0].GroupUsersID.split(",")
+            vEmailIDs = []
+            for vID in vIDs:
+                vQueryUserDetails = User_Details.objects.filter(id=vID)
+                vEmailIDs.append(vQueryUserDetails)
+
+        return vEmailIDs

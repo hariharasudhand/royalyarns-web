@@ -21,6 +21,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib import auth
 from datetime import datetime
+from .EmailUtil import EMAIL_UTIL
 #from .ExcelUtlis import ExcelUtlis
 
 vDAO = DAO("dao")
@@ -216,6 +217,10 @@ def __command_update(request, vReg_no):
 
         vDAO.StoreComments(vComments, vReg_no, vUserID, vDT, vComments_to)
         # messages.success(request, 'Form successfully submitted')
+        emailComp = EMAIL_UTIL()
+        emailComp.send_group('supplier-only', 'test subject',
+                             'dear user this is a test message')
+
         return http.HttpResponseRedirect('')
 
     else:

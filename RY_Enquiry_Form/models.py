@@ -111,7 +111,7 @@ class User_Details(models.Model):
         ordering = ['Role']
 
     def __str__(self):
-        return self.id + ' ' + self.UserName + ' ' + self.Password + ' ' + self.Role
+        return self.UserName + ' ' + self.Password + ' ' + self.Role
 
 
 class customer_comments(models.Model):

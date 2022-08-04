@@ -1,7 +1,7 @@
 from django.core.mail import send_mail
 from django.template import loader
 import smtplib
-from . import DAO
+from .DAO import DAO
 
 
 class EMAIL_UTIL:
@@ -39,17 +39,17 @@ class EMAIL_UTIL:
         global server_ssl
         fmail = "guru2611199@gmail.com"
         msg = 'Subject: {}\n\n{}'.format(subjectText, emailBodyText)
-        vDAO = DAO()
+        vDAO = DAO("dao")
+
         # vGroupEmailList will return a list of email id of that group which should be
         # looped and call sendmail method
+
         vGroupEmailList = vDAO.GetGroupEmailList(GroupName)
-
-        for vData in vGroupEmailList:
-
-            print("########################")
-            # print(vData.Status)
-
-            # if (server_ssl != None):
-            #     #server_ssl.sendmail(fmail, toUsername, msg)
-            #     server_ssl.close()
-            #     return True
+        print("########################", vGroupEmailList)
+        for vQueryData in vGroupEmailList:
+            print("sending email to ", vQueryData[0].UserName)
+            if (server_ssl != None):
+                server_ssl.sendmail(vQueryData[0].UserName,
+                                    subjectText, emailBodyText)
+                server_ssl.close()
+        return True
