@@ -20,6 +20,7 @@ class Dispatch_Excel_Dump(models.Model):
     id = models.AutoField(primary_key=True)
     Link_ID = models.TextField(max_length=50,  null=True)
     Link_Header_ID = models.TextField(max_length=50,  null=True)
+    Data_RowIndex = models.IntegerField()
     DataKey = models.TextField(max_length=500,  null=True)
     DataValue = models.TextField(max_length=500,  null=True)
 
