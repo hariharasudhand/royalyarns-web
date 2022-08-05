@@ -1,4 +1,4 @@
-from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data, Purchase
+from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data, purchase
 from django.db.models import Q
 from .ExcelUtlis import ExcelUtlis
 
@@ -154,9 +154,10 @@ class DAO:
     def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow):
         # TO:DO Header is always an update - this has to check if there is a change only then this should be
         # updated
+        print("+++++++++++++",vStatus)
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
             Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=int(vStatus)+1, LastUpdateby=vUser, LastUpdateddate=vNow)
-
+        print("@@@@@@@@@@@@@@@@@",vStatus)
     def StoreComments(self, vComments, vReg_no, vUserID, vDT, vComments_to):
         customer_comments.objects.create(
             Comments=vComments, Reg_no=vReg_no, Commments_to=vComments_to, DT=vDT, CreatedByUser=vUserID, Created_Date=vDT)
@@ -194,10 +195,8 @@ class DAO:
         print("Excel File Uploaded in location : ", vExcelFileURL)
         print(excelUtil.GetInsertQueryList(vExcelFileURL))
 
-    #
-    ##Stored the POPdf and Po number in the database.
-    #
+
     def StorePoPdf(self, vPONumber, vPOPdf):
-        Purchase.objects.create(
-            Pono=vPONumber, Popdf=vPOPdf
+        purchase.objects.create(
+            
         )
