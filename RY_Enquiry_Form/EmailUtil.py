@@ -37,19 +37,22 @@ class EMAIL_UTIL:
 
     def send_group(self, GroupName, subjectText, emailBodyText):
         global server_ssl
-        fmail = "guru2611199@gmail.com"
-        msg = 'Subject: {}\n\n{}'.format(subjectText, emailBodyText)
+        
         vDAO = DAO("dao")
 
         # vGroupEmailList will return a list of email id of that group which should be
         # looped and call sendmail method
-
+        fmail = "guru2611199@gmail.com"
+        msg = 'Subject: {}\n\n{}'.format(subjectText, emailBodyText)
         vGroupEmailList = vDAO.GetGroupEmailList(GroupName)
         print("########################", vGroupEmailList)
-        for vQueryData in vGroupEmailList:
-            print("sending email to ", vQueryData[0].UserName)
-            if (server_ssl != None):
-                server_ssl.sendmail(vQueryData[0].UserName,
-                                    subjectText, emailBodyText)
-                server_ssl.close()
+        if (server_ssl != None):
+            for vQueryData in vGroupEmailList:
+                print("sending email to ", vQueryData[0].UserName)    
+            
+                server_ssl.sendmail(fmail, vQueryData[0].UserName, msg)
+                
+            #server_ssl.close()
+            return True
+            self.send_single(vQueryData[0].UserName, subjectText, emailBodyText)
         return True

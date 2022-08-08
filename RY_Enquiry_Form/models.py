@@ -105,13 +105,14 @@ class User_Details(models.Model):
     UserName = models.TextField(max_length=200,  null=True)
     Password = models.TextField(max_length=200,  null=True)
     Role = models.TextField(max_length=200,  null=True)
+   
 
     class Meta:
         db_table = 'User_Details'
         ordering = ['Role']
 
     def __str__(self):
-        return self.UserName + ' ' + self.Password + ' ' + self.Role
+        return self.UserName
 
 
 class customer_comments(models.Model):
@@ -161,12 +162,67 @@ class Upload_Data(models.Model):
     class Meta:
         db_table = 'Upload_data'
 
+    
 
 class Email_Distribution_Groups(models.Model):
     id = models.AutoField(primary_key=True)
     GroupName = models.CharField(max_length=100, null=True)
-    GroupUsersID = models.CharField(max_length=500, null=True)
-    Status = models.CharField(max_length=10, null=True)
+    GroupUsersID = models.CharField(max_length=100, null=True)
+    Status = models.BooleanField(max_length=10, null=True)
+   
+   
+   
 
     class Meta:
         db_table = 'Email_Distribution_Groups'
+
+
+#ROCKETBOT TABLES CREATES HERE
+
+class Customer_Name(models.Model):
+    id = models.AutoField(primary_key=True)
+    customer_names =  models.TextField(max_length=200,  null=True)
+    customer_emailid = models.TextField(max_length=200,  null=True)
+    splited_details =  models.TextField(max_length=200,  null=True)
+
+
+    class Meta:
+        db_table = 'Customer_Name'
+
+
+class Duplication(models.Model):
+    id = models.AutoField(primary_key=True)
+    Count = models.TextField(max_length=200,  null=True)
+    Blend = models.TextField(max_length=200,  null=True)
+    Shade_Ref = models.TextField(max_length=200,  null=True)
+    Quantity = models.TextField(max_length=200,  null=True)
+
+
+    class Meta:
+        db_table = 'Duplication'
+
+
+class ShadeRef_With_mill(models.Model):
+    id = models.AutoField(primary_key=True)
+    shade_ref = models.TextField(max_length=200,  null=True)
+    shade = models.TextField(max_length=200,  null=True)
+    type = models.TextField(max_length=200,  null=True)
+    mill = models.TextField(max_length=200,  null=True)
+
+    class Meta:
+        db_table = 'ShadeRef_With_mill'
+
+class items_to_mill_mapping(models.Model):
+    id = models.AutoField(primary_key=True)
+    type = models.TextField(max_length=200,  null=True)
+    mill = models.TextField(max_length=200,  null=True)
+
+    class Meta:
+        db_table = 'items_to_mill_mapping'
+
+
+     
+
+
+    
+

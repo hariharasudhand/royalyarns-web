@@ -10,7 +10,7 @@ from django import http
 from psycopg2 import Date
 from django.http import HttpResponseRedirect
 from .forms import Ry_En_Form, Ry_En_Header, User_Form, Comment_Form
-from .models import purchase, User_Details, Upload_Data
+from .models import User_Details, Upload_Data
 from .DAO import DAO
 from .DispatchDAO import DispatchDAO
 from django.urls import reverse
@@ -137,7 +137,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
             print("Processing Index", vRowIndex)
             DBItemID = request.POST.get('DBID'+str(vRowIndex))
             print("Processing DBItemID", str(DBItemID))
-            vStatus = '1'
+            vStatus = 1
 
             vCounts = request.POST.get('Counts'+str(vRowIndex))
 
@@ -171,7 +171,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
                 vStatus = '5'
             elif vRate != None:
                 vStatus = '4'
-
+            print("***************************************", vStatus+1)
             # if DBItemID is None that means this is a newly added row, as when the page
             # loads db record index will be filled in the hidden field which is queried and
             # stored above in DBItemID field
@@ -197,6 +197,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
 
     elif vBtnAction == 'cancel':
         vDAO.UpdateEnquiryStatus(vReg_no, 2)
+        print(vStatus)
 
     return render(request, 'app/ryn2.html', {'upload_form': Ry_En_Form})
 
@@ -248,28 +249,20 @@ def register(request):
     return render(request, 'app/register.html')
 
 
-def confirmpo(request):
-    # #
+def confirmpo(request,vReg_no):
+    ##
     # TO:DO - put this inside a reusable method checkLoginStatus
     #
     if request.COOKIES.get('role') == None:
         return render(request, 'app/ryn_login.html')
 
-    vReg_no = ''
     vPONumber = ''
 
     if request.method == 'POST':
         vReg_no = request.POST.get('Rno')
         vPONumber = request.POST.get('txtPONumber')
         vPOPdf = request.FILES['txtPOPDF']
-
-        store = purchase()
-        store.pono = vPONumber
-        store.popdf = vPOPdf
-        store.save()
-        print("vReg_no", vReg_no)
-        print("vPONumber", vPONumber)
-        print("vPOpodf", vPOPdf)
+        vDAO.StorePoPdf(vPONumber, vPOPdf, vReg_no)
 
         return render(request, 'app/confirmpo.html')
     else:
@@ -302,7 +295,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             Mill = item.Mill
             #Customer = item.Customer
             # Item Status >= 3 is for Supplier to enter Rates
-            vStatus = int(item.Status)
+            vStatus = int(item.Status)                                  
             print("status in view :", vStatus)
 
             vUserAction = vDAO.GetUserActionByRole(vLoggedInRole, vStatus)

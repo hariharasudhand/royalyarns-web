@@ -16,7 +16,7 @@ class DispatchDAO:
 
     def StoreUpload_Data(self, vExcelPath, vDate, vUser):
 
-        vExcelFileURL = "/Users/harid/work/weeroda/RoyalYarns/teratta-app/media/"+vExcelPath.name
+        vExcelFileURL = "D:/work/royalyarns-web/media/"+vExcelPath.name
         print('Processing Upload Excel File Name : ', vExcelFileURL)
         ls = []
         vQueryResult = Upload_Data.objects.create(
@@ -45,7 +45,9 @@ class DispatchDAO:
                 colNameList = list(df.columns)
                 # ITERATE EACH ROWS
                 for i, row in df.iterrows():
+                    print(i)
                     for colkey in colNameList:
                         if (str(row[colkey]) != None and str(row[colkey]) != 'nan' and str(row[colkey]) != 'NaT'):
+                            print(i)
                             Dispatch_Excel_Dump.objects.create(
-                                Link_ID=str(vQueryResult.id), Link_Header_ID=str(vQueryDHResult.id), DataKey=colkey, DataValue=str(row[colkey]))
+                                Link_ID=str(vQueryResult.id), Link_Header_ID=str(vQueryDHResult.id), DataKey=colkey, Data_RowIndex=i, DataValue=str(row[colkey]))
