@@ -151,13 +151,12 @@ class DAO:
                                          Status=vStatus, CreatedByUser='RPABOT', LastUpdateby=vUserID, LastUpdateddate=vNow)
             ryNewItem.save()
 
-    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow):
+    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow, vPONumber, vPOPdf, vPO_Date, vRev_date):
         # TO:DO Header is always an update - this has to check if there is a change only then this should be
         # updated
-        print("+++++++++++++",vStatus)
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
-            Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=int(vStatus)+1, LastUpdateby=vUser, LastUpdateddate=vNow)
-        print("@@@@@@@@@@@@@@@@@",vStatus)
+            Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=vStatus, LastUpdateby=vUser,
+            LastUpdateddate=vNow, Po_Number=vPONumber, Po_Date=vPO_Date, Po_PDF=vPOPdf, Po_RevDate=vRev_date)
     def StoreComments(self, vComments, vReg_no, vUserID, vDT, vComments_to):
         customer_comments.objects.create(
             Comments=vComments, Reg_no=vReg_no, Commments_to=vComments_to, DT=vDT, CreatedByUser=vUserID, Created_Date=vDT)
@@ -196,7 +195,8 @@ class DAO:
         print(excelUtil.GetInsertQueryList(vExcelFileURL))
 
 
-    def StorePoPdf(self, vPONumber, vPOPdf):
-        purchase.objects.create(
-            
-        )
+    def UpdateEnquiryHeader(self, vReg_no, vPONumber, list, vPO_Date, vRev_date):
+        RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Po_Number=vPONumber, Po_PDF=list, Po_Date=vPO_Date,
+                                                                Po_RevDate=vRev_date, Status= '7')
+        RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status= '7')
+        

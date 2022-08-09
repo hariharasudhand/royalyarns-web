@@ -1,0 +1,90 @@
+[
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "0",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "1",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "2",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "3",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "4",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "5",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "6",
+      "Action": "W"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "7",
+      "Action": "W"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "8",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "9",
+      "Action": "-"
+    }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Role_Action",
+    "fields": {
+      "Role": "buyer",
+      "Status": "10",
+      "Action": "-"
+    }
+  }
+]

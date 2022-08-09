@@ -1,6 +1,8 @@
 from contextlib import nullcontext
 from genericpath import exists
+from multiprocessing import context
 import re
+from unicodedata import name
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import AuthenticationForm
 from ast import Store
@@ -10,7 +12,7 @@ from django import http
 from psycopg2 import Date
 from django.http import HttpResponseRedirect
 from .forms import Ry_En_Form, Ry_En_Header, User_Form, Comment_Form
-from .models import User_Details, Upload_Data
+from .models import User_Details, Upload_Data, RY_Enquiry_Header
 from .DAO import DAO
 from .DispatchDAO import DispatchDAO
 from django.urls import reverse
@@ -23,6 +25,11 @@ from django.contrib import auth
 from datetime import datetime
 from .EmailUtil import EMAIL_UTIL
 #from .ExcelUtlis import ExcelUtlis
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 
 vDAO = DAO("dao")
 vDispatchDAO = DispatchDAO("DispatchDAO")
@@ -81,7 +88,9 @@ def index(request):
         # Fetch Comments associated with the RegNo (Registation Number)
         ##
         data3 = vDAO.GetComments(vReg_no, vLoggedInRole)
-
+ 
+        
+        
         if request.method == 'POST':
 
             # data = RY_Enquiry_Items.objects.filter(Reg_no=vReg_no)
@@ -98,6 +107,7 @@ def index(request):
         print("Status of Enq ", context['vStatus'])
         if (context['vStatus'] == 6):
             print("Its is status 6", vStatus)
+            print("this is register number in quotations", vReg_no)
             return render(request, 'app/quotation.html', context)
         else:
             return render(request, 'app/ryn2.html', context)
@@ -151,7 +161,9 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
 
             # Supplier Entered Rates
             vRate = request.POST.get('Rate'+str(vRowIndex))
+            print('vrate is printing',vRate)
             vAmount = request.POST.get('Amount'+str(vRowIndex))
+            print('vrate is printing',vAmount)
             vLast_order = request.POST.get('Last_order'+str(vRowIndex))
 
             # Agent ReEntered Rates
@@ -171,7 +183,6 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
                 vStatus = '5'
             elif vRate != None:
                 vStatus = '4'
-            print("***************************************", vStatus+1)
             # if DBItemID is None that means this is a newly added row, as when the page
             # loads db record index will be filled in the hidden field which is queried and
             # stored above in DBItemID field
@@ -187,7 +198,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
                                       vShade, vDepth, vUOM, vQuantity, vRate, vAmount,
                                       vLast_order, vStatus, 0, vARate, vAAmount, vALast_order,
                                       vUserID, vNow)
-
+        print('testing',vStatus)
         vDAO.StoreEnquiryHeader(vReg_no, vMill, vDate,
                                 vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUserID, vNow)
 
@@ -249,24 +260,41 @@ def register(request):
     return render(request, 'app/register.html')
 
 
-def confirmpo(request,vReg_no):
+def confirmpo(request):
     ##
     # TO:DO - put this inside a reusable method checkLoginStatus
     #
+
     if request.COOKIES.get('role') == None:
         return render(request, 'app/ryn_login.html')
 
-    vPONumber = ''
-
+        
     if request.method == 'POST':
         vReg_no = request.POST.get('Rno')
         vPONumber = request.POST.get('txtPONumber')
-        vPOPdf = request.FILES['txtPOPDF']
-        vDAO.StorePoPdf(vPONumber, vPOPdf, vReg_no)
-
-        return render(request, 'app/confirmpo.html')
-    else:
-        return render(request, 'app/quotations.html')
+        list=[] #myfile is the key of a multi value dictionary, values are the uploaded files
+        file=request.FILES.getlist('txtPOPDF')
+        for f in request.FILES.getlist('txtPOPDF'): #myfile is the name of your html file button
+            vFiles=RY_Enquiry_Header.objects.get(Reg_no=vReg_no)
+            print("@@@@@@@@@@@@",vReg_no)
+            vFiles.Po_PDF=f
+            print(vFiles)
+            vFiles.save()
+            #RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update( Po_PDF=f)
+            filename = f.name
+            list.append(filename)
+        print("This is the multiple PDF Name", list)
+        
+        vPO_Date = datetime.now()
+        vRev_date = datetime.now()
+        
+        vDAO.UpdateEnquiryHeader(vReg_no, vPONumber, list, vPO_Date, vRev_date)
+        emailComp = EMAIL_UTIL()
+        emailComp.send_po('test subject','po.no'+vPONumber,file)
+        print("email was send successfully")
+        
+        return render(request, 'app/ryn.html')
+    
 
 
 def __handle_uploaded_file(f):
@@ -416,3 +444,12 @@ def UploadExcel(request):
 
         vDispatchDAO.StoreUpload_Data(vUpload, vDate, vUser)
     return render(request, 'app/ryn.html')
+
+def quantityCheck(request):
+    if request.COOKIES.get('role') == None:
+        return render(request, 'app/ryn_login.html')
+    else:
+        return render(request, 'app/ryn_quantity.html')
+
+def quantityCheck(request):
+    return render(request, 'app/ryn_quantity.html')

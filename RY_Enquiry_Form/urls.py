@@ -11,6 +11,7 @@ urlpatterns = [
     path('logout', views.logout, name="logout"),
     path('confirmpo', views.confirmpo, name='confirmpo'),
     path('UploadExcel', views.UploadExcel, name='UploadExcel'),
+    path('quantityCheck', views.quantityCheck, name='quantityCheck'),
 
 ]
  

@@ -2,7 +2,8 @@ from django.core.mail import send_mail
 from django.template import loader
 import smtplib
 from .DAO import DAO
-
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 class EMAIL_UTIL:
 
@@ -54,5 +55,12 @@ class EMAIL_UTIL:
                 
             #server_ssl.close()
             return True
-            self.send_single(vQueryData[0].UserName, subjectText, emailBodyText)
+            # self.send_single(vQueryData[0].UserName, subjectText, emailBodyText)
+        return True
+
+    def send_po(self, subject, message, files):
+        mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['guru.prasath@weeroda.com'])
+        for f in files:
+            mail.attach(f.name, f.read(), f.content_type)
+        mail.send()
         return True

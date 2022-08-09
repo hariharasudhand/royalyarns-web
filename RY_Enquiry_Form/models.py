@@ -55,6 +55,10 @@ class RY_Enquiry_Header(models.Model):
     CreatedByUser = models.TextField(max_length=200, null=True)
     LastUpdateby = models.TextField(max_length=200, null=True)
     LastUpdateddate = models.TextField(max_length=200, null=True)
+    Po_Number = models.CharField(max_length=100, null=True)
+    Po_Date = models.CharField(max_length=100, null=True)
+    Po_PDF = models.FileField(max_length=500, null=True)
+    Po_RevDate = models.CharField(max_length=100, null=True)
 
     class Meta:
         db_table = 'RY_Enquiry_Header'
@@ -62,6 +66,7 @@ class RY_Enquiry_Header(models.Model):
 
     def __str__(self):
         return self.Mill_Rep + ' ' + self.Reg_no + ' ' + self.Mill + ' ' + self.Customer + ' ' + self.Marketing_Zone + ' ' + self.Payment_Term + ' ' + self.Narration + ' ' + self.Reason_For_Non_Acception + ' ' + self.Reason_For_Non_Acception + ' ' + self.Acceptance_from_the_mill + ' ' + self.Date + '' + self.Email_Details + ' ' + self.Status
+
 
 
 # class RY_Purcahse_Sales_Confirmation(models.Model):
@@ -176,6 +181,50 @@ class Email_Distribution_Groups(models.Model):
     class Meta:
         db_table = 'Email_Distribution_Groups'
 
+class Other_Details(models.Model):
+    id = models.AutoField(primary_key=True)
+    delivery_Schedule = models.CharField(max_length=100, null=True)
+    payment_term = models.CharField(max_length=100, null=True)
+    price = models.CharField(max_length=100, null=True)
+    matching_source = models.CharField(max_length=100, null=True)
+    buyer = models.CharField(max_length=100, null=True)
+    any_other_specification = models.CharField(max_length=100, null=True)
+    specification_if_no_product_type = models.CharField(max_length=100, null=True)
+    commision = models.CharField(max_length=100, null=True)
+    Baby_cone = models.BooleanField(max_length=10, null=True)
+    air = models.BooleanField(max_length=10, null=True)
+    Reg_no = models.CharField(max_length=200,  null=True)
+
+   
+   
+   
+
+    class Meta:
+        db_table = 'Other_Details'
+
+class Quantity_Details(models.Model):
+    id = models.AutoField(primary_key=True)
+    feeder_stripes = models.CharField(max_length=100, null=True)
+    jacaquard = models.CharField(max_length=100, null=True)
+    mini_jaq = models.CharField(max_length=10, null=True)
+    auto_stripes = models.CharField(max_length=100, null=True)
+    single_jersey = models.CharField(max_length=100, null=True)
+    p_k = models.CharField(max_length=10, null=True)
+    interlock = models.CharField(max_length=100, null=True)
+    rib = models.CharField(max_length=100, null=True)
+    white = models.CharField(max_length=10, null=True)
+    light = models.CharField(max_length=100, null=True)
+    medium = models.CharField(max_length=100, null=True)
+    dark = models.CharField(max_length=10, null=True)
+    pay_mode = models.CharField(max_length=100, null=True)
+    price = models.CharField(max_length=100, null=True)
+    number = models.CharField(max_length=10, null=True)
+    date = models.DateField(max_length=100, null=True)
+    bank = models.CharField(max_length=100, null=True)
+    Reg_no = models.CharField(max_length=200,  null=True)
+
+    class Meta:
+        db_table = 'Quantity_Details'
 
 #ROCKETBOT TABLES CREATES HERE
 

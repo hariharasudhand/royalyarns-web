@@ -3,7 +3,10 @@
 <html>
 
 <head>
-    <title>Quotation from Agent {% now "DATE_FORMAT" %} </title>
+    <title>Quotation to Supplier</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
     <!-- <link href="//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
@@ -24,9 +27,6 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
             var showEmailAction = function () {
@@ -490,182 +490,206 @@
     </style>
 
 </head>
-
 <body>
-    
+    <header>
 
-        {% load static %}
-        <div class="topleft">
-            <img src="{% static 'images/RYN_logo.jpeg'%}" alt="no image" max-width="100%" height="100">
-            <h6> 
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;#4 / 32, 7th Cross Street, College Road,</small><br>
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Tirupur - 641602 - INDIA </small><br>
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91 421 2201222, 2247333 </small><br>
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Email: support@rayaalyarns.com </small><br>
-            </h6>
+        <div class="rounded float-start">
+            
+            <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60">
             <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+        
             </div>
-           <!-- <div class="topright">Login as: {{Customer}}&nbsp;&nbsp;
-           <input class="btn btn-primary" id="Logout" type="button" value="Logout"> 
-            <i class="fa fa-sign-out" style="font-size: x-large; color: #fc054f;" ></i></div> -->
-            <div class="topcenter">
-                <blockquote class="blockquote text-right">
-                    <p class="mb-0">Quotation 104 - Page Industires Pvt Ltd </p>
-                    <footer class="blockquote-footer">{% now "DATE_FORMAT" %} <cite title="Source Title">&nbsp;&nbsp;Quotation No : 104</cite></footer>
-                  </blockquote>
-                <h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h2>
-                <h4>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small class="text-muted"></small></h4>
+            <center>
+                <h1>Enquiry Validation </h1>
+            </center>
+        </div>
+        
+                
+                
+                
+    </header>
+    <br><br>
+
+    
+    <form class="row">
+        
+        
+        <div class="col-md-6">
+          <label for="delivery_Schedule" style="margin-left: 10px;" class="form-label">delivery_Schedule</label>
+          <input type="text"style="margin-left: 10px;" class="form-control" id="delivery_Schedule">
+          <label for="payment_term"style="margin-left: 10px;" class="form-label">payment_term</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" id="payment_term">
+          <label for="price" style="margin-left: 10px;" class="form-label">price</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" id="price">
+          <label for="matching_source" style="margin-left: 10px;" class="form-label">matching_source</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" id="matching_source">
+          <label for="buyer" style="margin-left: 10px;" class="form-label">buyer</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" id="buyer">
+          <label for="any_other_specification" style="margin-left: 10px;" class="form-label">any_other_specification</label>
+          <input type="text" class="form-control" style="margin-left: 10px;" id="any_other_specification">
+          <label for="specification_if_no_product_type" style="margin-left: 10px;" class="form-label">specification_if_no_product_type</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" id="specification_if_no_product_type">
+          
+        </div>
+        <div class="col-md-6">
+            <label for="commision" style="margin-left: 10px;" class="form-label">Commision  %</label>
+            <input type="text" style="margin-left: 10px;" class="form-control" id="commision">
+            <label class="form-label" style="padding-top: 20px;margin-left: 10px;">Need Baby Cones For Approval</label>
+            <div class="col">
+                
+                <div class="form-check form-check-inline">
+                <input class="form-check-input" style="margin-left: 10px;" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="yes">
+                <label class="form-check-label" style="margin-left: 10px;" for="inlineRadio1">Yes</label>
+                </div>
+                <div class="form-check form-check-inline">
+                <input class="form-check-input"  style="margin-left: 10px;" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="no">
+                <label class="form-check-label" style="margin-left: 10px;" for="inlineRadio2">no</label>
+                </div>
                 
             </div>
+            <label class="form-label" style="padding-top: 20px;">Required By AIR</label>
+            <div class="col">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio4" value="yes">
+                    <label class="form-check-label" for="inlineRadio1">Yes</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio4" value="no">
+                    <label class="form-check-label" for="inlineRadio2">no</label>
+                    </div>
+
+            </div>
+            
+      
+        </div>
+        
+        <div style="padding-bottom: 40px;">
+    </div>
+
+
+
+
+
+        
+        <div class="col-md-3">
+            <fieldset>
+                <legend style="padding-bottom: 37px; margin-left: 10px;">Fabric Design Wise Qty</legend>
+         
+            <label for="feeder_stripes" style="margin-left: 10px;" class="form-label">feeder_stripes</label>
+            <input type="text"  style="margin-left: 10px;" style="margin-left: 10px;" class="form-control" id="feeder_stripes">
+            <label for="jacaquard" style="margin-left: 10px;" class="form-label">jacaquard</label>
+            <input type="text"  style="margin-left: 10px;" class="form-control" id="jacaquard">
+            <label for="mini_jaq"  style="margin-left: 10px;"class="form-label">mini_jaq</label>
+            <input type="text" style="margin-left: 10px;" class="form-control" id="mini_jaq">
+            <label for="auto_stripes" style="margin-left: 10px;" class="form-label">auto_stripes</label>
+            <input type="text" style="margin-left: 10px;" class="form-control" id="auto_stripes">
+            
+            
+            </fieldset>
+      
+        </div>
+        <div class="col-md-3">
+            <fieldset>
+                <legend>Fabric Structure Wise Qty</legend>
+         
+            <label for="single_jersey" style="margin-top: 39px;" class="form-label">single_jersey</label>
+            <input type="text" class="form-control" id="single_jersey">
+            <label for="p_k" class="form-label">p_k</label>
+            <input type="text" class="form-control" id="p_k">
+            <label for="interlock" class="form-label">interlock</label>
+            <input type="text" class="form-control" id="interlock">
+            <label for="rib" class="form-label">rib</label>
+            <input type="text" class="form-control" id="rib">
+            
+            
+            </fieldset>
+      
+        </div>
+
+        <div class="col-md-3">
+            <fieldset>
+                <legend style="padding-bottom: 37px;">Dyeing Qty</legend>
+         
+            <label for="white" class="form-label">white</label>
+            <input type="text" class="form-control" id="white">
+            <label for="light" class="form-label">light</label>
+            <input type="text" class="form-control" id="light">
+            <label for="medium" class="form-label">medium</label>
+            <input type="text" class="form-control" id="medium">
+            <label for="dark" class="form-label">dark</label>
+            <input type="text" class="form-control" id="dark">
+            
+            
+            </fieldset>
+        </div>
+
+        <div class="col-md-3">
+            <fieldset>
+                <legend style="padding-bottom: 37px;">P/C, C/P Dyeing Qty</legend>
+            <label for="overdyed" class="form-label">overdyed</label>
+            <input type="text" class="form-control" id="overdyed">
+            <label for="white" class="form-label">white</label>
+            <input type="text" class="form-control" id="white">
+            <label for="light" class="form-label">light</label>
+            <input type="text" class="form-control" id="light">
+            <label for="dark" class="form-label">dark</label>
+            <input type="text" class="form-control" id="dark">
+                
+        
+        </fieldset>
+      
+        </div>
+        <fieldset class="row" style='padding-top:30px'>
+            <legend>Advance Details</legend>
+        
+        <div class="col-md-3">
     
-    {% if not Error %}
-    <!-- <div class="col"> -->
-        <div class="text-right">
-            <div  class="btn btn-primary" id="showEmailAction"> Raw Message
+            <label for="Pay_Mode" class="form-label">Pay Mode</label>
+            <div class="col">
+                
+                <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="cheque">
+                <label class="form-check-label" for="inlineRadio1">Cheque</label>
+                </div>
+                <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="demand_draft">
+                <label class="form-check-label" for="inlineRadio2">Demand Draft</label>
+                </div>
+               
             </div>
         </div>
-        <div class="popuptext" style="border:solid 1px;" id="myPopup">
-                <button class='btn btn-danger' style="float: right; cursor: pointer;" id="hidepop"> X </button>
-                <center>{{Email_Details}}</center>
+     
+        <div class="col-md-2">
+           
+            <label for="rs" class="form-label">Rs.</label>
+            <input type="text" class="form-control" id="rs">
         </div>
-        <!-- <div class="card-body"> -->
-        
-            <blockquote class="blockquote text-center">
-                <p class="mb-0">Thank You for your business</p>
-                <p class="mb-0">We have reviewed your enquiry and have the best price   
-                    from </p>
-                <footer class="blockquote-footer">
-                    Vardhman Textiles Limited (Unit-Arihant Spinning Mills)</footer>
-              </blockquote>
-    
-                    
-                        <table id="MyTable" class="table table-striped">
-                           <thead>
-                                <tr>
-                                    <th scope="col">Row_no</th>
-                                    <th scope="col"></th>
-                                    <th scope="col">Counts</th>
-                                    <th scope="col">Quality</th>
-                                    <th scope="col">Type</th>
-                                    <th scope="col">Blend</th>
-                                    <th scope="col">Shade</th>
-                                    <th scope="col">Depth</th>
-                                    <th scope="col">UOM</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Rate</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Last order</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                               
-                                {% for Reg_no in data %}
-                                
-                                <tr>
-                                    
-                                    <th scope="row">{{forloop.counter}} <input type="hidden"  id="DBID{{forloop.counter}}"
-                                        name="DBID{{forloop.counter}}" value="{{Reg_no.id}}" style="width:60px"
-                                    ></th>
-                                    <th scope="row"><input</th>
-                                    
-                                    <td><input type="text" class="form-control" id="Counts{{forloop.counter}}"
-                                            name="Counts{{forloop.counter}}" value="{{Reg_no.Counts}}" style="width:60px"
-                                            {{Quotation_ready}}>
-                                    </td>
-                                    <td><input type="text" class="form-control" id="Quality{{forloop.counter}}"
-                                            name="Quality{{forloop.counter}}" value="{{Reg_no.Quality}}" style="width:60px"
-                                            {{Quotation_ready}}>
-                                    </td>
-                                    <td><input type="text" class="form-control" id="YarnType{{forloop.counter}}"
-                                            name="YarnType{{forloop.counter}}" value="{{Reg_no.Type}}" style="width:100px"
-                                            {{Quotation_ready}}>
-                                    </td>
-                                    <td><input type="text" class="form-control" id="Blend{{forloop.counter}}"
-                                            name="Blend{{forloop.counter}}" value="{{Reg_no.Blend}}" style="width:250px"
-                                            {{Quotation_ready}}>
-                                    </td>
-                                    <td><input type="text" class="form-control" id="Shade{{forloop.counter}}"
-                                            name="Shade{{forloop.counter}}" value="{{Reg_no.Shade}}" style="width:150px"
-                                            {{Quotation_ready}}>
-                                    </td>
-                                    <td> <input type="text" class="form-control" id="Depth{{forloop.counter}}"
-                                            name="Depth{{forloop.counter}}" value="{{Reg_no.Depth}}" style="width:60px"
-                                            {{Quotation_ready}}>
-                                    </td>
-                                    <td><input type="text" class="form-control" id="UOM{{forloop.counter}}"
-                                            name="UOM{{forloop.counter}}" value="{{Reg_no.UOM}}" style="width:60px"
-                                            {{Quotation_ready}}>
-                                    </td>
-                                    <td><input type="text" class="form-control" id="Quantity{{forloop.counter}}"
-                                            name="Quantity{{forloop.counter}}" value="{{Reg_no.Quantity}}" style="width:80px"
-                                            {{Quotation_ready}}>
-                                    </td>
-                                    <td>
-                                       <input type="text" class="form-control col-xs-2" id="Arate{{forloop.counter}}"
-                                        name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:60px" {{Quotation_ready}}>
-                                    </td>
-                                    <td>
-                                     <input type="text" class="form-control col-xs-2" id="Aamount{{forloop.counter}}"
-                                        name="Aamount{{forloop.counter}}" value="{{Reg_no.Agent_Amount}}" style="width:60px" {{Quotation_ready}}>
-                                  </td>
-                                   <td>
-                                      <input type="text" class="form-control col-xs-2" id="Alast_order{{forloop.counter}}"
-                                      name="Alast_order{{forloop.counter}}" value="{{Reg_no.Agent_Last_order}}"
-                                      style="width:80px" {{Quotation_ready}}>
-                                    </td>
-                                </tr>
-                                <td><input type="hidden" class="form-control" id="Rno" name="Rno" value={{vReg_no}}
-                                    readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
-                            </td>
-                                {% endfor %}
-                                <tr class="table-success">
-                                    <td colspan="11" align="right"> Total <small class="text-muted"> INR  ( Excluding GST)</small> </td>
-                                    
-                                <td colspan="1">
-                                    <div class="txtTotalAmount"> </div>
-                                </td>
-                                <td></td>  
 
-                                </tr>
-                                <input type="hidden" id="txtRowCount" name="txtRowCount" value="">
-                                <input type="hidden" name="Rno" id="Rno" value="{{vReg_no}}">
-                            </tbody>
-                        </table>
-                        <br><br>
-                        <form name="RYform" id="RYform" action="/confirmpo" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {% for Reg_no in data %}
-                            <td><input type="hidden" class="form-control" id="Rno" name="Rno" value={{vReg_no}}
-                                readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
-                        </td>
-                        {% endfor %}
-                        <div class="form-group">
-                          <label for="email"> &nbsp;&nbsp;&nbsp;&nbsp;Enter Purcahse Order Num
-                            ber :</label>
-                          &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="form-control" placeholder="Enter PO # " id="txtPONumber"  name="txtPONumber" style="width:160px">
-                        </div>
-                        <div class="form-group">
-                          <label for="pwd"> &nbsp;&nbsp;&nbsp;&nbsp; Attach Purcahse Order PDF:</label>
-                          &nbsp;&nbsp;&nbsp;&nbsp;<input type="file"  name="txtPOPDF" multiple/>
-                          <!-- &nbsp;&nbsp;&nbsp;&nbsp;<label class="custom-file-label" for="inputGroupFile01">Choose</label> -->
-                        </div>
-                        <div class="form-group form-check">
-                            <input class="btn btn-primary" id="saveAndProceed" value="Confirm Order">
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                      <input class="btn btn-primary" id="cancelAction" value=" Cancel ">
-                        </label>
-                        </div>
-                        
-                        
-                        <br>
-                    
-            </form>  
-            <br><br>
+        <div class="col-md-2">
+           
+            <label for="no" class="form-label">No.</label>
+            <input type="text" class="form-control" id="no">
+        </div>
+
+        <div class="col-md-2">
+    
+            <label for="date" class="form-label">Date</label>
+            <input type="date" class="form-control" id="no">
+        </div>
         
-    {% else %}
-    <h2>No data was found</h2>
-    {% endif %}
+        <div class="col-md-3">
+    
+            <label for="bank" class="form-label">Bank</label>
+            <input type="text" class="form-control" id="bank">
+        </div>
+    </fieldset>
+    <div class="col-12">
+        <button style="margin-top:10px" type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+
+
+
 
 </body>
 
