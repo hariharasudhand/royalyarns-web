@@ -1,0 +1,7 @@
+## CURRENT RELEASE - TIO-1
+## KNOWN ISSUES
+
+1. Need a better graph library, tio-1 we will use chartjs, may have some limitations - will be revisted post release 3
+
+2. 
+
