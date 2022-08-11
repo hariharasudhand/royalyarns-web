@@ -4,7 +4,8 @@ import smtplib
 from .DAO import DAO
 from django.core.mail import EmailMessage
 from django.conf import settings
-
+from django.contrib.sites.shortcuts import get_current_site
+import base64
 class EMAIL_UTIL:
 
     server_ssl = None
@@ -62,5 +63,17 @@ class EMAIL_UTIL:
         mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['dhineshofficial99@gmail.com'])
         for f in files:
             mail.attach(f.name, f.read(), f.content_type)
+        mail.send()
+        return True
+
+    def send_activation_code(self, email):
+        sample_string_bytes = email.encode("ascii")
+        base64_bytes = base64.b64encode(sample_string_bytes)
+        base64_string = base64_bytes.decode("ascii")
+        subject='activation mail'
+        email_list=[]
+        email_list.append(email)
+        message='Hi,'+'\nPlease click on the link to confirm your registration, ' +'\nhttp://127.0.0.1:8000/activate/'+base64_string
+        mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER,email_list)
         mail.send()
         return True

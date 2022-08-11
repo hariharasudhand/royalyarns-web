@@ -16,7 +16,7 @@ from .models import User_Details, Upload_Data, RY_Enquiry_Header
 from .DAO import DAO
 from .DispatchDAO import DispatchDAO
 from django.urls import reverse
-
+from django.http import HttpResponse 
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
@@ -30,6 +30,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
+import random
+
+
 
 vDAO = DAO("dao")
 vDispatchDAO = DispatchDAO("DispatchDAO")
@@ -435,13 +438,19 @@ def register(request):
         vPassword = request.POST.get("Password")
         vCPassword = request.POST.get("CPassword")
 
-    # if User_Details.objects.filter(UserName=vUserMail).exists:
-    #     messages.info(request,'Alumni register number already Stored')
-    #     return render(request,'app/ryn_login1.html')
+    if User_Details.objects.filter(UserName=vUserMail).exists():
+        messages.info(request,'email address already exists')
+        return render(request,'app/ryn_login.html')
     
     if vPassword==vCPassword:
+        
         vDAO.StoreUserDetails(vUserMail, vCPassword)
-        response = redirect('/')
+        emailComp = EMAIL_UTIL()
+        emailComp.send_activation_code(vUserMail)
+
+        return HttpResponse('Please confirm your email address to complete the registration')  
+        
+
     
     else:
         messages.success(request,"Password are not same")
@@ -473,3 +482,11 @@ def quantityCheck(request):
 
 def quantityCheck(request):
     return render(request, 'app/ryn_quantity.html')
+
+def activate(request,id1):
+    msg=vDAO.ActivateUserDetails(id1)
+    if msg == True:
+        messages.info(request,'your profile is under verification')
+        return render(request,'app/ryn_login.html')
+    else:
+         return HttpResponse('Invalid Activation')

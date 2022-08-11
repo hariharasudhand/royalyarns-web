@@ -2,6 +2,7 @@ from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_
 from django.db.models import Q
 from .ExcelUtlis import ExcelUtlis
 
+import base64
 
 class DAO:
 
@@ -204,3 +205,14 @@ class DAO:
     def StoreUserDetails(self, vUserMail, vPassword):
         RyNewUser=User_Details(UserName=vUserMail, Password=vPassword)
         RyNewUser.save()
+    def ActivateUserDetails(self, id1):
+        base64_string =id1
+        base64_bytes = base64_string.encode("ascii")
+        sample_string_bytes = base64.b64decode(base64_bytes)
+        sample_string = sample_string_bytes.decode("ascii")
+        res=User_Details.objects.get(UserName=sample_string)
+        if res is not None:
+            User_Details.objects.filter(UserName=sample_string).update(Status=True)
+            return True
+        else:
+            return False
