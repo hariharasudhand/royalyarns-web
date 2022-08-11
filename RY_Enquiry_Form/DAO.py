@@ -151,12 +151,12 @@ class DAO:
                                          Status=vStatus, CreatedByUser='RPABOT', LastUpdateby=vUserID, LastUpdateddate=vNow)
             ryNewItem.save()
 
-    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow, vPONumber, vPOPdf, vPO_Date, vRev_date):
+    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow):
         # TO:DO Header is always an update - this has to check if there is a change only then this should be
         # updated
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
             Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=vStatus, LastUpdateby=vUser,
-            LastUpdateddate=vNow, Po_Number=vPONumber, Po_Date=vPO_Date, Po_PDF=vPOPdf, Po_RevDate=vRev_date)
+            LastUpdateddate=vNow)
     def StoreComments(self, vComments, vReg_no, vUserID, vDT, vComments_to):
         customer_comments.objects.create(
             Comments=vComments, Reg_no=vReg_no, Commments_to=vComments_to, DT=vDT, CreatedByUser=vUserID, Created_Date=vDT)

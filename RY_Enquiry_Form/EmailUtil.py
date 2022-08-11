@@ -59,7 +59,7 @@ class EMAIL_UTIL:
         return True
 
     def send_po(self, subject, message, files):
-        mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['guru.prasath@weeroda.com'])
+        mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['dhineshofficial99@gmail.com'])
         for f in files:
             mail.attach(f.name, f.read(), f.content_type)
         mail.send()
