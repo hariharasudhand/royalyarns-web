@@ -429,9 +429,29 @@ def logout(request):
 
     return response
 
+def register(request):
+    if request.method == "POST":
+        vUserMail = request.POST.get("Uname")
+        vPassword = request.POST.get("Password")
+        vCPassword = request.POST.get("CPassword")
+
+    # if User_Details.objects.filter(UserName=vUserMail).exists:
+    #     messages.info(request,'Alumni register number already Stored')
+    #     return render(request,'app/ryn_login1.html')
+    
+    if vPassword==vCPassword:
+        vDAO.StoreUserDetails(vUserMail, vCPassword)
+        response = redirect('/')
+    
+    else:
+        messages.success(request,"Password are not same")
+        return render(request,'app/ryn_login1.html')
+    
+    
+    
 
 def login(request):
-    return render(request, 'app/ryn_login.html')
+    return render(request, 'app/ryn_login1.html')
 
 
 def UploadExcel(request):

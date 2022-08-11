@@ -106,10 +106,11 @@ class RY_Enquiry_Header(models.Model):
 
 
 class User_Details(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     UserName = models.TextField(max_length=200,  null=True)
     Password = models.TextField(max_length=200,  null=True)
     Role = models.TextField(max_length=200,  null=True)
+    Status =  models.BooleanField(default=False)
    
 
     class Meta:

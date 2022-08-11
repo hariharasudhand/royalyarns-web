@@ -12,6 +12,7 @@ urlpatterns = [
     path('confirmpo', views.confirmpo, name='confirmpo'),
     path('UploadExcel', views.UploadExcel, name='UploadExcel'),
     path('quantityCheck', views.quantityCheck, name='quantityCheck'),
+    path('register', views.register, name='register'),
 
 ]
  

@@ -199,4 +199,8 @@ class DAO:
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Po_Number=vPONumber, Po_PDF=list, Po_Date=vPO_Date,
                                                                 Po_RevDate=vRev_date, Status= '7')
         RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status= '7')
-        
+
+
+    def StoreUserDetails(self, vUserMail, vPassword):
+        RyNewUser=User_Details(UserName=vUserMail, Password=vPassword)
+        RyNewUser.save()
