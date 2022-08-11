@@ -16,7 +16,7 @@ from .models import User_Details, Upload_Data, RY_Enquiry_Header
 from .DAO import DAO
 from .DispatchDAO import DispatchDAO
 from django.urls import reverse
-from django.http import HttpResponse 
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
@@ -31,7 +31,6 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import random
-
 
 
 vDAO = DAO("dao")
@@ -91,9 +90,7 @@ def index(request):
         # Fetch Comments associated with the RegNo (Registation Number)
         ##
         data3 = vDAO.GetComments(vReg_no, vLoggedInRole)
- 
-        
-        
+
         if request.method == 'POST':
 
             # data = RY_Enquiry_Items.objects.filter(Reg_no=vReg_no)
@@ -164,9 +161,9 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
 
             # Supplier Entered Rates
             vRate = request.POST.get('Rate'+str(vRowIndex))
-            print('vrate is printing',vRate)
+            print('vrate is printing', vRate)
             vAmount = request.POST.get('Amount'+str(vRowIndex))
-            print('vrate is printing',vAmount)
+            print('vrate is printing', vAmount)
             vLast_order = request.POST.get('Last_order'+str(vRowIndex))
 
             # Agent ReEntered Rates
@@ -201,7 +198,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
                                       vShade, vDepth, vUOM, vQuantity, vRate, vAmount,
                                       vLast_order, vStatus, 0, vARate, vAAmount, vALast_order,
                                       vUserID, vNow)
-        print('testing',vStatus)
+        print('testing', vStatus)
         vDAO.StoreEnquiryHeader(vReg_no, vMill, vDate,
                                 vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUserID, vNow)
 
@@ -233,8 +230,8 @@ def __command_update(request, vReg_no):
         vDAO.StoreComments(vComments, vReg_no, vUserID, vDT, vComments_to)
         # messages.success(request, 'Form successfully submitted')
         emailComp = EMAIL_UTIL()
-        emailComp.send_group('supplier-only', 'test subject',
-                             'dear user this is a test message')
+        emailComp.send_group('supplier-only', 'New Alert From '+vUserID + ' for Enquiry  : '+vReg_no,
+                             'Dear  User , User : '+vUserID+' has posted a new comment \n  - click link to view more \r'+request.path)
 
         return http.HttpResponseRedirect('')
 
@@ -271,33 +268,32 @@ def confirmpo(request):
     if request.COOKIES.get('role') == None:
         return render(request, 'app/ryn_login.html')
 
-        
     if request.method == 'POST':
         vReg_no = request.POST.get('Rno')
         vPONumber = request.POST.get('txtPONumber')
-        list=[] #myfile is the key of a multi value dictionary, values are the uploaded files
-        file=request.FILES.getlist('txtPOPDF')
-        for f in request.FILES.getlist('txtPOPDF'): #myfile is the name of your html file button
-            vFiles=RY_Enquiry_Header.objects.get(Reg_no=vReg_no)
-            print("@@@@@@@@@@@@",vReg_no)
-            vFiles.Po_PDF=f
+        list = []  # myfile is the key of a multi value dictionary, values are the uploaded files
+        file = request.FILES.getlist('txtPOPDF')
+        # myfile is the name of your html file button
+        for f in request.FILES.getlist('txtPOPDF'):
+            vFiles = RY_Enquiry_Header.objects.get(Reg_no=vReg_no)
+            print("@@@@@@@@@@@@", vReg_no)
+            vFiles.Po_PDF = f
             print(vFiles)
             vFiles.save()
             #RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update( Po_PDF=f)
             filename = f.name
             list.append(filename)
         print("This is the multiple PDF Name", list)
-        
+
         vPO_Date = datetime.now()
         vRev_date = datetime.now()
-        
+
         vDAO.UpdateEnquiryHeader(vReg_no, vPONumber, list, vPO_Date, vRev_date)
         emailComp = EMAIL_UTIL()
-        emailComp.send_po('test subject','po.no'+vPONumber,file)
+        emailComp.send_po('test subject', 'po.no'+vPONumber, file)
         print("email was send successfully")
-        
+
         return render(request, 'app/ryn.html')
-    
 
 
 def __handle_uploaded_file(f):
@@ -326,7 +322,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             Mill = item.Mill
             #Customer = item.Customer
             # Item Status >= 3 is for Supplier to enter Rates
-            vStatus = int(item.Status)                                  
+            vStatus = int(item.Status)
             print("status in view :", vStatus)
 
             vUserAction = vDAO.GetUserActionByRole(vLoggedInRole, vStatus)
@@ -432,6 +428,7 @@ def logout(request):
 
     return response
 
+
 def register(request):
     if request.method == "POST":
         vUserMail = request.POST.get("Uname")
@@ -439,28 +436,24 @@ def register(request):
         vCPassword = request.POST.get("CPassword")
 
     if User_Details.objects.filter(UserName=vUserMail).exists():
-        messages.info(request,'email address already exists')
-        return render(request,'app/ryn_login.html')
-    
-    if vPassword==vCPassword:
-        
+        messages.info(request, 'email address already exists')
+        return render(request, 'app/ryn_login.html')
+
+    if vPassword == vCPassword:
+
         vDAO.StoreUserDetails(vUserMail, vCPassword)
         emailComp = EMAIL_UTIL()
         emailComp.send_activation_code(vUserMail)
 
-        return HttpResponse('Please confirm your email address to complete the registration')  
-        
+        return HttpResponse('Please confirm your email address to complete the registration')
 
-    
     else:
-        messages.success(request,"Password are not same")
-        return render(request,'app/ryn_login1.html')
-    
-    
-    
+        messages.success(request, "Password are not same")
+        return render(request, 'app/ryn_login.html')
+
 
 def login(request):
-    return render(request, 'app/ryn_login1.html')
+    return render(request, 'app/ryn_login.html')
 
 
 def UploadExcel(request):
@@ -474,19 +467,22 @@ def UploadExcel(request):
         vDispatchDAO.StoreUpload_Data(vUpload, vDate, vUser)
     return render(request, 'app/ryn.html')
 
+
 def quantityCheck(request):
     if request.COOKIES.get('role') == None:
         return render(request, 'app/ryn_login.html')
     else:
         return render(request, 'app/ryn_quantity.html')
 
+
 def quantityCheck(request):
     return render(request, 'app/ryn_quantity.html')
 
-def activate(request,id1):
-    msg=vDAO.ActivateUserDetails(id1)
+
+def activate(request, id1):
+    msg = vDAO.ActivateUserDetails(id1)
     if msg == True:
-        messages.info(request,'your profile is under verification')
-        return render(request,'app/ryn_login.html')
+        messages.info(request, 'your profile is under verification')
+        return render(request, 'app/ryn_login.html')
     else:
-         return HttpResponse('Invalid Activation')
+        return HttpResponse('Invalid Activation')

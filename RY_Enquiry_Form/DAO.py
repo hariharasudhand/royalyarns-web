@@ -1,8 +1,9 @@
-from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data, purchase
+from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data, purchase, Email_Distribution_Groups
 from django.db.models import Q
 from .ExcelUtlis import ExcelUtlis
 
 import base64
+
 
 class DAO:
 
@@ -158,6 +159,7 @@ class DAO:
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
             Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=vStatus, LastUpdateby=vUser,
             LastUpdateddate=vNow)
+
     def StoreComments(self, vComments, vReg_no, vUserID, vDT, vComments_to):
         customer_comments.objects.create(
             Comments=vComments, Reg_no=vReg_no, Commments_to=vComments_to, DT=vDT, CreatedByUser=vUserID, Created_Date=vDT)
@@ -178,6 +180,21 @@ class DAO:
 
         return User_Role_Action.objects.filter(Upload_file=Upload)
 
+    def GetGroupEmailList(self, vGroupName):
+
+        vQueryResult = Email_Distribution_Groups.objects.filter(
+            GroupName=vGroupName)
+        print("GroupIDs", vQueryResult[0].GroupUsersID)
+        print("Status", vQueryResult[0].Status)
+        if (vQueryResult[0].GroupUsersID != None):
+            vIDs = vQueryResult[0].GroupUsersID.split(",")
+            vEmailIDs = []
+            for vID in vIDs:
+                vQueryUserDetails = User_Details.objects.filter(id=vID)
+                vEmailIDs.append(vQueryUserDetails)
+
+        return vEmailIDs
+
     #
     # Upload for ExcelFile
     #
@@ -186,8 +203,6 @@ class DAO:
         vExcelFileURL = "D:/work/royalyarns-web/media/"+vExcelPath.name
         print('Processing Upload Excel File Name : ', vExcelFileURL)
 
-        
-
         Upload_Data.objects.create(
             Upload_file=vExcelPath, Date=vDate, Upload_by=vUser, Upload_Status='1', Process_Status='0'
         )
@@ -195,24 +210,24 @@ class DAO:
         print("Excel File Uploaded in location : ", vExcelFileURL)
         print(excelUtil.GetInsertQueryList(vExcelFileURL))
 
-
     def UpdateEnquiryHeader(self, vReg_no, vPONumber, list, vPO_Date, vRev_date):
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Po_Number=vPONumber, Po_PDF=list, Po_Date=vPO_Date,
-                                                                Po_RevDate=vRev_date, Status= '7')
-        RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status= '7')
-
+                                                                Po_RevDate=vRev_date, Status='7')
+        RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status='7')
 
     def StoreUserDetails(self, vUserMail, vPassword):
-        RyNewUser=User_Details(UserName=vUserMail, Password=vPassword)
+        RyNewUser = User_Details(UserName=vUserMail, Password=vPassword)
         RyNewUser.save()
+
     def ActivateUserDetails(self, id1):
-        base64_string =id1
+        base64_string = id1
         base64_bytes = base64_string.encode("ascii")
         sample_string_bytes = base64.b64decode(base64_bytes)
         sample_string = sample_string_bytes.decode("ascii")
-        res=User_Details.objects.get(UserName=sample_string)
+        res = User_Details.objects.get(UserName=sample_string)
         if res is not None:
-            User_Details.objects.filter(UserName=sample_string).update(Status=True)
+            User_Details.objects.filter(
+                UserName=sample_string).update(Status=True)
             return True
         else:
             return False
