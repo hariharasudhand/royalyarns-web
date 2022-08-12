@@ -454,13 +454,13 @@ def register(request):
     
     else:
         messages.success(request,"Password are not same")
-        return render(request,'app/ryn_login1.html')
+        return render(request,'app/ryn_login.html')
     
     
     
 
 def login(request):
-    return render(request, 'app/ryn_login1.html')
+    return render(request, 'app/ryn_login.html')
 
 
 def UploadExcel(request):

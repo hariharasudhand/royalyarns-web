@@ -128,7 +128,7 @@ class DAO:
 
     def GetUserInfo(self, vUser, vPassword):
         return User_Details.objects.filter(
-            UserName=vUser, Password=vPassword)
+            UserName=vUser, Password=vPassword,Role__isnull=False)
     ##
 
     # StoreEnquiry wrapper method that
