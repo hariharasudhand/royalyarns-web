@@ -503,9 +503,7 @@ def roleassigned(request):
         vUSER = request.POST.get("UserName")
         vROLE = request.POST.get("Role")
         vGRP = request.POST.get("GroupName")
-        context=User_Details.objects.get(UserName=vUSER)
-        context.Role=vROLE
-        context.save()
+        context=User_Details.objects.get(UserName=vUSER).update(ROLE=vROLE)
         context1=Email_Distribution_Groups.objects.get(GroupName=vGRP)
         old=context1.GroupUsersID
         new=str(context.id)
@@ -519,7 +517,6 @@ def roleassigned(request):
 def groupassigned(request):
      if request.method == "POST":
         vGRP = request.POST.get("GroupName")
-        print(vGRP)
         Email_Distribution_Groups.objects.create(GroupName=vGRP,Status=True)
 
         return HttpResponseRedirect('/group')

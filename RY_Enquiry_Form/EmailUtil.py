@@ -6,6 +6,8 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 import base64
+
+
 class EMAIL_UTIL:
 
     server_ssl = None
@@ -39,7 +41,7 @@ class EMAIL_UTIL:
 
     def send_group(self, GroupName, subjectText, emailBodyText):
         global server_ssl
-        
+
         vDAO = DAO("dao")
 
         # vGroupEmailList will return a list of email id of that group which should be
@@ -50,17 +52,18 @@ class EMAIL_UTIL:
         print("########################", vGroupEmailList)
         if (server_ssl != None):
             for vQueryData in vGroupEmailList:
-                print("sending email to ", vQueryData[0].UserName)    
-            
+                print("sending email to ", vQueryData[0].UserName)
+
                 server_ssl.sendmail(fmail, vQueryData[0].UserName, msg)
-                
-            #server_ssl.close()
+
+            # server_ssl.close()
             return True
             # self.send_single(vQueryData[0].UserName, subjectText, emailBodyText)
         return True
 
     def send_po(self, subject, message, files):
-        mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, ['dhineshofficial99@gmail.com'])
+        mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [
+                            'dhineshofficial99@gmail.com'])
         for f in files:
             mail.attach(f.name, f.read(), f.content_type)
         mail.send()
@@ -70,10 +73,12 @@ class EMAIL_UTIL:
         sample_string_bytes = email.encode("ascii")
         base64_bytes = base64.b64encode(sample_string_bytes)
         base64_string = base64_bytes.decode("ascii")
-        subject='activation mail'
-        email_list=[]
+        subject = 'activation mail'
+        email_list = []
         email_list.append(email)
-        message='Hi,'+'\nPlease click on the link to confirm your registration, ' +'\nhttp://127.0.0.1:8000/activate/'+base64_string
-        mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER,email_list)
+        message = 'Hi,'+'\nPlease click on the link to confirm your registration, ' + \
+            '\nhttp://127.0.0.1:8000/activate/'+base64_string
+        mail = EmailMessage(
+            subject, message, settings.EMAIL_HOST_USER, email_list)
         mail.send()
         return True
