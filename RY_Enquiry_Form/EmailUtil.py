@@ -2,10 +2,11 @@ from django.core.mail import send_mail
 from django.template import loader
 import smtplib
 from .DAO import DAO
-from django.core.mail import EmailMessage
+#from django.core.mail import EmailMessage
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 import base64
+from django.core.mail import EmailMultiAlternatives
 
 
 class EMAIL_UTIL:
@@ -46,23 +47,23 @@ class EMAIL_UTIL:
 
         # vGroupEmailList will return a list of email id of that group which should be
         # looped and call sendmail method
-        fmail = "guru2611199@gmail.com"
-        msg = 'Subject: {}\n\n{}'.format(subjectText, emailBodyText)
+
+        subject = subjectText
+        email_list = []
+        
+        message = ''
         vGroupEmailList = vDAO.GetGroupEmailList(GroupName)
-        print("########################", vGroupEmailList)
-        if (server_ssl != None):
-            for vQueryData in vGroupEmailList:
+        for vQueryData in vGroupEmailList:
                 print("sending email to ", vQueryData[0].UserName)
-
-                server_ssl.sendmail(fmail, vQueryData[0].UserName, msg)
-
-            # server_ssl.close()
-            return True
+                email_list.append(vQueryData[0].UserName)
+        mail = EmailMultiAlternatives(subject, message, settings.EMAIL_HOST_USER, email_list)
+        mail.attach_alternative(emailBodyText, 'text/html')
+        mail.send()
             # self.send_single(vQueryData[0].UserName, subjectText, emailBodyText)
         return True
 
     def send_po(self, subject, message, files):
-        mail = EmailMessage(subject, message, settings.EMAIL_HOST_USER, [
+        mail = EmailMultiAlternatives(subject, message, settings.EMAIL_HOST_USER, [
                             'dhineshofficial99@gmail.com'])
         for f in files:
             mail.attach(f.name, f.read(), f.content_type)
@@ -78,7 +79,7 @@ class EMAIL_UTIL:
         email_list.append(email)
         message = 'Hi,'+'\nPlease click on the link to confirm your registration, ' + \
             '\nhttp://127.0.0.1:8000/activate/'+base64_string
-        mail = EmailMessage(
+        mail = EmailMultiAlternatives(
             subject, message, settings.EMAIL_HOST_USER, email_list)
         mail.send()
         return True

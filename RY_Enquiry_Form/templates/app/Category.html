@@ -1,0 +1,215 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terata Enquiry Category Form</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+input[type=text], select {
+  width: 200%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+select {
+  width: 200%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input[type=password], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input[type=date], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+
+input[type=email], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+input[type=submit] {
+  width: 50%;
+  background-color: #4b8af1;
+  color: white;
+  padding: 14px 20px;
+  margin-left: 85%;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #2975f0;
+}
+input[type=reset] {
+  width: 25%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=reset]:hover {
+  background-color: #45a049;
+}
+
+.active {
+  background-color: #42B1F9;
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+    
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.row {
+  display: flex;
+}
+
+/* Left column (menu) */
+.left {
+  flex: 50%;
+  padding-left: 250px;
+
+}
+
+
+
+/* Right column (page content) */
+.right {
+  flex: 50%;
+  padding-left: 100px;
+}
+.userCircle {
+            border-radius: 50%;
+            background: #289c34;
+            border: 1px solid #289c34;
+            color: #e6f2ea;
+            text-align: center;
+            display: block;
+            margin: 0px;
+            position: relative;
+            height: 42px;
+            width: 42px;
+            z-index: 0;
+            font: 32px  Courier New;
+        }
+        .topright {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 18px;
+        }
+</style>
+<body>
+    <!--Start Header file for the Page-->
+    <header>
+
+        <div class="rounded float-start">
+            
+            <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60">
+            <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+            </div>
+            <center>
+                <h1>Data Entry </h1>
+            </center>
+        </div>            
+    </header>
+    <br><br>
+    
+    <!-- End of the header -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Royal Yarns</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="/dashboard">Groups</a></li>
+            <li><a href="AssignRole">Assign Role</a></li>
+            
+          </ul>
+        </div>
+      </nav>
+    <div style="padding-bottom: 80px;">
+    </div>
+    <div class="row">
+        <div class="left">
+            <form  name="RYLogin" id="RYLogin" method="POST" action="/Grouping">
+                {% csrf_token %}
+                <!--Start of Left side entry column-->
+                <div class="col-md-6">
+                    <div class="form-group" style="margin-left: 10%;width: 100%;">
+                        <label for="GroupName">Entry the Group Name</label>
+                        <input type="text" name="GroupName" class="form-control" id="GroupName" aria-describedby="emailHelp" placeholder="Enter the Group Name">
+                    </div>
+                    <input class="btn btn-primary" style="margin-left: 160%;" type="submit" value="Submit">
+                </div>
+            </div>
+        </form>
+        <!--End of Left side entry column-->
+        <!--Start Right side entry column-->
+        
+        <div class="right">
+            <form  name="RYLogin" id="RYLogin" method="POST" action="/GroupingName">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    <div class="form-group" style="width: 100%;">
+                        <label for="sel1">Select the Group Name:</label>
+                        <select class="form-control" style="width: 150%;" id="sel1" name="GroupName">
+                        </select>
+                    </div>
+                    <div class="form-group" style="width: 70%;">
+                        <label for="sel1">Select the member to Add the group:</label>
+                        <select class="form-control" style="width: 215%;" id="sel1" name="Members">
+                        </select>
+                    </div>
+                    <input class="btn btn-primary" style="margin-left: 100%; " type="submit" value="Submit">
+                </div>
+            </div>
+        </form>
+        </div>
+        
+        <!--End Right side entry column-->   
+</body>
+</html>

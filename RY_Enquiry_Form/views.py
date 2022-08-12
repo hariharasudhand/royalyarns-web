@@ -31,6 +31,8 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import random
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 
 
@@ -232,9 +234,12 @@ def __command_update(request, vReg_no):
 
         vDAO.StoreComments(vComments, vReg_no, vUserID, vDT, vComments_to)
         # messages.success(request, 'Form successfully submitted')
+        html_content = render_to_string("app/emailmessage.html",{'vUserID':vUserID,'vReg_no':vReg_no})
+        text_content = strip_tags(html_content)
+        # print(text_content)
+        # print(html_content)
         emailComp = EMAIL_UTIL()
-        emailComp.send_group('supplier-only', 'test subject',
-                             'dear user this is a test message')
+        emailComp.send_group('supplier-only', 'testmessage', html_content)
 
         return http.HttpResponseRedirect('')
 
