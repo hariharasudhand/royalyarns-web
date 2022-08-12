@@ -12,7 +12,7 @@ from django import http
 from psycopg2 import Date
 from django.http import HttpResponseRedirect
 from .forms import Ry_En_Form, Ry_En_Header, User_Form, Comment_Form
-from .models import User_Details, Upload_Data, RY_Enquiry_Header
+from .models import User_Details, Upload_Data, RY_Enquiry_Header,Email_Distribution_Groups
 from .DAO import DAO
 from .DispatchDAO import DispatchDAO
 from django.urls import reverse
@@ -490,3 +490,36 @@ def activate(request,id1):
         return render(request,'app/ryn_login.html')
     else:
          return HttpResponse('Invalid Activation')
+def assignrole(request):
+    context=User_Details.objects.filter(Role=None)
+    context1=Email_Distribution_Groups.objects.all()
+    return render(request, 'app/addrole.html',{'context':context,'context1':context1})
+def group(request):
+    context1=Email_Distribution_Groups.objects.all()
+    return render(request, 'app/group.html',{'context1':context1})
+
+def roleassigned(request):
+     if request.method == "POST":
+        vUSER = request.POST.get("UserName")
+        vROLE = request.POST.get("Role")
+        vGRP = request.POST.get("GroupName")
+        context=User_Details.objects.get(UserName=vUSER)
+        context.Role=vROLE
+        context.save()
+        context1=Email_Distribution_Groups.objects.get(GroupName=vGRP)
+        old=context1.GroupUsersID
+        new=str(context.id)
+        if old is None:
+            context1.GroupUsersID=new
+        else:
+            context1.GroupUsersID=old+','+new
+        context1.save()
+
+        return HttpResponseRedirect('/assignrole')
+def groupassigned(request):
+     if request.method == "POST":
+        vGRP = request.POST.get("GroupName")
+        print(vGRP)
+        Email_Distribution_Groups.objects.create(GroupName=vGRP,Status=True)
+
+        return HttpResponseRedirect('/group')

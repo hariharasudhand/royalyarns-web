@@ -14,6 +14,9 @@ urlpatterns = [
     path('quantityCheck', views.quantityCheck, name='quantityCheck'),
     path('register', views.register, name='register'),
     path('activate/<str:id1>', views.activate, name='activate'),
-
+    path('assignrole', views.assignrole, name='assignrole'),
+    path('group', views.group, name='group'),
+    path('roleassigned', views.roleassigned, name='roleassigned'),
+    path('groupassigned', views.groupassigned, name='groupassigned'),
 ]
  
