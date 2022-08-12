@@ -5,7 +5,7 @@ import re
 from unicodedata import name
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import AuthenticationForm
-from ast import Store
+from ast import Return, Store
 from dataclasses import dataclass
 from django.shortcuts import redirect, render
 from django import http
@@ -255,7 +255,7 @@ def ryn2(request):
     if request.COOKIES.get('role') == None:
         return render(request, 'app/ryn_login.html')
 
-    res = User_Details.objesct.get(id=id)
+    res = User_Details.objects.get(id=id)
     return render(request, 'app/ryn2.html', {'det': res})
 
 
@@ -329,6 +329,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             Mill_Rep = item.Mill_Rep
             Marketing_Zone = item.Marketing_Zone
             Mill = item.Mill
+            Customer = item.Customer
             #Customer = item.Customer
             # Item Status >= 3 is for Supplier to enter Rates
             vStatus = int(item.Status)                                  
@@ -345,10 +346,10 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'supplier'):
                 Supplier_Fileds = ''
                 Default_Enq_Fileds = 'readonly'
-            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'supplier') and (vStatus >= 5):
+            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'supplier') and (vStatus >= 4):
                 Default_Enq_Fileds = 'readonly'
                 Quotation_ready = 'readonly'
-            elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'agent') and (vStatus >= 5):
+            elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'agent') and (vStatus >= 4):
                 Default_Enq_Fileds = 'readonly'
             else:
                 Default_Enq_Fileds = ''
@@ -374,6 +375,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             'Mill_Rep': Mill_Rep,
             'Marketing_Zone': Marketing_Zone,
             'Mill': Mill,
+            'Customer': Customer,
             'Default_Enq_Fileds': Default_Enq_Fileds,
             'Supplier_Fileds': Supplier_Fileds,
             'Quotation_ready': Quotation_ready,
@@ -525,3 +527,42 @@ def groupassigned(request):
         Email_Distribution_Groups.objects.create(GroupName=vGRP,Status=True)
 
         return HttpResponseRedirect('/group')
+
+def QuantityStore(request):
+    if request.method == "POST":
+        vDelivery = request.POST.get("Delivery")
+        vPayment = request.POST.get("Payment")
+        vPrice = request.POST.get("Price")
+        vMatching = request.POST.get("Matching")
+        vBuyer = request.POST.get("Buyer")
+        vOtherSpecification = request.POST.get("OtherSpecification")
+        vSpecification = request.POST.get("Specification")
+        vCommision = request.POST.get("Commision")
+        vApprovel = request.POST.get("Approvel")
+        vRequired = request.POST.get("Required")
+        vFeeder =request.POST.get("Feeder")
+        vJacaquard = request.POST.get("Jacaquard")
+        vMini_jaq = request.POST.get("Mini_jaq")
+        vAuto_stripes = request.POST.get("Auto_stripes")
+        vSingle_jersey = request.POST.get("Single_jersey")
+        vP_K = request.POST.get("P_K")
+        vInterlock = request.POST.get("Interlock")
+        vRib = request.POST.get("Rib")
+        vWhite = request.POST.get("White")
+        vLight = request.POST.get("Light")
+        vMedium = request.POST.get("Medium")
+        vDark = request.POST.get("Dark")
+        vOverdyed = request.POST.get("Overdyed")
+        vWhite1 = request.POST.get("White1")
+        vLight1 = request.POST.get("Light1")
+        vDark1 = request.POST.get("Dark1")
+        vPayMode = request.POST.get("PayMode")
+        vRupees = request.POST.get("Rupees")
+        vNumbers1 = request.POST.get("Numbers1")
+        vDate = request.POST.get("Date")
+        vBank = request.POST.get("Bank")
+        vDAO.StoreQuantity(vDelivery, vPayment, vPrice, vMatching, vBuyer, vOtherSpecification, vSpecification,
+                        vCommision, vApprovel, vRequired, vFeeder, vJacaquard, vMini_jaq, vAuto_stripes, vSingle_jersey, vP_K,vInterlock,
+                        vRib, vWhite, vLight, vMedium, vDark, vOverdyed, vWhite1, vLight1, vDark1, vPayMode, vRupees, vNumbers1, vDate, vBank)
+        return render(request, 'app/ryn_quantity.html')
+    

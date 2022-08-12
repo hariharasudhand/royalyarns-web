@@ -511,51 +511,52 @@
     <br><br>
 
     
-    <form class="row">
-        
+    <form name="RYform" id="RYform" action="/QuantityStore" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">    
         
         <div class="col-md-6">
-          <label for="delivery_Schedule" style="margin-left: 10px;" class="form-label">delivery_Schedule</label>
-          <input type="text"style="margin-left: 10px;" class="form-control" id="delivery_Schedule">
-          <label for="payment_term"style="margin-left: 10px;" class="form-label">payment_term</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" id="payment_term">
-          <label for="price" style="margin-left: 10px;" class="form-label">price</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" id="price">
+          <label for="delivery_Schedule" style="margin-left: 10px;" class="form-label">delivery Schedule:</label>
+          <input type="text"style="margin-left: 10px;" class="form-control" name="Delivery" id="delivery">
+          <label for="payment_term"style="margin-left: 10px;" class="form-label">payment term:</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" name="Payment" id="payment_term">
+          <label for="price" style="margin-left: 10px;" class="form-label">price:</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" name="Price" id="price">
           <label for="matching_source" style="margin-left: 10px;" class="form-label">matching_source</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" id="matching_source">
+          <input type="text" style="margin-left: 10px;" class="form-control" name="Matching" id="matching_source">
           <label for="buyer" style="margin-left: 10px;" class="form-label">buyer</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" id="buyer">
+          <input type="text" style="margin-left: 10px;" class="form-control" name="Buyer" id="buyer">
           <label for="any_other_specification" style="margin-left: 10px;" class="form-label">any_other_specification</label>
-          <input type="text" class="form-control" style="margin-left: 10px;" id="any_other_specification">
+          <input type="text" class="form-control" style="margin-left: 10px;" name="OtherSpecification" id="any_other_specification">
           <label for="specification_if_no_product_type" style="margin-left: 10px;" class="form-label">specification_if_no_product_type</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" id="specification_if_no_product_type">
+          <input type="text" style="margin-left: 10px;" class="form-control" name="Specification" id="specification_if_no_product_type">
           
         </div>
         <div class="col-md-6">
             <label for="commision" style="margin-left: 10px;" class="form-label">Commision  %</label>
-            <input type="text" style="margin-left: 10px;" class="form-control" id="commision">
+            <input type="text" style="margin-left: 10px;" class="form-control" name="Commision" id="commision">
             <label class="form-label" style="padding-top: 20px;margin-left: 10px;">Need Baby Cones For Approval</label>
             <div class="col">
                 
                 <div class="form-check form-check-inline">
-                <input class="form-check-input" style="margin-left: 10px;" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="yes">
-                <label class="form-check-label" style="margin-left: 10px;" for="inlineRadio1">Yes</label>
+                <input class="form-check-input" style="margin-left: 10px;" type="radio" name="Approvel" id="Approvel" value="True">
+                <label class="form-check-label" style="margin-left: 10px;" for="Approvel">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
-                <input class="form-check-input"  style="margin-left: 10px;" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="no">
-                <label class="form-check-label" style="margin-left: 10px;" for="inlineRadio2">no</label>
+                <input class="form-check-input"  style="margin-left: 10px;" type="radio" name="Approvel" id="Approvel" value="False">
+                <label class="form-check-label" style="margin-left: 10px;" for="Approvel">no</label>
                 </div>
                 
             </div>
             <label class="form-label" style="padding-top: 20px;">Required By AIR</label>
             <div class="col">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio4" value="yes">
-                    <label class="form-check-label" for="inlineRadio1">Yes</label>
+                    <input class="form-check-input" type="radio" name="Required" id="Required" value="True">
+                    <label class="form-check-label" for="Required">Yes</label>
                     </div>
                     <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions1" id="inlineRadio4" value="no">
-                    <label class="form-check-label" for="inlineRadio2">no</label>
+                    <input class="form-check-input" type="radio" name="Required" id="Required" value="False">
+                    <label class="form-check-label" for="Required">no</label>
                     </div>
 
             </div>
@@ -576,13 +577,13 @@
                 <legend style="padding-bottom: 37px; margin-left: 10px;">Fabric Design Wise Qty</legend>
          
             <label for="feeder_stripes" style="margin-left: 10px;" class="form-label">feeder_stripes</label>
-            <input type="text"  style="margin-left: 10px;" style="margin-left: 10px;" class="form-control" id="feeder_stripes">
+            <input type="text"  style="margin-left: 10px;"  class="form-control" name="Feeder" id="feeder_stripes">
             <label for="jacaquard" style="margin-left: 10px;" class="form-label">jacaquard</label>
-            <input type="text"  style="margin-left: 10px;" class="form-control" id="jacaquard">
+            <input type="text"  style="margin-left: 10px;" class="form-control" name="Jacaquard" id="jacaquard">
             <label for="mini_jaq"  style="margin-left: 10px;"class="form-label">mini_jaq</label>
-            <input type="text" style="margin-left: 10px;" class="form-control" id="mini_jaq">
+            <input type="text" style="margin-left: 10px;" class="form-control" name="Mini_jaq" id="mini_jaq">
             <label for="auto_stripes" style="margin-left: 10px;" class="form-label">auto_stripes</label>
-            <input type="text" style="margin-left: 10px;" class="form-control" id="auto_stripes">
+            <input type="text" style="margin-left: 10px;" class="form-control" name="Auto_stripes" id="auto_stripes">
             
             
             </fieldset>
@@ -593,13 +594,13 @@
                 <legend>Fabric Structure Wise Qty</legend>
          
             <label for="single_jersey" style="margin-top: 39px;" class="form-label">single_jersey</label>
-            <input type="text" class="form-control" id="single_jersey">
+            <input type="text" class="form-control" name="Single_jersey" id="single_jersey">
             <label for="p_k" class="form-label">p_k</label>
-            <input type="text" class="form-control" id="p_k">
+            <input type="text" class="form-control" name="P_K" id="p_k">
             <label for="interlock" class="form-label">interlock</label>
-            <input type="text" class="form-control" id="interlock">
+            <input type="text" class="form-control" name="Interlock" id="interlock">
             <label for="rib" class="form-label">rib</label>
-            <input type="text" class="form-control" id="rib">
+            <input type="text" class="form-control" name="Rib" id="rib">
             
             
             </fieldset>
@@ -611,13 +612,13 @@
                 <legend style="padding-bottom: 37px;">Dyeing Qty</legend>
          
             <label for="white" class="form-label">white</label>
-            <input type="text" class="form-control" id="white">
+            <input type="text" class="form-control" name="White" id="white">
             <label for="light" class="form-label">light</label>
-            <input type="text" class="form-control" id="light">
+            <input type="text" class="form-control" name="Light" id="light">
             <label for="medium" class="form-label">medium</label>
-            <input type="text" class="form-control" id="medium">
+            <input type="text" class="form-control" name="Medium" id="medium">
             <label for="dark" class="form-label">dark</label>
-            <input type="text" class="form-control" id="dark">
+            <input type="text" class="form-control" name="Dark" id="dark">
             
             
             </fieldset>
@@ -627,33 +628,33 @@
             <fieldset>
                 <legend style="padding-bottom: 37px;">P/C, C/P Dyeing Qty</legend>
             <label for="overdyed" class="form-label">overdyed</label>
-            <input type="text" class="form-control" id="overdyed">
+            <input type="text" class="form-control" name="Overdyed" id="overdyed">
             <label for="white" class="form-label">white</label>
-            <input type="text" class="form-control" id="white">
+            <input type="text" class="form-control" name="White1" id="white">
             <label for="light" class="form-label">light</label>
-            <input type="text" class="form-control" id="light">
+            <input type="text" class="form-control" name="Light1" id="light">
             <label for="dark" class="form-label">dark</label>
-            <input type="text" class="form-control" id="dark">
+            <input type="text" class="form-control" name="Dark1" id="dark">
                 
         
         </fieldset>
       
         </div>
         <fieldset class="row" style='padding-top:30px'>
-            <legend>Advance Details</legend>
+            <legend style="margin-left: 500px;">Advance Details</legend>
         
         <div class="col-md-3">
     
-            <label for="Pay_Mode" class="form-label">Pay Mode</label>
+            <label for="Pay_Mode" class="form-label" style="margin-left: 40px;">Pay Mode</label>
             <div class="col">
                 
                 <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="cheque">
+                <input class="form-check-input" style="margin-left: 40px;" type="radio" name="PayMode" id="PayMode" value="cheque">
                 <label class="form-check-label" for="inlineRadio1">Cheque</label>
                 </div>
                 <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="demand_draft">
-                <label class="form-check-label" for="inlineRadio2">Demand Draft</label>
+                <input class="form-check-input" style="margin-left: 40px;" type="radio" name="PayMode" id="PayMode" value="demand_draft">
+                <label class="form-check-label" for="PayMode">Demand Draft</label>
                 </div>
                
             </div>
@@ -662,29 +663,30 @@
         <div class="col-md-2">
            
             <label for="rs" class="form-label">Rs.</label>
-            <input type="text" class="form-control" id="rs">
+            <input type="text" class="form-control" name="Rupees" id="rs">
         </div>
 
         <div class="col-md-2">
            
             <label for="no" class="form-label">No.</label>
-            <input type="text" class="form-control" id="no">
+            <input type="text" class="form-control" name="Numbers1" id="no">
         </div>
 
         <div class="col-md-2">
     
             <label for="date" class="form-label">Date</label>
-            <input type="date" class="form-control" id="no">
+            <input type="date" class="form-control" name="Date" id="Date">
         </div>
         
         <div class="col-md-3">
     
             <label for="bank" class="form-label">Bank</label>
-            <input type="text" class="form-control" id="bank">
+            <input type="text" class="form-control" name="Bank" id="Bank">
         </div>
     </fieldset>
     <div class="col-12">
-        <button style="margin-top:10px" type="submit" class="btn btn-primary">Submit</button>
+        <button style="margin-top:10px; margin-left: 1000px;" type="submit" class="btn btn-primary">Submit</button>
+      </div>
       </div>
     </form>
 

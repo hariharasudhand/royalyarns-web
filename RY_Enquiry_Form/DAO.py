@@ -1,4 +1,4 @@
-from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data, purchase, Email_Distribution_Groups
+from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data, Email_Distribution_Groups, Other_Details, Quantity_Details
 from django.db.models import Q
 from .ExcelUtlis import ExcelUtlis
 
@@ -231,3 +231,13 @@ class DAO:
             return True
         else:
             return False
+    
+    def StoreQuantity(self, vDelivery, vPayment, vPrice, vMatching, vBuyer, vOtherSpecification, vSpecification,
+                        vCommision, vApprovel, vRequired, vFeeder, vJacaquard, vMini_jaq, vAuto_stripes, vSingle_jersey, vP_K,vInterlock,
+                        vRib, vWhite, vLight, vMedium, vDark, vOverdyed, vWhite1, vLight1, vDark1, vPayMode, vRupees, vNumbers1, vDate, vBank):
+                        New_Other_Details = Other_Details(delivery_Schedule=vDelivery, payment_term=vPayment, price=vPrice, matching_source=vMatching, buyer=vBuyer, any_other_specification=vOtherSpecification, specification_if_no_product_type=vSpecification,
+                                            commision=vCommision, Baby_cone=vApprovel, air=vRequired)
+                        New_Other_Details.save()
+                        New_QuantityDetails = Quantity_Details(feeder_stripes=vFeeder, jacaquard=vJacaquard, mini_jaq=vMini_jaq, auto_stripes=vAuto_stripes, single_jersey=vSingle_jersey, p_k=vP_K,interlock=vInterlock,
+                                                rib=vRib, white=vWhite, light=vLight, medium=vMedium, dark=vDark, OverDyed=vOverdyed, White1=vWhite1, Light1=vLight1, Dark1=vDark1, pay_mode=vPayMode, price=vRupees, number=vNumbers1, date=vDate, bank=vBank)
+                        New_QuantityDetails.save()
