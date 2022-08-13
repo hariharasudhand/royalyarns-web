@@ -128,7 +128,7 @@ class DAO:
 
     def GetUserInfo(self, vUser, vPassword):
         return User_Details.objects.filter(
-            UserName=vUser, Password=vPassword,Role__isnull=False)
+            UserName=vUser, Password=vPassword, Role__isnull=False)
     ##
 
     # StoreEnquiry wrapper method that
@@ -195,9 +195,44 @@ class DAO:
 
         return vEmailIDs
 
+    def GetSupplierGroupNames(self):
+        vQueryResult = Email_Distribution_Groups.objects.filter(Status=True)
+        vSupplierGroupList = []
+
+        # LOOP Through All Groups to check if there is supplier only groups
+        # where all users are with Role Supplier
+        for vGroup in vQueryResult:
+
+            # print("Group Name", vGroup.GroupName)
+            # print("GroupIDs", vGroup.GroupUsersID)
+
+            if(vGroup.GroupUsersID != None):
+                vuserIds = str(vGroup.GroupUsersID).split(",")
+                visSupplierUser = True
+                for vUser_Id in vuserIds:
+
+                    # Checks for user ids which is comma seperated 1,2,3 etc -
+                    # if one of the user in the comma seperated value in the group
+                    # is of differnt tole other than the supplier - ignore the group
+
+                    # print("Search ", vUser_Id)
+                    vUserGroupResult = User_Details.objects.filter(
+                        Q(id=vUser_Id) & Q(Role='supplier'))
+
+                    # print("vUserGroupResult ============",
+                    #      len(vUserGroupResult))
+                    if len(vUserGroupResult) <= 0:
+                        visSupplierUser = False
+                        break
+                if visSupplierUser:
+                    vSupplierGroupList.append(vGroup.GroupName)
+
+        print(" Final List of Suplier only groups", vSupplierGroupList)
+        return vSupplierGroupList
     #
     # Upload for ExcelFile
     #
+
     def StoreUpload_Data(self, vExcelPath, vDate, vUser):
 
         vExcelFileURL = "D:/work/royalyarns-web/media/"+vExcelPath.name
@@ -231,13 +266,13 @@ class DAO:
             return True
         else:
             return False
-    
+
     def StoreQuantity(self, vDelivery, vPayment, vPrice, vMatching, vBuyer, vOtherSpecification, vSpecification,
-                        vCommision, vApprovel, vRequired, vFeeder, vJacaquard, vMini_jaq, vAuto_stripes, vSingle_jersey, vP_K,vInterlock,
-                        vRib, vWhite, vLight, vMedium, vDark, vOverdyed, vWhite1, vLight1, vDark1, vPayMode, vRupees, vNumbers1, vDate, vBank):
-                        New_Other_Details = Other_Details(delivery_Schedule=vDelivery, payment_term=vPayment, price=vPrice, matching_source=vMatching, buyer=vBuyer, any_other_specification=vOtherSpecification, specification_if_no_product_type=vSpecification,
-                                            commision=vCommision, Baby_cone=vApprovel, air=vRequired)
-                        New_Other_Details.save()
-                        New_QuantityDetails = Quantity_Details(feeder_stripes=vFeeder, jacaquard=vJacaquard, mini_jaq=vMini_jaq, auto_stripes=vAuto_stripes, single_jersey=vSingle_jersey, p_k=vP_K,interlock=vInterlock,
-                                                rib=vRib, white=vWhite, light=vLight, medium=vMedium, dark=vDark, OverDyed=vOverdyed, White1=vWhite1, Light1=vLight1, Dark1=vDark1, pay_mode=vPayMode, price=vRupees, number=vNumbers1, date=vDate, bank=vBank)
-                        New_QuantityDetails.save()
+                      vCommision, vApprovel, vRequired, vFeeder, vJacaquard, vMini_jaq, vAuto_stripes, vSingle_jersey, vP_K, vInterlock,
+                      vRib, vWhite, vLight, vMedium, vDark, vOverdyed, vWhite1, vLight1, vDark1, vPayMode, vRupees, vNumbers1, vDate, vBank):
+        New_Other_Details = Other_Details(delivery_Schedule=vDelivery, payment_term=vPayment, price=vPrice, matching_source=vMatching, buyer=vBuyer, any_other_specification=vOtherSpecification, specification_if_no_product_type=vSpecification,
+                                          commision=vCommision, Baby_cone=vApprovel, air=vRequired)
+        New_Other_Details.save()
+        New_QuantityDetails = Quantity_Details(feeder_stripes=vFeeder, jacaquard=vJacaquard, mini_jaq=vMini_jaq, auto_stripes=vAuto_stripes, single_jersey=vSingle_jersey, p_k=vP_K, interlock=vInterlock,
+                                               rib=vRib, white=vWhite, light=vLight, medium=vMedium, dark=vDark, OverDyed=vOverdyed, White1=vWhite1, Light1=vLight1, Dark1=vDark1, pay_mode=vPayMode, price=vRupees, number=vNumbers1, date=vDate, bank=vBank)
+        New_QuantityDetails.save()

@@ -52,5 +52,14 @@
       "Password": "buyer1",
       "Role": "buyer"
     }
+  },
+  {
+    "model": "RY_Enquiry_Form.User_Details",
+    "fields": {
+      "id": 6,
+      "UserName": "hari@weeroda.com",
+      "Password": "hari123",
+      "Role": "admin"
+    }
   }
 ]
