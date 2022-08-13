@@ -171,6 +171,14 @@
             });
         });
     </script>
+    <script type="text/javascript"> 
+    $(document).ready(function () {
+        var a = "{{ vStatus }}";
+        if (a=='0'){
+            $('#vGrp_to').removeAttr('disabled')
+        }
+    });
+     </script>
 
     <style>
         .accordion {
@@ -527,21 +535,24 @@
                 <button class='btn btn-danger' style="float: right; cursor: pointer;" id="hidepop"> X </button>
                 <center>{{Email_Details}}</center>
             </div>
-
+            <form name="RYform" id="RYform" action="" method="post">
         <div class="card">
             <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
+                {% if vLoggedInRole == 'agent' %}
                 Enquiry To : 
-
-                <select class="form-control" id="vComments_to" name="vComments_to" style="width: 30%;">
+        
+                <select class="form-control" id="vGrp_to" name="vGrp_to" style="width: 30%;">
+                    <option disabled selected value> -- select an group-- </option>
                     {% for supplierGrp in supplierGroupNames%}
-                        <option value="{{supplierGrp}}">{{supplierGrp}}</option>
+                        <option value="{{ supplierGrp }}">{{supplierGrp}}</option>
                     {%endfor%}
                         
                 </select>  
+                {% endif %}
            </div>
             <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
                 <div class="card-body">
-                    <form name="RYform" id="RYform" action="" method="post">
+                    
 
                         {% csrf_token %}
                         <div class="container">

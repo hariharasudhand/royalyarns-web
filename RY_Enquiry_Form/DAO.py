@@ -46,13 +46,16 @@ class DAO:
 
         elif (vLoggedInRole == 'supplier'):
             # Query and Fetch only status that an SUPPLIER should see
-            Unread_Data = RY_Enquiry_Header.objects.filter(Status='3')
+            vGetUser=User_Details.objects.get(UserName=vLoggedInUserID)
+            vGetGroup=Email_Distribution_Groups.objects.get(GroupUsersID__contains=str(vGetUser.id)+',')
+    
+            Unread_Data = RY_Enquiry_Header.objects.filter(Q(Status='3') & Q(GrpAssignedTo=vGetGroup.GroupName))
             Internal_Review = RY_Enquiry_Header.objects.filter(
                 ~Q(Status='0') & ~Q(Status='1') & ~Q(
                     Status='2') & ~Q(Status='3')
-                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
-            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Status='4')
-            Ready_for_Quote = RY_Enquiry_Header.objects.filter(Status='5')
+                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6')& Q(GrpAssignedTo=vGetGroup.GroupName))
+            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Q(Status='4')& Q(GrpAssignedTo=vGetGroup.GroupName))
+            Ready_for_Quote = RY_Enquiry_Header.objects.filter(Q(Status='5')& Q(GrpAssignedTo=vGetGroup.GroupName))
         else:
             # Query and Fetch only status that an BUYER should see
             Unread_Data = RY_Enquiry_Header.objects.filter(
@@ -153,21 +156,21 @@ class DAO:
                                          Status=vStatus, CreatedByUser='RPABOT', LastUpdateby=vUserID, LastUpdateddate=vNow)
             ryNewItem.save()
 
-    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow):
+    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow,vGrpAssignedTo):
         # TO:DO Header is always an update - this has to check if there is a change only then this should be
         # updated
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
             Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=vStatus, LastUpdateby=vUser,
-            LastUpdateddate=vNow)
+            LastUpdateddate=vNow,GrpAssignedTo=vGrpAssignedTo)
 
     def StoreComments(self, vComments, vReg_no, vUserID, vDT, vComments_to):
         customer_comments.objects.create(
             Comments=vComments, Reg_no=vReg_no, Commments_to=vComments_to, DT=vDT, CreatedByUser=vUserID, Created_Date=vDT)
 
-    def UpdateEnquiryStatus(self, vReg_no, vStatus):
+    def UpdateEnquiryStatus(self, vReg_no, vStatus,vGrpAssignedTo):
 
         RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status=vStatus)
-        RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Status=vStatus)
+        RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Status=vStatus,GrpAssignedTo=vGrpAssignedTo)
 
     def GetUserActionByRole(self, vLoggedInRole, vStatus):
 
@@ -216,8 +219,10 @@ class DAO:
                     # is of differnt tole other than the supplier - ignore the group
 
                     # print("Search ", vUser_Id)
-                    vUserGroupResult = User_Details.objects.filter(
-                        Q(id=vUser_Id) & Q(Role='supplier'))
+                    print(vUser_Id)
+                    if vUser_Id !='':
+                        vUserGroupResult = User_Details.objects.filter(
+                            Q(id=vUser_Id) & Q(Role='supplier'))
 
                     # print("vUserGroupResult ============",
                     #      len(vUserGroupResult))
@@ -276,3 +281,11 @@ class DAO:
         New_QuantityDetails = Quantity_Details(feeder_stripes=vFeeder, jacaquard=vJacaquard, mini_jaq=vMini_jaq, auto_stripes=vAuto_stripes, single_jersey=vSingle_jersey, p_k=vP_K, interlock=vInterlock,
                                                rib=vRib, white=vWhite, light=vLight, medium=vMedium, dark=vDark, OverDyed=vOverdyed, White1=vWhite1, Light1=vLight1, Dark1=vDark1, pay_mode=vPayMode, price=vRupees, number=vNumbers1, date=vDate, bank=vBank)
         New_QuantityDetails.save()
+
+    #CONDITION CHECK FOR NOT TO ACCESS THE DATA THROUGH URL
+    #TO CHECK WHEATHER LOGIN USER IS ASSOCIATED WITH THE GROUP HAS THE AUTHORITY TO VIEW THE DATA
+    def ToCheck_Supplier(self,vLoggedInUserID): 
+            vGetUser=User_Details.objects.get(UserName=vLoggedInUserID)
+            vGetGroup=Email_Distribution_Groups.objects.get(GroupUsersID__contains=str(vGetUser.id)+',')
+    
+            return RY_Enquiry_Header.objects.filter(GrpAssignedTo=vGetGroup.GroupName)

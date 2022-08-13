@@ -82,6 +82,11 @@ def index(request):
         #print("**********>> context", context)
         return render(request, 'app/ryn.html', context)
     else:
+        #CONDITION CHECK FOR NOT TO ACCESS THE DATA THROUGH URL
+        #TO CHECK WHEATHER LOGIN USER IS ASSOCIATED WITH THE GROUP HAS THE AUTHORITY TO VIEW THE DATA
+        vIs_Auth = vDAO.ToCheck_Supplier(vLoggedInUserID)
+        if len(vIs_Auth)==0:
+            return HttpResponse('Unauthorised Access')
         ##
         # Fetch Header Values & Item Values for the supplied RegNo (Registation Number)
         ##
@@ -125,6 +130,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
     vMarketing_Zone = request.POST.get('Marketing_Zone')
     vUser = request.POST.get('UserName')
     vNow = datetime.now()
+    vGrpAssignedTo = request.POST.get('vGrp_to')
 
     ##
     # *** vBtnAction field points to hBtnAction hidden field in the form
@@ -203,14 +209,15 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
                                       vUserID, vNow)
         print('testing', vStatus)
         vDAO.StoreEnquiryHeader(vReg_no, vMill, vDate,
-                                vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUserID, vNow)
+                                vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUserID, vNow,vGrpAssignedTo)
 
     elif vBtnAction == 'comment':
         print("this is inside elseif")
         __command_update(request, vReg_no)
 
     elif vBtnAction == 'cancel':
-        vDAO.UpdateEnquiryStatus(vReg_no, 2)
+        vDAO.UpdateEnquiryStatus(vReg_no, 2,vGrpAssignedTo)
+        
         print(vStatus)
 
     return render(request, 'app/ryn2.html', {'upload_form': Ry_En_Form})
@@ -526,9 +533,9 @@ def roleassigned(request):
         old = context1.GroupUsersID
         new = str(context.id)
         if old is None:
-            context1.GroupUsersID = new
+            context1.GroupUsersID = new+','
         else:
-            context1.GroupUsersID = old+','+new
+            context1.GroupUsersID = old+','+new+','
         context1.save()
 
         return HttpResponseRedirect('/assignrole')
