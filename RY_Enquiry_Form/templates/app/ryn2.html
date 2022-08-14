@@ -72,6 +72,8 @@
             }
             $('#cancelAction').on('click', cancelAction)
 
+            
+
             var commentAction = function () {
                 $('#hBtnAction').val("comment");
                 
@@ -171,14 +173,6 @@
             });
         });
     </script>
-    <script type="text/javascript"> 
-    $(document).ready(function () {
-        var a = "{{ vStatus }}";
-        if (a=='0'){
-            $('#vGrp_to').removeAttr('disabled')
-        }
-    });
-     </script>
 
     <style>
         .accordion {
@@ -535,24 +529,14 @@
                 <button class='btn btn-danger' style="float: right; cursor: pointer;" id="hidepop"> X </button>
                 <center>{{Email_Details}}</center>
             </div>
-            <form name="RYform" id="RYform" action="" method="post">
+
         <div class="card">
             <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
-                {% if vLoggedInRole == 'agent' %}
-                Enquiry To : 
-        
-                <select class="form-control" id="vGrp_to" name="vGrp_to" style="width: 30%;">
-                    <option disabled selected value> -- select an group-- </option>
-                    {% for supplierGrp in supplierGroupNames%}
-                        <option value="{{ supplierGrp }}">{{supplierGrp}}</option>
-                    {%endfor%}
-                        
-                </select>  
-                {% endif %}
-           </div>
+                Enquiry Form
+            </div>
             <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
                 <div class="card-body">
-                    
+                    <form name="RYform" id="RYform" action="" method="post">
 
                         {% csrf_token %}
                         <div class="container">
@@ -738,38 +722,25 @@
                                     <div class="titleBox">
                                         <div class="form-group">
                                             <label for="sel1">Comment to:</label>
-                                            {% if vLoggedInRole == 'agent' %}
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                <button type="button" class="btn btn-danger">Internal</button>
-                                                <button type="button" class="btn btn-warning">XYZ Supplier</button>
-                                                <button type="button" class="btn btn-success">ABC Buyer</button>
-                                              </div>
-                                            {% elif vLoggedInRole == 'buyer' %}
-                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                <button type="button" class="btn btn-danger">Internal</button>
-                                                <button type="button" class="btn btn-warning">Agent RY</button>
-                                              </div>  
-                                            {% else %}
-                                            <button type="button" class="btn btn-danger">Internal</button>
-                                            <button type="button" class="btn btn-warning">Agent RY</button>
-                                            {% endif %}  
-                                           
-                                            <!-- <select class="form-control" id="vComments_to" name="vComments_to" style="width: 30%;">
-                                                {% if vLoggedInRole == 'agent' %}
-                                                    <option value="agent1">Internal</option>
-                                                    <option value="supplier1">Supplier</option>
-                                                    <option value="buyer1">Buyer</option>
-                                                    <option value="*">All</option>
-                                                {% elif vLoggedInRole == 'buyer' %}
-                                                    <option value="buyer2">Internal</option>
-                                                    <option value="agent2">Agent</option>
-                                                    <option value="*">All</option>    
-                                                {% else %}
-                                                    <option value="supplier3">Internal</option>
-                                                    <option value="agent3">Agent</option>
-                                                    <option value="*">All</option>
-                                                {% endif %}  
-                                            </select>                                                  -->
+                                            
+                                                
+                                                <div class="btn-group">
+                                                    {% if vLoggedInRole == 'agent' %}
+                                                    <button id="AgentView" class="btn btn-light"><input type="radio" name="agent" value="agent1">internal </button>
+                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="supplier1">supplier</button>
+
+                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="{{CreatedByUser}}">{{CreatedByUser}}</button>
+                                                    {% elif vLoggedInRole == 'supplier' %}
+                                                    <button type="button"  class="btn btn-light"><input type="radio" name="agent" value="supplier3">internal </button>
+                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="agent3">Agent</button>
+                                                    {% else %}
+                                                    <button type="button"  class="btn btn-light"><input type="radio" name="agent" value="buyer2">Internal </button>
+                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="agent2">Agent</button>
+                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="agent">Buyer</button>
+                                                    {% endif %}
+                                                </div>
+                                            
+                                                                                                 
                                         </div> 
                                     </div>
                                 <!-- <div class="commentBox">
