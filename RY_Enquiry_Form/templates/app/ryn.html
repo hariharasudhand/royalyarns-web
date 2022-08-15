@@ -299,6 +299,49 @@
             -ms-user-select: none;
             user-select: none;
         }
+        .color0{
+            background-color: #8cf396;
+        }
+        .color1{
+            background-color: #8cf3d1;
+        }
+        .color2{
+            background-color: #c3f38c;
+        }
+        .color3{
+            background-color: #f3c38c;
+        }
+        .color4{
+            background-color: #50d6c4;
+        }
+        .color5{
+            background-color: #8cb0f3;
+        }
+        .color6{
+            background-color: #7554eb;
+        }
+        .color7{
+            background-color: #bb60f8;
+        }
+        .color8{
+            background-color: #f03ff0;
+        }
+        .color9{
+            background-color: #7e2a43;
+        }
+        .color10{
+            background-color: #69b3dd;
+        }
+        .color11{
+            background-color: #973fca;
+        }
+        .color12{
+            background-color: #b7cc3d;
+        }
+        .color13{
+            background-color: #8c40ca;
+        }
+
 
         /* The actual popup */
         .popup .popuptext {
@@ -425,6 +468,7 @@
             <h1>Enquiry Validation </h1>
         </center>
     </header>
+            {% if Role == 'agent' %}
             
             <form name="RYform" id="RYform" action="UploadExcel" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -433,7 +477,7 @@
                 <button class="topright1"type="submit"> Upload</button>
             </form>
             
-
+            {% endif %}
     {% if not Error %}
     <section>
         <div class="tab">
@@ -441,6 +485,8 @@
             {% if key|first in 'full' %}
 
             {% elif key|first in 'user' %}
+
+            {% elif key|first in 'Role' %}
             
             {% else %}
               <button class="tablinks" onclick="openTab(event, '{{ key }}')">{{ key }}
@@ -468,9 +514,8 @@
                         <th scope="col">Mill</th>
                         <th scope="col">Customer</th>
                         <th scope="col">Marketing_Zone</th>
-                        <th scope="col">Replied_From_the_mill</th>
-                        <th scope="col">Acceptance_from_the_mill</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Status</th>
                         <th scope="col">&nbsp;&nbsp;&nbsp;</th>
                     </tr>
                 </thead>
@@ -497,20 +542,14 @@
                                 style="width: 200px;">
                         </td>
 
-                        <td><input type="text" class="form-control"
-                                id="Replied_From_the_mill{{UnrData.Replied_From_the_mill}}"
-                                name="Replied_From_the_mill{{UnrData.Replied_From_the_mill}}"
-                                value="{{UnrData.Replied_From_the_mill}}" style="width:200px;">
-                        </td>
-
-                        <td><input type="text" class="form-control"
-                                id="Acceptance_from_the_mill{{UnrData.Acceptance_from_the_mill}}"
-                                name="Acceptance_from_the_mill{{UnrData.Acceptance_from_the_mill}}"
-                                value="{{UnrData.Acceptance_from_the_mill}}" style="width: 200px;">
-                        </td>
                         <td><input type="text" class="form-control" id="Date{{UnrData.Date}}"
                                 name="Date{{UnrData.Date}}" value="{{UnrData.Date}}" style="width: 200px;">
                         </td>
+                        <td>
+                            
+                            <input type="text" class="form-control color{{UnrData.Status}}" id="Status{{UnrData.Status}}"
+                            name="Date{{UnrData.Stauts}}" value="{{UnrData.Status}}" style="width: 200px;">
+                    </td>
                         <td>
                             <a href="?Rno={{UnrData.Reg_no}}" class="btn btn-info" role="button">View</a>
                         </td>

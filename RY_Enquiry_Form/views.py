@@ -79,6 +79,8 @@ def index(request):
     ##
     if vReg_no == None:
         context = vDAO.GetLandingPageData(vLoggedInUserID, vLoggedInRole)
+        print('****************',vLoggedInRole)
+        role = request.COOKIES.get('role')
         #print("**********>> context", context)
         return render(request, 'app/ryn.html', context)
     else:
