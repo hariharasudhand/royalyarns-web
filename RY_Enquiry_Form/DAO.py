@@ -193,8 +193,9 @@ class DAO:
             vIDs = vQueryResult[0].GroupUsersID.split(",")
             vEmailIDs = []
             for vID in vIDs:
-                vQueryUserDetails = User_Details.objects.filter(id=vID)
-                vEmailIDs.append(vQueryUserDetails)
+                if vID != '':
+                    vQueryUserDetails = User_Details.objects.filter(id=vID)
+                    vEmailIDs.append(vQueryUserDetails)
 
         return vEmailIDs
 
