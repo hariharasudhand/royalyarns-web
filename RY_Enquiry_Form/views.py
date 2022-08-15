@@ -86,9 +86,11 @@ def index(request):
     else:
         #CONDITION CHECK FOR NOT TO ACCESS THE DATA THROUGH URL
         #TO CHECK WHEATHER LOGIN USER IS ASSOCIATED WITH THE GROUP HAS THE AUTHORITY TO VIEW THE DATA
-        vIs_Auth = vDAO.ToCheck_Supplier(vLoggedInUserID)
-        if len(vIs_Auth)==0:
-            return HttpResponse('Unauthorised Access')
+        if vLoggedInRole == 'supplier':
+
+            vIs_Auth = vDAO.ToCheck_Supplier(vLoggedInUserID)
+            if len(vIs_Auth)==0:
+                return HttpResponse('Unauthorised Access')
         ##
         # Fetch Header Values & Item Values for the supplied RegNo (Registation Number)
         ##
@@ -118,6 +120,10 @@ def index(request):
             print("Its is status 6", vStatus)
             print("this is register number in quotations", vReg_no)
             return render(request, 'app/quotation.html', context)
+        if (context['vStatus'] == 7):
+            print("Its is status 7", vStatus)
+            print("this is register number in quotations", vReg_no)
+            return render(request, 'app/ryn_quantity.html', context)
         else:
 
             return render(request, 'app/ryn2.html', context)
@@ -233,7 +239,7 @@ def __command_update(request, vReg_no):
     vRole = request.COOKIES.get('role')
     vNow = datetime.now()
     vDT = now.strftime("%d/%m/%Y:%H:%M:%S")
-    vComments_to = request.POST.get('vComments_to')
+    vComments_to = request.POST.get('agent')
 
     print("this is time and date", vDT)
 
@@ -338,6 +344,8 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             Marketing_Zone = item.Marketing_Zone
             Mill = item.Mill
             Customer = item.Customer
+            vCreatedByUser = item.CreatedByUser
+            vGrpAssignedTo = item.GrpAssignedTo
             #Customer = item.Customer
             # Item Status >= 3 is for Supplier to enter Rates
             vStatus = int(item.Status)
@@ -392,6 +400,8 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             'data3': data3,
             'vLoggedInRole': vLoggedInRole,
             'user': vLoggedInUserID,
+            'CreatedByUser':vCreatedByUser,
+            'GrpAssignedTo':vGrpAssignedTo,
             'supplierGroupNames': vDAO.GetSupplierGroupNames()
         }
 
