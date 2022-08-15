@@ -29,66 +29,63 @@ class DAO:
         # context = {'Error': 'No data found'}
         context = {}
         Unread_Data = []
-        other_status = []
+        Internal_Review = []
         Req_Yarn_Price = []
         Ready_for_Quote = []
-        
-
+        External_Review = []
         if (vLoggedInRole == 'agent'):
             # Query and Fetch only status that an AGENT should see
             Unread_Data = RY_Enquiry_Header.objects.filter(Status='0')
             Internal_Review = RY_Enquiry_Header.objects.filter(
-                ~Q(Status='0') & ~Q(Status='3') & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
-            # & ~Q(Status='4')
-            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(
-                ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='5') & ~Q(Status='6') & ~Q(Status='7'))
-            Ready_for_Quote = RY_Enquiry_Header.objects.filter(
-                ~Q(Status='0') & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') & ~Q(Status='4') & ~Q(Status='7'))
-            Order_Confirm = RY_Enquiry_Header.objects.filter(
-                ~Q(Status='0')  & ~Q(Status='1') & ~Q(Status='2') & ~Q(Status='3') & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+                Q(Status='5') | Q(Status='8') | Q(Status='9') | 
+                Q(Status='10') | Q(Status='11') | Q(Status='13'))
+            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Status='4')
+            Ready_for_Quote = RY_Enquiry_Header.objects.filter(Status='7')
+            External_Review = RY_Enquiry_Header.objects.filter(
+                Q(Status='3') | Q(Status='6') | Q(Status='12'))
 
         elif (vLoggedInRole == 'supplier'):
             # Query and Fetch only status that an SUPPLIER should see
-            Unread_Data = RY_Enquiry_Header.objects.filter(Status='3')
+            vGetUser=User_Details.objects.get(UserName=vLoggedInUserID)
+            vGetGroup=Email_Distribution_Groups.objects.get(GroupUsersID__contains=str(vGetUser.id)+',')
+    
+            Unread_Data = RY_Enquiry_Header.objects.filter(Q(Status='3') & Q(GrpAssignedTo=vGetGroup.GroupName))
             Internal_Review = RY_Enquiry_Header.objects.filter(
-                ~Q(Status='0') & ~Q(Status='1') & ~Q(
-                    Status='2') & ~Q(Status='3')
-                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6') & ~Q(Status='7'))
-            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Status='4')
-            Ready_for_Quote = RY_Enquiry_Header.objects.filter(Status='5')
+               Q(Status='12') & Q(GrpAssignedTo=vGetGroup.GroupName))
+            External_Review = RY_Enquiry_Header.objects.filter(Q(GrpAssignedTo=vGetGroup.GroupName),
+               Q(Status='4') | Q(Status='5') | Q(Status='6') | 
+                Q(Status='7') | Q(Status='8') | Q(Status='9') | 
+                Q(Status='10') | Q(Status='11') | Q(Status='13'))
         else:
+            Internal_Review = RY_Enquiry_Header.objects.filter(Status='6')
+            External_Review = RY_Enquiry_Header.objects.filter (~Q(Status='6'))
             # Query and Fetch only status that an BUYER should see
-            Unread_Data = RY_Enquiry_Header.objects.filter(
-                ~Q(Status='0') & ~Q(Status='1') & ~Q(
-                    Status='2') & ~Q(Status='3')
-                & ~Q(Status='4') & ~Q(Status='5'))
-            Internal_Review = RY_Enquiry_Header.objects.filter(
-                ~Q(Status='0') & ~Q(Status='1') & ~Q(
-                    Status='2') & ~Q(Status='3')
-                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
-            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(
-                ~Q(Status='0') & ~Q(Status='1') & ~Q(
-                    Status='2') & ~Q(Status='3')
-                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
-            Ready_for_Quote = RY_Enquiry_Header.objects.filter(
-                ~Q(Status='0') & ~Q(Status='1') & ~Q(
-                    Status='2') & ~Q(Status='3')
-                & ~Q(Status='4') & ~Q(Status='5') & ~Q(Status='6'))
+            
 
         Count_Unr = str(len(Unread_Data))
         Count_RYP = str(len(Req_Yarn_Price))
         Count_RFQ = str(len(Ready_for_Quote))
-        Count_Others = str(len(Internal_Review))
-        
+        Count_Internal = str(len(Internal_Review))
+        Count_External = str(len(External_Review))
 
+        if (vLoggedInRole == 'agent'):
+            context['NewEnquiry('+Count_Unr+')'] = Unread_Data
+            context['YarnPrice('+Count_RYP+')'] = Req_Yarn_Price
+            context['ForQuotation('+Count_RFQ+')'] = Ready_for_Quote
+            context['InternalReview('+Count_Internal+')'] = Internal_Review
+            context['ExternalReview('+Count_External+')'] = External_Review
+        elif (vLoggedInRole == 'supplier'):
+            context['NewEnquiry('+Count_Unr+')'] = Unread_Data
+            context['InternalReview('+Count_Internal+')'] = Internal_Review
+            context['ExternalReview('+Count_External+')'] = External_Review
+        else:
+            context['InternalReview('+Count_Internal+')'] = Internal_Review
+            context['ExternalReview('+Count_External+')'] = External_Review
 
-        context['Unread('+Count_Unr+')'] = Unread_Data
-        context['YarnPrice('+Count_RYP+')'] = Req_Yarn_Price
-        context['ForQuote('+Count_RFQ+')'] = Ready_for_Quote
-        context['InternalReview('+Count_Others+')'] = Internal_Review
-        
+        context['Role'] = vLoggedInRole
         context['user'] = vLoggedInUserID
         context['full'] = context
+        
 
         return context
 ##
@@ -196,9 +193,8 @@ class DAO:
             vIDs = vQueryResult[0].GroupUsersID.split(",")
             vEmailIDs = []
             for vID in vIDs:
-                if vID !='':
-                    vQueryUserDetails = User_Details.objects.filter(id=vID)
-                    vEmailIDs.append(vQueryUserDetails)
+                vQueryUserDetails = User_Details.objects.filter(id=vID)
+                vEmailIDs.append(vQueryUserDetails)
 
         return vEmailIDs
 
@@ -223,7 +219,7 @@ class DAO:
                     # is of differnt tole other than the supplier - ignore the group
 
                     # print("Search ", vUser_Id)
-                
+                    print(vUser_Id)
                     if vUser_Id !='':
                         vUserGroupResult = User_Details.objects.filter(
                             Q(id=vUser_Id) & Q(Role='supplier'))
