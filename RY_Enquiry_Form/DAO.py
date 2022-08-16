@@ -111,19 +111,16 @@ class DAO:
     # TO:DO Check if the logged in Role has access to the comments
     ##
     def GetComments(self, vReg_no, vLoggedInRole):
-        print('vLoggedInRole', vLoggedInRole)
+        vGetHeader=RY_Enquiry_Header.objects.get(Reg_no=vReg_no)
         if (vLoggedInRole == 'agent'):
-            return customer_comments.objects.filter(Reg_no=vReg_no).filter(
-                ~Q(Commments_to="buyer2") & ~Q(Commments_to="supplier2") & ~Q(Commments_to="buyer3") & ~Q(Commments_to="supplier3"))
+            return customer_comments.objects.filter(Reg_no=vReg_no).order_by('-Created_Date')
         elif (vLoggedInRole == 'supplier'):
             print("inside supplier", vLoggedInRole)
-            return customer_comments.objects.filter(Reg_no=vReg_no).filter(
-                ~Q(Commments_to="agent1") & ~Q(Commments_to="buyer1") & ~Q(Commments_to="buyer2") & ~Q(Commments_to="agent2"))
+            return customer_comments.objects.filter(Q(Reg_no=vReg_no),Q(Commments_to='supplier_to_agent') | Q(Commments_to=vGetHeader.GrpAssignedTo)).order_by('-Created_Date')
 
         else:
             print("inside Buyer", vLoggedInRole)
-            return customer_comments.objects.filter(Reg_no=vReg_no).filter(
-                ~Q(Commments_to="agent1") & ~Q(Commments_to="supplier1") & ~Q(Commments_to="agent3") & ~Q(Commments_to="supplier3"))
+            return customer_comments.objects.filter(Q(Reg_no=vReg_no),Q(Commments_to='buyer_to_agent') | Q(Commments_to=vGetHeader.CreatedByUser)).order_by('-Created_Date')
      ##
     # GetUserInfo
     # Wrapper method that fetches userinfo

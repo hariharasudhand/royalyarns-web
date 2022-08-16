@@ -239,7 +239,7 @@ def __command_update(request, vReg_no):
     vRole = request.COOKIES.get('role')
     vNow = datetime.now()
     vDT = now.strftime("%d/%m/%Y:%H:%M:%S")
-    vComments_to = request.POST.get('agent')
+    vComments_to = request.POST.get('GroupName')
 
     print("this is time and date", vDT)
 
@@ -366,6 +366,8 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
                 Default_Enq_Fileds = 'readonly'
                 Quotation_ready = 'readonly'
             elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'agent') and (vStatus >= 4):
+                Default_Enq_Fileds = 'readonly'
+            elif (vUserAction[0].Role == 'buyer'):
                 Default_Enq_Fileds = 'readonly'
             else:
                 Default_Enq_Fileds = ''

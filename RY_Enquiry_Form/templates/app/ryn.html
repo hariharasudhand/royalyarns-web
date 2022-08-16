@@ -43,6 +43,51 @@
         });       
     </script>
     <style>
+            body {
+  background: #eee;
+}
+
+.icons i {
+  color: #b5b3b3;
+  border: 1px solid #b5b3b3;
+  padding: 6px;
+  margin-left: 4px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.activity-done {
+  font-weight: 600;
+}
+
+.list-group li {
+  margin-bottom: 12px;
+}
+
+
+
+.list li {
+  list-style: none;
+  padding: 10px;
+  border: 1px solid #e3dada;
+  margin-top: 12px;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.checkicon {
+  color: green;
+  font-size: 19px;
+}
+
+.date-time {
+  font-size: 12px;
+}
+
+.profile-image img {
+  margin-left: 3px;
+}
+
         * {
             box-sizing: border-box;
         }
@@ -507,7 +552,7 @@
         {% if key|first in 'full' %}
         {% else %}
         <div id='{{ key }}' class="tabcontent">
-            <table class="table table-hover table-sm">
+            <!-- <table class="table table-hover table-sm">
                 <thead>
                     <tr>
                         <th scope="col">Reg_no</th>
@@ -519,13 +564,44 @@
                         <th scope="col">&nbsp;&nbsp;&nbsp;</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody> -->
+                    <div class="d-flex justify-content-between align-items-center activity">
+                        <div style="margin-top: 50px; padding-left: 550px; "><span class="activity-done">New Activities</span></div>
+                    </div>
+                    {% for UnrData in value %}
+                    <div class="container mt-1">
+                        <div class="row">
+                            <div class="col-md-12">
+                                
+                                <div class="mt-3">
+                                    <ul class="list list-inline">
+                                        <li class="d-flex justify-content-between">
+                                            <div class="d-flex flex-row align-items-center"><i class="fa fa-check-circle checkicon"></i>
+                                                <div class="ml-2">
+                                                    <h6 class="mb-0">{{UnrData.Mill}}</h6>
+                                                    <div class="d-flex flex-row mt-1 text-black-50 date-time">
+                                                        <div><i class="fa fa-calendar-o"></i><span class="ml-2">{{UnrData.Date}}</span></div>
+                                                        <div class="ml-3"><i class="fa fa-clock-o"></i><span class="ml-2"></span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-row align-items-center">
+                                                <div class="d-flex flex-column mr-2">
+                                                    <div class="btn btn-info"><a href="?Rno={{UnrData.Reg_no}}"  role="button">View</a></div><span class="date-time">16/4/2020 1:55</span></div></div>
+                                        
+                                                </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                     {% for UnrData in value %}
 
                     <tr>
                         <!-- <th scope="row">{{UnrData.Reg_no}}</th> -->
 
-                        <td><input type="text" class="form-control" id="Rno{{UnrData.Reg_no}}"
+                        <!-- <td><input type="text" class="form-control" id="Rno{{UnrData.Reg_no}}"
                             name="Rno{{UnrData.Reg_no}}" value="{{UnrData.Reg_no}}" style="width:80px;">
                         </td>
 
@@ -553,7 +629,7 @@
                         <td>
                             <a href="?Rno={{UnrData.Reg_no}}" class="btn btn-info" role="button">View</a>
                         </td>
-                    </tr>
+                    </tr> -->
 
                     {% endfor %}
                 {% endif %}

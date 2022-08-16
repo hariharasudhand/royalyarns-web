@@ -721,41 +721,41 @@
                                     <div class="left">
                                     <div class="titleBox">
                                         <div class="form-group">
-                                            <label for="sel1">Comment to:</label>
-                                            
-                                                
-                                                <div class="btn-group">
-                                                    {% if vLoggedInRole == 'agent' %}
-                                                    <button id="AgentView" class="btn btn-light"><input type="radio" name="agent" value="agent1">internal </button>
-                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="supplier1">supplier</button>
-
-                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="{{CreatedByUser}}">{{CreatedByUser}}</button>
+                                            <label for="sel1">Comments</label>
+                                            <section>
+                                                <div class="tab">
+                                                    <!-- {% if vLoggedInRole == 'agent' %}
+                                                        <input type="button" class="tablinks" value="Internal" id="AgentInternal">
+                                                        <input type="button" class="tablinks" value="{{CreatedByUser}}" id="Agent{{CreatedByUser}}">
+                                                        <input type="button" class="tablinks" value="{{GrpAssignedTo}}" id="Agent{{GrpAssignedTo}}">
                                                     {% elif vLoggedInRole == 'supplier' %}
-                                                    <button type="button"  class="btn btn-light"><input type="radio" name="agent" value="supplier3">internal </button>
-                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="agent3">Agent</button>
+                                                        
+                                                        <input type="button" class="tablinks" value="{{GrpAssignedTo}}" id="Agent{{GrpAssignedTo}}">
                                                     {% else %}
-                                                    <button type="button"  class="btn btn-light"><input type="radio" name="agent" value="buyer2">Internal </button>
-                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="agent2">Agent</button>
-                                                    <button type="button" class="btn btn-light"><input type="radio" name="agent" value="agent">Buyer</button>
-                                                    {% endif %}
+                                                    <input type="button" class="tablinks" value="Agent" onclick="openTab(event, '1')">
+
+                                                        {% endif %} -->
+                                              </button>
+                                                
                                                 </div>
-                                            
+            
                                                                                                  
                                         </div> 
                                     </div>
-                                <!-- <div class="commentBox">
-                                    <div class="alert alert-danger" role="alert">
-                                        <p class="taskDescription"><i>Interact with your partner</i></p></div>
-                                                                                   
-                                            
-                                </div> -->
                                 <div class="actionBox">
                                     <ul class="commentList">
+                                        <!-- <div id='1' class="tabcontent">
+                                            this is one
+                                         </div>
+                                         <div id='2' class="tabcontent">
+                                            this is two
+                                         </div> -->
+                                         
                                         {% for id in data3 %} 
                                         <li>
                                             <div class="card bg-light text-dark">
                                                 {% if id.CreatedByUser == user %}
-                                                <div class="card-body"> <span class="mb-0">  {{id.Comments}} </span>  -- <span class="date mb-0"> <b>You </b> </span> <span class="date sub-text mb-0">- {{id.DT}}</span> --</div>
+                                                <div class="card-body" style="text-align: right; background-color: rgb(220, 215, 215);"> <span class="mb-0">  {{id.Comments}} </span>  -- <span class="date mb-0"> <b>You </b> </span> <span class="date sub-text mb-0">- {{id.DT}}</span> --</div>
                                                 {% else %}
                                                 <div class="card-body"> <span class="mb-0">  {{id.Comments}} </span>  -- <span class="date mb-0"> <b>{{id.CreatedByUser |capfirst}} </b></span> <span class="date sub-text mb-0"> - {{id.DT}}</span> --</div>
                                                 {% endif %}
@@ -763,6 +763,8 @@
                
                                             </li>
                                     {% endfor %}
+                                    
+                                </section>
                                     </ul>
                                     </div>
                                     </div>
@@ -770,9 +772,24 @@
                                 </ul>
                                 <!-- <form method="post" class="form-block"> -->
                                     <div class="right">
-                                        <div class="form-group">
-                                            <center> <button id="commentAction" class="btn btn-default" style="width: 15%;; background-color: #85daf7; margin-top: 37px; margin-right: 65%;" >Add</button></center>
-                                         </div>
+                                        <center> <div class="form-group form-check form-check-inline" style="margin-top: 37px;">
+                                             <button id="commentAction" class="btn btn-default" style="background-color: #85daf7;" >Add</button>
+                                             {% if vLoggedInRole == 'agent' %}
+                                             <select class="form-control" style="width: 150%;" id="sel2" name="GroupName">
+                                                <option disabled selected value> -- select an group-- </option>
+                                                <option value="agent">Internal </option>
+                                                <option value="{{CreatedByUser}}"> {{CreatedByUser}} </option>
+                                                <option value="{{GrpAssignedTo}}"> {{GrpAssignedTo}} </option>
+                                              </select> 
+                                              {% elif vLoggedInRole == 'supplier' %}
+                                              <input type="hidden" value="supplier_to_agent" name="GroupName">
+                                              {% else %}
+                                              <input type="hidden" value="buyer_to_agent" name="GroupName">
+                                              {% endif %}
+                                        
+                                        </div>
+                                    </center>
+
                                
                                     <div class="form-group">
                                        
@@ -800,6 +817,7 @@
             </div>
         </div>
     </div>
+    
         
     {% else %}
     <br>
@@ -812,6 +830,7 @@
         {{Error}}
       </p>
     {% endif %}
+   
 
 </body>
 
