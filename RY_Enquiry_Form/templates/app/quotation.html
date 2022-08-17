@@ -578,7 +578,7 @@
                                             {{Quotation_ready}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="YarnType{{forloop.counter}}"
-                                            name="YarnType{{forloop.counter}}" value="{{Reg_no.Type}}" style="width:100px"
+        /                                    name="YarnType{{forloop.counter}}" value="{{Reg_no.Type}}" style="width:100px"
                                             {{Quotation_ready}}>
                                     </td>
                                     <td><input type="text" class="form-control" id="Blend{{forloop.counter}}"
@@ -615,9 +615,7 @@
                                       style="width:80px" {{Quotation_ready}}>
                                     </td>
                                 </tr>
-                                <td><input type="hidden" class="form-control" id="Rno" name="Rno" value={{vReg_no}}
-                                    readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
-                            </td>
+
                                 {% endfor %}
                                 <tr class="table-success">
                                     <td colspan="11" align="right"> Total <small class="text-muted"> INR  ( Excluding GST)</small> </td>

@@ -122,8 +122,12 @@ def index(request):
             return render(request, 'app/quotation.html', context)
         if (context['vStatus'] == 7):
             print("Its is status 7", vStatus)
-            print("this is register number in quotations", vReg_no)
-            return render(request, 'app/ryn_quantity.html', context)
+            print("this is register number in Quantity", vReg_no)
+            return render(request, 'app/ryn_quantity.html', {'vReg_no':vReg_no})
+        if (context['vStatus'] == 12):
+            print("Its is status 13", vStatus)
+            print("this is register number in CopNumber", vReg_no)
+            return render(request, 'app/Copnumber.html', {'vReg_no':vReg_no})
         else:
 
             return render(request, 'app/ryn2.html', context)
@@ -139,6 +143,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
     vUser = request.POST.get('UserName')
     vNow = datetime.now()
     vGrpAssignedTo = request.POST.get('vGrp_to')
+    print('4444444444444',vGrpAssignedTo)
 
     ##
     # *** vBtnAction field points to hBtnAction hidden field in the form
@@ -316,7 +321,7 @@ def confirmpo(request):
         emailComp.send_po('test subject', 'po.no'+vPONumber, file)
         print("email was send successfully")
 
-        return render(request, 'app/ryn.html')
+        return HttpResponseRedirect("/")
 
 
 def __handle_uploaded_file(f):
@@ -345,10 +350,12 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             Mill = item.Mill
             Customer = item.Customer
             vCreatedByUser = item.CreatedByUser
-            vGrpAssignedTo = item.GrpAssignedTo
+            GrpAssignedTo = item.GrpAssignedTo
+            print("465664545868tgff, gvcfyukbnhtby",item.GrpAssignedTo)
             #Customer = item.Customer
             # Item Status >= 3 is for Supplier to enter Rates
             vStatus = int(item.Status)
+            
             print("status in view :", vStatus)
 
             vUserAction = vDAO.GetUserActionByRole(vLoggedInRole, vStatus)
@@ -369,6 +376,8 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
                 Default_Enq_Fileds = 'readonly'
             elif (vUserAction[0].Role == 'buyer'):
                 Default_Enq_Fileds = 'readonly'
+            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'buyer'): 
+                  Default_Enq_Fileds = 'readonly'
             else:
                 Default_Enq_Fileds = ''
                 # if vStatus =='3':
@@ -403,7 +412,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             'vLoggedInRole': vLoggedInRole,
             'user': vLoggedInUserID,
             'CreatedByUser':vCreatedByUser,
-            'GrpAssignedTo':vGrpAssignedTo,
+            'GrpAssignedTo':GrpAssignedTo,
             'supplierGroupNames': vDAO.GetSupplierGroupNames()
         }
 
@@ -510,10 +519,6 @@ def quantityCheck(request):
         return render(request, 'app/ryn_quantity.html')
 
 
-def quantityCheck(request):
-    return render(request, 'app/ryn_quantity.html')
-
-
 def activate(request, id1):
     msg = vDAO.ActivateUserDetails(id1)
     if msg == True:
@@ -596,7 +601,17 @@ def QuantityStore(request):
         vNumbers1 = request.POST.get("Numbers1")
         vDate = request.POST.get("Date")
         vBank = request.POST.get("Bank")
+        vReg_no = request.POST.get('Rno')
         vDAO.StoreQuantity(vDelivery, vPayment, vPrice, vMatching, vBuyer, vOtherSpecification, vSpecification,
                            vCommision, vApprovel, vRequired, vFeeder, vJacaquard, vMini_jaq, vAuto_stripes, vSingle_jersey, vP_K, vInterlock,
-                           vRib, vWhite, vLight, vMedium, vDark, vOverdyed, vWhite1, vLight1, vDark1, vPayMode, vRupees, vNumbers1, vDate, vBank)
-        return render(request, 'app/ryn_quantity.html')
+                           vRib, vWhite, vLight, vMedium, vDark, vOverdyed, vWhite1, vLight1, vDark1, vPayMode, vRupees, vNumbers1, vDate, vBank,vReg_no)
+        return HttpResponseRedirect('/')
+
+
+def StoreCopNumber(request):
+    if request.method == 'POST':
+        vCopNumber = request.POST.get("COPNumber")
+        vReg_no = request.POST.get("Rno")
+        print("regnumber in storecomments",vReg_no)
+        vDAO.StoreCopNumber(vReg_no,vCopNumber)
+        return HttpResponseRedirect('/')

@@ -19,5 +19,6 @@ urlpatterns = [
     path('roleassigned', views.roleassigned, name='roleassigned'),
     path('groupassigned', views.groupassigned, name='groupassigned'),
     path('QuantityStore', views.QuantityStore, name='QuantityStore' ),
+    path('StoreCopNumber', views.StoreCopNumber, name='StoreCopNumber'),
 ]
  

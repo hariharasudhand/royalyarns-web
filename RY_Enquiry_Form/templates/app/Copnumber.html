@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +6,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terata Enquiry Confirmation</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <!-- <link href="//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js">
+    </script> -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+    rel="stylesheet"> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
 </head>
 <style>
     .accordion {
@@ -194,7 +219,8 @@
         .topcenter {
             position: absolute;
             top: 50px;
-            right: 610px;
+            text-align: center;
+            right: 400px;
         }
         .popuptext{
             position: fixed;
@@ -346,8 +372,60 @@
         </div>
         <div class="topcenter">
                 <h1>Enquiry Confirm Validation </h1>
-                <hr>
             </div>
-       
+
+
+            <div style="padding-bottom: 40px;">
+            </div>
+            <hr>
+            {% load static %}
+        <div class="topleft">
+            <img src="{% static 'images/RYN_logo.jpeg'%}" alt="no image" max-width="100%" height="100">
+            <h6> 
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;#4 / 32, 7th Cross Street, College Road,</small><br>
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Tirupur - 641602 - INDIA </small><br>
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91 421 2201222, 2247333 </small><br>
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Email: support@rayaalyarns.com </small><br>
+            </h6>
+            <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+            </div>
+            <div class="right">
+                <blockquote class="blockquote text-right">
+                    <p class="mb-0">Quotation 104 - Page Industires Pvt Ltd </p>
+                    <footer class="blockquote-footer">{% now "DATE_FORMAT" %} <cite title="Source Title">&nbsp;&nbsp;Quotation No : 104</cite></footer>
+                  </blockquote>
+                <h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h2>
+                <h4>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small class="text-muted"></small></h4>
+                
+            </div>
+
+            <blockquote class="blockquote text-center">
+                <p class="mb-0">Thank You for your business</p>
+                <p class="mb-0">We have reviewed your enquiry and have the best price   
+                    from </p>
+                <footer class="blockquote-footer">
+                    Vardhman Textiles Limited (Unit-Arihant Spinning Mills)</footer>
+              </blockquote>
+<form name="RYform" id="RYform" action="/StoreCopNumber" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">    
+        
+        <div class="col-md-6">
+                <!-- {% for d in data %}
+                            <input type="text" class="form-control" id="Rno" name="Rno" value={{d.Reg_no}}
+                                readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
+                        
+                        {print(d.Reg_no)}
+                        {% endfor %} -->
+
+
+           
+          <input type="hidden"style="margin-left: 10px;" class="form-control" name="Rno" id="delivery" value="{{vReg_no}}">
+          
+          <label for="SCNumber" style="margin-left: 10px;" class="form-label">SC Number:</label>
+          <input type="text"style="margin-left: 10px;" class="form-control" name="SCNumber" id="delivery" {{Default_Enq_Fileds}}>
+          <label for="COPNumber"style="margin-left: 10px;" class="form-label">COP Number</label>
+          <input type="text" style="margin-left: 10px;" class="form-control" name="COPNumber" id="payment_term">
+          <button style="margin-top:10px; margin-left: 600px;" type="submit" class="btn btn-primary">Submit</button>
 </body>
 </html>

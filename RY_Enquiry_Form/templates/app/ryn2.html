@@ -173,6 +173,14 @@
             });
         });
     </script>
+    <script type="text/javascript"> 
+        $(document).ready(function () {
+            var a = "{{ vStatus }}";
+            if (a=='0'){
+                $('#vGrp_to').removeAttr('disabled')
+            }
+        });
+         </script>
 
     <style>
         .accordion {
@@ -531,14 +539,33 @@
             </div>
 
         <div class="card">
-            <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
-                Enquiry Form
-            </div>
+            
             <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
-                <div class="card-body">
-                    <form name="RYform" id="RYform" action="" method="post">
+                <form name="RYform" id="RYform" action="" method="post">
 
-                        {% csrf_token %}
+                    {% csrf_token %}
+                    <div class="card">
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
+                            {% if vLoggedInRole == 'agent' and vStatus == 0 %}
+                            Enquiry To : 
+                            
+                            <select class="form-control" id="vGrp_to" name="vGrp_to" disabled style="width: 30%;">
+                                <option disabled selected value> -- select an group-- </option>
+                                {% for supplierGrp in supplierGroupNames%}
+                                    <option value="{{ supplierGrp }}">{{supplierGrp}}</option>
+                                {%endfor%}
+                                    
+                            </select>
+                            {% else %}
+                                Enquiry Form : 
+                                
+                                <input type="hidden" class="form-control" id="vGrp_to" name="vGrp_to" style="width: 30%;" value="{{GrpAssignedTo}}"readonly>
+                                      
+                            {% endif %}
+                       </div>
+                        <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
+                            <div class="card-body">
+                    
                         <div class="container">
                             <!-- <div class="row"> -->
                                 <div class="left2">

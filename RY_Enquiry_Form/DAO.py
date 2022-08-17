@@ -58,7 +58,7 @@ class DAO:
                 Q(Status='10') | Q(Status='11') | Q(Status='13'))
         else:
             Internal_Review = RY_Enquiry_Header.objects.filter(Status='6')
-            External_Review = RY_Enquiry_Header.objects.filter (~Q(Status='6'))
+            
             # Query and Fetch only status that an BUYER should see
             
 
@@ -272,13 +272,15 @@ class DAO:
 
     def StoreQuantity(self, vDelivery, vPayment, vPrice, vMatching, vBuyer, vOtherSpecification, vSpecification,
                       vCommision, vApprovel, vRequired, vFeeder, vJacaquard, vMini_jaq, vAuto_stripes, vSingle_jersey, vP_K, vInterlock,
-                      vRib, vWhite, vLight, vMedium, vDark, vOverdyed, vWhite1, vLight1, vDark1, vPayMode, vRupees, vNumbers1, vDate, vBank):
+                      vRib, vWhite, vLight, vMedium, vDark, vOverdyed, vWhite1, vLight1, vDark1, vPayMode, vRupees, vNumbers1, vDate, vBank, vReg_no):
         New_Other_Details = Other_Details(delivery_Schedule=vDelivery, payment_term=vPayment, price=vPrice, matching_source=vMatching, buyer=vBuyer, any_other_specification=vOtherSpecification, specification_if_no_product_type=vSpecification,
-                                          commision=vCommision, Baby_cone=vApprovel, air=vRequired)
+                                          commision=vCommision, Baby_cone=vApprovel, air=vRequired, Reg_no=vReg_no)
         New_Other_Details.save()
         New_QuantityDetails = Quantity_Details(feeder_stripes=vFeeder, jacaquard=vJacaquard, mini_jaq=vMini_jaq, auto_stripes=vAuto_stripes, single_jersey=vSingle_jersey, p_k=vP_K, interlock=vInterlock,
-                                               rib=vRib, white=vWhite, light=vLight, medium=vMedium, dark=vDark, OverDyed=vOverdyed, White1=vWhite1, Light1=vLight1, Dark1=vDark1, pay_mode=vPayMode, price=vRupees, number=vNumbers1, date=vDate, bank=vBank)
+                                               rib=vRib, white=vWhite, light=vLight, medium=vMedium, dark=vDark, OverDyed=vOverdyed, White1=vWhite1, Light1=vLight1, Dark1=vDark1, pay_mode=vPayMode, price=vRupees, number=vNumbers1, date=vDate, bank=vBank, Reg_no=vReg_no)
         New_QuantityDetails.save()
+        RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Status='8')                                                              
+        RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status='8')
 
     #CONDITION CHECK FOR NOT TO ACCESS THE DATA THROUGH URL
     #TO CHECK WHEATHER LOGIN USER IS ASSOCIATED WITH THE GROUP HAS THE AUTHORITY TO VIEW THE DATA
@@ -287,3 +289,7 @@ class DAO:
             vGetGroup=Email_Distribution_Groups.objects.get(GroupUsersID__contains=str(vGetUser.id)+',')
     
             return RY_Enquiry_Header.objects.filter(GrpAssignedTo=vGetGroup.GroupName)
+
+    def StoreCopNumber(self,vReg_no, vCopNumber):
+        RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status='13')
+        RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Cop_number=vCopNumber)
