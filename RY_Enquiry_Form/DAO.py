@@ -53,7 +53,7 @@ class DAO:
             Internal_Review = RY_Enquiry_Header.objects.filter(
                Q(Status='12') & Q(GrpAssignedTo=vGetGroup.GroupName))
             External_Review = RY_Enquiry_Header.objects.filter(Q(GrpAssignedTo=vGetGroup.GroupName),
-               Q(Status='4') | Q(Status='5') | Q(Status='6') | 
+               Q(Status='4')  | Q(Status='6') | 
                 Q(Status='7') | Q(Status='8') | Q(Status='9') | 
                 Q(Status='10') | Q(Status='11') | Q(Status='13'))
         else:
@@ -292,4 +292,4 @@ class DAO:
 
     def StoreCopNumber(self,vReg_no, vCopNumber):
         RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status='13')
-        RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Cop_number=vCopNumber)
+        RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Cop_number=vCopNumber, Status='13')

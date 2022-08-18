@@ -679,7 +679,7 @@
                                             <input type="text" class="form-control col-xs-2" id="Rate{{forloop.counter}}"
                                             name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:60px" {{Supplier_Fileds}}>
                                         {% endif %}    
-                                            {% if Supplier_Fileds == 'readonly' %}
+                                        {% if vLoggedInRole == 'agent' %}
                                                 <input type="text" class="form-control col-xs-2" id="Arate{{forloop.counter}}"
                                                 name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:60px" {{Quotation_ready}}>
                                             {% endif %}
@@ -692,7 +692,7 @@
                                         <input type="text" class="form-control col-xs-2" id="Amount{{forloop.counter}}"
                                             name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:60px" {{Supplier_Fileds}}>
                                         {% endif %}
-                                            {% if Supplier_Fileds == 'readonly' %}
+                                            {% if vLoggedInRole == 'agent' %}
                                             <input type="text" class="form-control col-xs-2" id="Aamount{{forloop.counter}}"
                                             name="Aamount{{forloop.counter}}" value="{{Reg_no.Agent_Amount}}" style="width:60px" {{Quotation_ready}}>
                                             {% endif %}
@@ -707,7 +707,7 @@
                                             name="Last_order{{forloop.counter}}" value="{{Reg_no.Supplier_Last_order}}"
                                             style="width:80px" {{Supplier_Fileds}}>
                                         {% endif %}
-                                            {% if Supplier_Fileds == 'readonly' %}
+                                        {% if vLoggedInRole == 'agent' %}
                                             <input type="text" class="form-control col-xs-2" id="Alast_order{{forloop.counter}}"
                                             name="Alast_order{{forloop.counter}}" value="{{Reg_no.Agent_Last_order}}"
                                             style="width:80px" {{Quotation_ready}}>
@@ -741,8 +741,10 @@
                     -->
                     <div class="d-grid gap-2">
                         <input class="btn btn-primary" id="saveAndProceed" value="save and proceed">
+                        {% if vStatus == 0 %}
                         <input class="btn btn-primary" id="cancelAction" value=" proceed ">
-                   </div>
+                        {% endif %}
+                    </div>
                    
                    <div class="detailBox">
                                     <div class="left">

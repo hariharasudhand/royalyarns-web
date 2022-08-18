@@ -256,6 +256,10 @@
             position: absolute;
             left: 150px;
         }
+        a{
+            text-decoration: none;
+        }
+        
 
     
     /*  Comment Box CSS */
@@ -380,13 +384,8 @@
             <hr>
             {% load static %}
         <div class="topleft">
-            <img src="{% static 'images/RYN_logo.jpeg'%}" alt="no image" max-width="100%" height="100">
-            <h6> 
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;#4 / 32, 7th Cross Street, College Road,</small><br>
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Tirupur - 641602 - INDIA </small><br>
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91 421 2201222, 2247333 </small><br>
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Email: support@rayaalyarns.com </small><br>
-            </h6>
+            
+            
             <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
             </div>
             <div class="right">
@@ -398,7 +397,7 @@
                 <h4>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small class="text-muted"></small></h4>
                 
             </div>
-
+            <!-- <div class="left">
             <blockquote class="blockquote text-center">
                 <p class="mb-0">Thank You for your business</p>
                 <p class="mb-0">We have reviewed your enquiry and have the best price   
@@ -406,9 +405,11 @@
                 <footer class="blockquote-footer">
                     Vardhman Textiles Limited (Unit-Arihant Spinning Mills)</footer>
               </blockquote>
+              </div> -->
 <form name="RYform" id="RYform" action="/StoreCopNumber" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="row">    
+    
+    <div class="row" style="margin-left: 300px;">    
         
         <div class="col-md-6">
                 <!-- {% for d in data %}
@@ -420,12 +421,15 @@
 
 
            
-          <input type="hidden"style="margin-left: 10px;" class="form-control" name="Rno" id="delivery" value="{{vReg_no}}">
-          
+          <input type="hidden"style="margin-left: 10px;" class="form-control" name="Rno" id="delivery" value="{{ vReg_no.Reg_no }}">
+        
           <label for="SCNumber" style="margin-left: 10px;" class="form-label">SC Number:</label>
-          <input type="text"style="margin-left: 10px;" class="form-control" name="SCNumber" id="delivery" {{Default_Enq_Fileds}}>
+          <input type="text"style="margin-left: 10px;" class="form-control" name="SCNumber" id="delivery" value="{{vReg_no.Sc_Number}}" readonly>
+
           <label for="COPNumber"style="margin-left: 10px;" class="form-label">COP Number</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" name="COPNumber" id="payment_term">
-          <button style="margin-top:10px; margin-left: 600px;" type="submit" class="btn btn-primary">Submit</button>
-</body>
+          <input type="text" style="margin-left: 10px;" class="form-control" name="COPNumber" id="payment_term" required>
+          <button style="margin-top:10px; margin-left: 445px; margin-top: 20px;" type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            </div
+        </body>
 </html>
