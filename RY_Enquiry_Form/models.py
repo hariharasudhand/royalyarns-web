@@ -60,9 +60,9 @@ class RY_Enquiry_Header(models.Model):
     Po_PDF = models.FileField(max_length=500, null=True)
     Po_RevDate = models.CharField(max_length=100, null=True)
     GrpAssignedTo=models.CharField(max_length=100, null=True)
-    Sc_Number = models.CharField(max_length=100, null=True)
-    Pc_Number = models.CharField(max_length=100, null=True)
-    Cop_number = models.CharField(max_length=100, null=True)
+    # Sc_Number = models.CharField(max_length=100, null=True)
+    # Pc_Number = models.CharField(max_length=100, null=True)
+    # Cop_number = models.CharField(max_length=100, null=True)
     
 
     class Meta:

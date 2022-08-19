@@ -83,6 +83,7 @@ class DAO:
             context['ExternalReview('+Count_External+')'] = External_Review
 
         context['Role'] = vLoggedInRole
+        context['segment'] = 'index'
         context['user'] = vLoggedInUserID
         context['full'] = context
         

@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<html>
 
-<head>
 
     <title>Terata Enquiry Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -33,497 +30,400 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-    <script>
-        $(document).ready(function () {
-        //    alert(sessionStorage.getItem("vUser"));
-        //    if (sessionStorage.getItem("vUser") == null) {
-        //         alert("redirct to login page");
+<style>
 
-        //    }
-        });       
-    </script>
-    <style>
-            body {
-  background: #eee;
-}
-
-.icons i {
-  color: #b5b3b3;
-  border: 1px solid #b5b3b3;
-  padding: 6px;
-  margin-left: 4px;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.activity-done {
-  font-weight: 600;
-}
-
-.list-group li {
-  margin-bottom: 12px;
-}
-
-
-
-.list li {
-  list-style: none;
-  padding: 10px;
-  border: 1px solid #e3dada;
-  margin-top: 12px;
-  border-radius: 5px;
-  background: #fff;
-}
-
-.checkicon {
-  color: green;
-  font-size: 19px;
-}
-
-.date-time {
-  font-size: 12px;
-}
-
-.profile-image img {
-  margin-left: 3px;
-}
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 15px
-        }
-
-        h1 {
-            color: green;
-        }
-
-        /* Style the header */
-        header {
-            background-color: #ffffff;
-            padding: 10px;
-            text-align: center;
-            font-size: 5px;
-            color: #000000;
-            height: 3%;
-
-        }
-
-        /* Create two columns/boxes that floats next to each other */
-        nav {
-            float: left;
-            width: 70%;
-            height: 1300px;
-            /* only for demonstration, should be removed */
-            background: #ccc;
-            padding: 20px;
-        }
-
-        /* Style the list inside the menu */
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        article {
-            float: left;
-            padding: 20px;
-            width: 30%;
-            background-color: #f1f1f1;
-            height: 1300px;
-            /* only for demonstration, should be removed */
-        }
-
-        /* Clear floats after the columns */
-        section::after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
-        @media (max-width: 600px) {
-
-            nav,
-            article {
-                width: 100%;
-                height: auto;
-            }
-        }
-
-        .tab {
-            overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
-        }
-
-        /* Style the buttons inside the tab */
-        .tab button {
-            background-color: inherit;
-            float: left;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            padding: 14px 16px;
-            transition: 0.3s;
-            font-size: 17px;
-        }
-
-        /* Change background color of buttons on hover */
-        .tab button:hover {
-            background-color: #ddd;
-        }
-
-        /* Create an active/current tablink class */
-        .tab button.active {
-            background-color: #ccc;
-        }
-
-        /* Style the tab content */
-        .tabcontent {
-            display: none;
-            padding: 6px 12px;
-            border: 1px solid #ccc;
-            border-top: none;
-        }
-
-        /* Full-width input fields */
-        input[type=text],
-        input[type=password] {
-            width: 100%;
-            padding: 12px 30px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
-
-        /* Extra styles for the cancel button */
-        .cancelbtn {
-            width: auto;
-            padding: 10px 18px;
-            background-color: #83231c;
-        }
-
-        .container {
-            padding: 16px;
-        }
-
-        span.psw {
-            float: right;
-            padding-top: 16px;
-        }
-
-        /* The Modal (background) */
-        .modal {
-            display: none;
-            /* Hidden by default */
-            position: fixed;
-            /* Stay in place */
-            z-index: 1;
-            /* Sit on top */
-            left: 0;
-            top: 0;
-            width: 100%;
-            /* Full width */
-            height: 100%;
-            /* Full height */
-            overflow: auto;
-            /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0);
-            /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.4);
-            /* Black w/ opacity */
-            padding-top: 60px;
-        }
-
-        /* Modal Content/Box */
-        .modal-content {
-            background-color: #e3edd2;
-            margin: 5% auto 15% auto;
-            /* 5% from the top, 15% from the bottom and centered */
-            border: 1px solid #888;
-            width: 80%;
-            /* Could be more or less, depending on screen size */
-        }
-
-        /* The Close Button (x) */
-        .close {
-            position: absolute;
-            right: 25px;
-            top: 0;
-            color: #000;
-            font-size: 35px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: rgb(186, 50, 50);
-            cursor: pointer;
-        }
-
-        /* Add Zoom Animation */
-        .animate {
-            -webkit-animation: animatezoom 0.6s;
-            animation: animatezoom 0.6s
-        }
-
-        @-webkit-keyframes animatezoom {
-            from {
-                -webkit-transform: scale(0)
-            }
-
-            to {
-                -webkit-transform: scale(1)
-            }
-        }
-
-        @keyframes animatezoom {
-            from {
-                transform: scale(0)
-            }
-
-            to {
-                transform: scale(1)
-            }
-        }
-
-        /* Change styles for span and cancel button on extra small screens */
-        @media screen and (max-width: 300px) {
-            span.psw {
-                display: block;
-                float: none;
-            }
-
-            .cancelbtn {
-                width: 50%;
-            }
-        }
-        .topright {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 18px;
-        }
-        .topright1 {
-            position: absolute;
-            top: 90px;
-            right: 30px;
-            font-size: 13px;
-        }
-        .topcenter {
-            position: absolute;
-            top: 50px;
-            right: 610px;
-        }
-        .userCircle {
-            border-radius: 50%;
-            background: #289c34;
-            border: 1px solid #289c34;
-            color: #e6f2ea;
-            text-align: center;
-            display: block;
-            margin: 0px;
-            position: relative;
-            height: 42px;
-            width: 42px;
-            z-index: 0;
-
-            font: 32px  Courier New;
-        }
-        .popup {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        /* .color0{
-            background-color: #8cf396;
-        }
-        .color1{
-            background-color: #8cf3d1;
-        }
-        .color2{
-            background-color: #c3f38c;
-        }
-        .color3{
-            background-color: #f3c38c;
-        }
-        .color4{
-            background-color: #50d6c4;
-        }
-        .color5{
-            background-color: #8cb0f3;
-        }
-        .color6{
-            background-color: #7554eb;
-        }
-        .color7{
-            background-color: #bb60f8;
-        }
-        .color8{
-            background-color: #f03ff0;
-        }
-        .color9{
-            background-color: #7e2a43;
-        }
-        .color10{
-            background-color: #69b3dd;
-        }
-        .color11{
-            background-color: #973fca;
-        }
-        .color12{
-            background-color: #b7cc3d;
-        }
-        .color13{
-            background-color: #8c40ca;
-        } */
-
-
-        /* The actual popup */
-        .popup .popuptext {
-            visibility: hidden;
-            width: 160px;
-            background-color: #555;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px 0;
-            position: absolute;
-            z-index: 1;
-            bottom: 95%;
-            left: 50%;
-            margin-left: 50px;
-        }
-
-        /* Popup arrow */
-        .popup .popuptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #555 transparent transparent transparent;
-        }
-        
-        .popuptext{
-            position: fixed;
-            top: 60%;
-            left: 88%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            text-align: center;
-            
-            background-color: #f8f5f6;
-            opacity: 5;
-            padding: 10px;
-            z-index: 100;
-            display: none;
-            /* min-height: 30px;
-            min-width: 30px;
-            resize: both;
-            overflow: auto;
-            max-height: fit-content;
-            max-width: fit-content; */
-        }
-
-    </style>
-</head>
-<script>
-    var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-
-    //example ajax
-    $.ajax({
-        url: url,
-        type: 'POST',
-        headers: {
-            "X-CSRFToken": csrftoken
-        },
-        data: data,
-        cache: true,
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-    var showEmailAction = function () {
-       //alert("hi");
-      $('#myPopup').fadeIn(1000);
-    $('#myPopup').resizable().draggable();
-      $('#hidepop').click(function(){
-        $('#myPopup').fadeOut(1000);
-        })
+.topright {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 18px;
     }
-    $('#showEmailAction').on('click', showEmailAction)
-});
 
-// console.log("popup")
-</script>
+    .userCircle {
+        border-radius: 50%;
+        background: #289c34;
+        border: 1px solid #289c34;
+        color: #e6f2ea;
+        text-align: center;
+        display: block;
+        margin: 0px;
+        position: relative;
+        height: 42px;
+        width: 42px;
+        z-index: 0;
+
+        font: 32px  Courier New;
+    }
+    .topright1 {
+        position: absolute;
+        top: 90px;
+        right: 30px;
+        font-size: 13px;
+    }
+     /* Style the buttons inside the tab */
+     .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+    header {
+        background-color: #ffffff;
+        padding: 10px;
+        text-align: center;
+        font-size: 5px;
+        color: #000000;
+        height: 3%;
+
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+        background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+        background-color: #ccc;
+    }
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+    /* Style the tab content */
+   
+
+    /* Full-width input fields */
+    input[type=text],
+    input[type=password] {
+        width: 100%;
+        padding: 12px 30px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    /* Extra styles for the cancel button */
+    .cancelbtn {
+        width: auto;
+        padding: 10px 18px;
+        background-color: #83231c;
+    }
+
+    .container {
+        padding: 16px;
+    }
+
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+        padding-top: 60px;
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #e3edd2;
+        margin: 5% auto 15% auto;
+        /* 5% from the top, 15% from the bottom and centered */
+        border: 1px solid #888;
+        width: 80%;
+        /* Could be more or less, depending on screen size */
+    }
+
+    /* The Close Button (x) */
+    .close {
+        position: absolute;
+        right: 25px;
+        top: 0;
+        color: #000;
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: rgb(186, 50, 50);
+        cursor: pointer;
+    }
+
+    /* Add Zoom Animation */
+    .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+    }
+
+    @-webkit-keyframes animatezoom {
+        from {
+            -webkit-transform: scale(0)
+        }
+
+        to {
+            -webkit-transform: scale(1)
+        }
+    }
+
+    @keyframes animatezoom {
+        from {
+            transform: scale(0)
+        }
+
+        to {
+            transform: scale(1)
+        }
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+        span.psw {
+            display: block;
+            float: none;
+        }
+
+        .cancelbtn {
+            width: 50%;
+        }
+    }
+    
+   
+    .topcenter {
+        position: absolute;
+        top: 50px;
+        right: 610px;
+    }
+    opup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .color0{
+        background-color: #8cf396;
+    }
+    .color1{
+        background-color: #8cf3d1;
+    }
+    .color2{
+        background-color: #c3f38c;
+    }
+    .color3{
+        background-color: #f3c38c;
+    }
+    .color4{
+        background-color: #50d6c4;
+    }
+    .color5{
+        background-color: #8cb0f3;
+    }
+    .color6{
+        background-color: #7554eb;
+    }
+    .color7{
+        background-color: #bb60f8;
+    }
+    .color8{
+        background-color: #f03ff0;
+    }
+    .color9{
+        background-color: #7e2a43;
+    }
+    .color10{
+        background-color: #69b3dd;
+    }
+    .color11{
+        background-color: #973fca;
+    }
+    .color12{
+        background-color: #b7cc3d;
+    }
+    .color13{
+        background-color: #8c40ca;
+    }
+
+
+    /* The actual popup */
+    .popup .popuptext {
+        visibility: hidden;
+        width: 160px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 95%;
+        left: 50%;
+        margin-left: 50px;
+    }
+
+    /* Popup arrow */
+    .popup .popuptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+    }
+    
+    .popuptext{
+        position: fixed;
+        top: 60%;
+        left: 88%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 300px;
+        text-align: center;
+        
+        background-color: #f8f5f6;
+        opacity: 5;
+        padding: 10px;
+        z-index: 100;
+        display: none;
+        /* min-height: 30px;
+        min-width: 30px;
+        resize: both;
+        overflow: auto;
+        max-height: fit-content;
+        max-width: fit-content; */
+    }
+  
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px
+    }
+
+    h1 {
+        color: green;
+    }
+
+    /* Style the header */
+   
+
+    /* Create two columns/boxes that floats next to each other */
+    nav {
+        float: left;
+        width: 70%;
+        height: 1300px;
+        /* only for demonstration, should be removed */
+        background: #ccc;
+        padding: 20px;
+    }
+
+    /* Style the list inside the menu */
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    article {
+        float: left;
+        padding: 20px;
+        width: 30%;
+        background-color: #f1f1f1;
+        height: 1300px;
+        /* only for demonstration, should be removed */
+    }
+
+    /* Clear floats after the columns */
+    section::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    /* Responsive layout - makes the two columns/boxes stack on top of each other instead of next to each other, on small screens */
+    @media (max-width: 600px) {
+
+        nav,
+        article {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+  
+
+   
+</style>
 
 <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 
-    <!-- <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <form class="modal-content animate" action="/login" method="post">
-                 <div class="imgcontainer">
-                    <span onclick="document.getElementById('myModal').style.display='none'" class="close"
-                        title="Close Modal">&times;</span>
-                    <img src="images/Terata.jpeg" alt="Login" class="avatar">
-                </div> 
-                <div class="modal-content">
-                    <div class="container">
-                        <label for="uname"><b>Username</b></label>
-                        <input type="text" placeholder="Enter Username" id="UserName" name="uname" value="" required>
 
-                        <label for="psw"><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" id="password" name="psw" value="" required>
-                        <button type="submit">Login</button>
-                    </div>
-                    <div class="container" style="background-color:#566d4a">
-                        <button type="button" onclick="document.getElementById('myModal').style.display='none'"
-                            class="cancelbtn">Cancel</button>
-                    </div>
+
+{% extends 'layouts/base.html' %}
+
+{% block title %} UI Tables {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="container-fluid py-4">
+
+    <div class="row">
+      <div class="col-12">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            
+            <header>
+
+                <div class="rounded float-start">
+                    {% load static %}
+                    <a href="{% static 'images/Terata.jpeg'%}"><img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60"></a>
+                    <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
                 </div>
-            </form>
-        </div>
-    </div> -->
-    <header>
-
-        <div class="rounded float-start">
-            {% load static %}
-            <a href="{% static 'images/Terata.jpeg'%}"><img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60"></a>
-            <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
-        </div>
-        </div>
-        <center>
-            <h1>Enquiry Validation </h1>
-        </center>
-    </header>
-            {% if Role == 'agent' %}
-            
-            <form name="RYform" id="RYform" action="UploadExcel" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-        
-                <input type="file" class="topright1" name="upload" id="upload" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
-                <button class="topright1"type="submit"> Upload</button>
-            </form>
-            
-            {% endif %}
-    {% if not Error %}
+                </div>
+                <center>
+                    <h3>Enquiry Validation </h3>
+                </center>
+            </header><br><br>
+           
+            {% if not Error %}
     <section>
         <div class="tab">
         {% for key, value in full.items %}
@@ -541,125 +441,182 @@
             {% endif %}
         {% endfor %}
         </div>
-            <!-- <button class="tablinks" onclick="openTab(event, 'Quotation')">Ready for Quotation<font color='red'>
-                    (<b>{{Count_Rfq}}</b>)</button> -->
-            <!-- <button class="tablinks" onclick="openTab(event, 'ReqYarnPrice')">Sent for Yarn Pricing <font color='red'>
-                    (<b>{{Count_RYP}}</b>)</button>
-            <button class="tablinks" onclick="openTab(event, 'Updated')">other_status<font color='red'>
-                    (<b>{{Count_Upd}}</b>)</button> -->
-        
+
+          
+         
+
     {% for key, value in full.items %}
-        {% if key|first in 'full' %}
-        {% else %}
-        <div id='{{ key }}' class="tabcontent">
-            <!-- <table class="table table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col">Reg_no</th>
-                        <th scope="col">Mill</th>
-                        <th scope="col">Customer</th>
-                        <th scope="col">Marketing_Zone</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">&nbsp;&nbsp;&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody> -->
-                    <div class="d-flex justify-content-between align-items-center activity">
-                        <div style="margin-top: 50px; padding-left: 550px; "><span class="activity-done">New Activities</span></div>
-                    </div>
-                    {% for UnrData in value %}
-                    <a href="?Rno={{UnrData.Reg_no}}" class="text-decoration-none">
-                    <div class="container mt-1">
-                        <div class="row">
-                            <div class="col-md-12">
-                                
-                                <div class="mt-2">
-                                    <ul class="list list-inline">
-                                        <li class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center"><i class="fa fa-check-circle checkicon"></i>
-                                                <div class="ml-1">
-                                                    <h6 class="mb-0" > {{UnrData.Mill}} &nbsp; {{UnrData.Reg_no}} &nbsp; {{UnrData.Customer}} &nbsp; {{UnrData.Status}} &nbsp;</h6>
-                                                    
-                                                        
-                                                    <div class="d-flex flex-row mt-1 text-black-50 date-time">
-                                                        <div><i class="fa fa-calendar-o"></i><span class="ml-2">{{UnrData.Date}}</span></div>
-                                                        
-                                                    </div>
-                                                
-                                                </div>
-                                            </div>
-                                            
-                                                      
-                                        
-                                                </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </a> </div>
-                    </div>
-                    {% endfor %}
-                    {% for UnrData in value %}
-
-                    <tr>
-                        <!-- <th scope="row">{{UnrData.Reg_no}}</th> -->
-
-                        <!-- <td><input type="text" class="form-control" id="Rno{{UnrData.Reg_no}}"
-                            name="Rno{{UnrData.Reg_no}}" value="{{UnrData.Reg_no}}" style="width:80px;">
-                        </td>
-
-                        <td><input type="text" class="form-control" id="Mill{{UnrData.Mill}}" 
-                                name="Mill{{UnrData.Mill}}" value="{{UnrData.Mill}}" style="width: 200px;">
-                        </td>
-
-                        <td><input type="text" class="form-control" id="Customer{{UnrData.Customer}}"
-                                name="Customer{{UnrData.Customer}}" value="{{UnrData.Customer}}" style="width: 200px;">
-                        </td>
-
-                        <td><input type="text" class="form-control" id="Marketing_Zone{{UnrData.Marketing_Zone}}"
-                                name="Marketing_Zone{{UnrData.Marketing_Zone}}" value="{{UnrData.Marketing_Zone}}"
-                                style="width: 200px;">
-                        </td>
-
-                        <td><input type="text" class="form-control" id="Date{{UnrData.Date}}"
-                                name="Date{{UnrData.Date}}" value="{{UnrData.Date}}" style="width: 200px;">
-                        </td>
-                        <td>
-                            
-                            <input type="text" class="form-control color{{UnrData.Status}}" id="Status{{UnrData.Status}}"
-                            name="Date{{UnrData.Stauts}}" value="{{UnrData.Status}}" style="width: 200px;">
-                    </td>
-                        <td>
-                            <a href="?Rno={{UnrData.Reg_no}}" class="btn btn-info" role="button">View</a>
-                        </td>
-                    </tr> -->
-
-                    {% endfor %}
-                {% endif %}
-                </tbody>
-            </table>
-        </div>
-           
-        {% endfor %}
-        <script>
-            function openTab(evt, tabName) {
-                var i, tabcontent, tablinks;
-                tabcontent = document.getElementsByClassName("tabcontent");
-                for (i = 0; i < tabcontent.length; i++) {
-                    tabcontent[i].style.display = "none";
-                }
-                tablinks = document.getElementsByClassName("tablinks");
-                for (i = 0; i < tablinks.length; i++) {
-                    tablinks[i].className = tablinks[i].className.replace(" active", "");
-                }
-                document.getElementById(tabName).style.display = "block";
-                evt.currentTarget.className += " active";
-            }
-        </script>
-    </section>
+    {% if key|first in 'full' %}
     {% else %}
-    <h2>No data was found </h2>
-    {% endif %}
-</body>
+    <div id='{{ key }}' class="tabcontent">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0"><h6>Projects table</h6></div>
+                <div class="card-body px-0 pt-0 pb-2">
+                 <div class="table-responsive p-0">
+                    <table class="table align-items-center justify-content-center mb-0">
+                    <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Reg_no</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mill</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Customer</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Marketing_Zone</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Status</th>
+                 
+                  </tr>
+                    </thead>
+                <tbody>
+                    {% for UnrData in value %}
+                    <a href="?Rno={{UnrData.Reg_no}}">
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2">
+                        <div>
+                          
+                          <h6 class="mb-0 text-sm">{{UnrData.Reg_no}}</h6>
+                          </div>
+                        
+                      </div>
+                    </td>
+                    <td>
+                      <p class="text-sm font-weight-bold mb-0"> {{UnrData.Mill}}</p>
+                    </td>
+                    <td>
+                      <span class="text-xs font-weight-bold">{{UnrData.Customer}}</span>
+                    </td>
+                    <td>
+                        <span class="text-xs font-weight-bold">{{UnrData.Marketing_Zone}}</span>
+                    </td>
+                    <td>
+                        <span class="text-xs font-weight-bold">{{UnrData.Date}}</span>
+                    </td>
+                    <td class="align-middle text-center">
+                      <div class="d-flex align-items-center justify-content-center">
+                        <span class="me-2 text-xs font-weight-bold"></span>
+                        <div>
+                          <div class="progress">
+                            <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                        <a href="?Rno={{UnrData.Reg_no}}" class="btn btn-info" role="button">View</a>
+                    </td>
+                   
+                  </tr>
+                  
+                
+                  {% endfor %}
+                  {% endif %}
+                  </tbody>
+              </table>
+          </div>
+             
+        
+          
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
 
-</html>
+    {% endfor %}
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+    </script>
+</section>
+{% else %}
+<h2>No data was found </h2>
+{% endif %}
+
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  
+  <script>
+    $(document).ready(function () {
+    //    alert(sessionStorage.getItem("vUser"));
+    //    if (sessionStorage.getItem("vUser") == null) {
+    //         alert("redirct to login page");
+
+    //    }
+    });       
+</script>
+
+
+<script>
+var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+
+//example ajax
+$.ajax({
+    url: url,
+    type: 'POST',
+    headers: {
+        "X-CSRFToken": csrftoken
+    },
+    data: data,
+    cache: true,
+});
+</script>
+<script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+
+<script>
+$(document).ready(function () {
+var showEmailAction = function () {
+   alert("hi");
+  $('#myPopup').fadeIn(1000);
+$('#myPopup').resizable().draggable();
+  $('#hidepop').click(function(){
+    $('#myPopup').fadeOut(1000);
+    })
+}
+$('#showEmailAction').on('click', showEmailAction)
+});
+
+// console.log("popup")
+</script>
+
+{% endblock javascripts %}
+

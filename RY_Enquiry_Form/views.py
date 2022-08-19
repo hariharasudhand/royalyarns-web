@@ -145,7 +145,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
     vUser = request.POST.get('UserName')
     vNow = datetime.now()
     vGrpAssignedTo = request.POST.get('vGrp_to')
-    print('4444444444444',vGrpAssignedTo)
+    
 
     ##
     # *** vBtnAction field points to hBtnAction hidden field in the form
@@ -618,3 +618,11 @@ def StoreCopNumber(request):
         print("regnumber in storecomments",vReg_no)
         vDAO.StoreCopNumber(vReg_no,vCopNumber)
         return HttpResponseRedirect('/')
+
+def dashboard(request):
+    context={'segment':'dashboard'}
+    return render(request, 'home/tables.html',context)
+
+def Upload(request):
+    res1 = request.COOKIES.get('username')
+    return render(request, 'app/Upload.html',{'user':res1,'segment':'Upload'})
