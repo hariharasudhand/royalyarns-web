@@ -33,6 +33,9 @@ from email import encoders
 import random
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+import re
+from django.db.models import Q, Count
+from .models import RY_Enquiry_Header, RY_Enquiry_Items
 
 
 vDAO = DAO("dao")
@@ -621,7 +624,165 @@ def StoreCopNumber(request):
 
 def dashboard(request):
     context={'segment':'dashboard'}
-    return render(request, 'home/tables.html',context)
+    completed = RY_Enquiry_Header.objects.filter(Status__exact='14').count()
+    inprocess = RY_Enquiry_Header.objects.filter(Q(Status__exact='1') | Q(Status__exact='2') | Q(Status__exact='5') | Q(Status__exact='7') | Q(
+        Status__exact='8') | Q(Status__exact='9')| Q(Status__exact='0') | Q(Status__exact='10') | Q(Status__exact='11') | Q(Status__exact='13') | Q(Status__exact='4') | Q(Status__exact='6')| Q(Status__exact='12')| Q(Status__exact='3')).count()
+    rejected = RY_Enquiry_Header.objects.filter(
+        Status__exact='-1').count()
+    count = RY_Enquiry_Header.objects.all().count()
+
+# arrays for monthly graph
+    totaleq = []
+    mon_0 = []
+    mon_in = []
+    mon_ex = []
+    mon_com = []
+    rej = []
+
+    # PSQL Queries done with regex-suffix/prefix
+    # total enquires
+    for a in range(0, 12):
+        date = '2022-01'
+        res = re.sub(r'[0-9]+$',
+                    lambda x: f"{str(int(x.group())+a).zfill(len(x.group()))}",
+                    date)
+        jan_counts = RY_Enquiry_Header.objects.filter(
+            Date__contains=res).count()
+        totaleq.append(jan_counts)
+
+    # enquires status for 0 ---- New Enquiry
+    for a in range(0, 12):
+        date = '2022-01'
+        res = re.sub(r'[0-9]+$',
+                    lambda x: f"{str(int(x.group())+a).zfill(len(x.group()))}",
+                    date)
+        jan_counts = RY_Enquiry_Header.objects.filter(
+            Status='0', Date__contains=res).count()
+        mon_0.append(jan_counts)
+
+    # enquires status for 1,2,5,7,8,9,1,0,1,1,1,3,4  --- Internal Review
+
+    for a in range(0, 12):
+        date = '2022-01'
+        res = re.sub(r'[0-9]+$',
+                    lambda x: f"{str(int(x.group())+a).zfill(len(x.group()))}",
+                    date)
+        jan_counts = RY_Enquiry_Header.objects.filter(Q(Status__exact='1') | Q(Status__exact='2') | Q(Status__exact='5') | Q(Status__exact='7') | Q(Status__exact='8') | Q(
+            Status__exact='9') | Q(Status__exact='10') | Q(Status__exact='11') | Q(Status__exact='13') | Q(Status__exact='4')).filter(Date__contains=res).count()
+        mon_in.append(jan_counts)
+
+
+    # enquires status for 3,6,12 ---- External
+
+    for a in range(0, 12):
+        date = '2022-01'
+        res = re.sub(r'[0-9]+$',
+                    lambda x: f"{str(int(x.group())+a).zfill(len(x.group()))}",
+                    date)
+        jan_counts = RY_Enquiry_Header.objects.filter(Q(Status__exact='6') | Q(
+            Status__exact='12') | Q(Status__exact='3')).filter(Date__contains=res).count()
+        mon_ex.append(jan_counts)
+
+
+    # enquires status for 14 ---- Completed
+
+    for a in range(0, 12):
+        date = '2022-01'
+        res = re.sub(r'[0-9]+$',
+                    lambda x: f"{str(int(x.group())+a).zfill(len(x.group()))}",
+                    date)
+        jan_counts = RY_Enquiry_Header.objects.filter(
+            Status='14', Date__contains=res).count()
+        mon_com.append(jan_counts)
+
+        #  enquires status for -1 ---- Rejected
+
+    for a in range(0, 12):
+        date = '2022-01'
+        res = re.sub(r'[0-9]+$',
+                    lambda x: f"{str(int(x.group())+a).zfill(len(x.group()))}",
+                    date)
+        jan_counts = RY_Enquiry_Header.objects.filter(
+            Status='-1', Date__contains=res).count()
+        rej.append(jan_counts)
+
+    # array for quarterly graph
+    qt_total = []
+    qt_0 = []
+    qt_in = []
+    qt_ex= []
+    qt_com = []
+    qt_rej = []
+    # PSQL Queries
+    # total enquires
+    qtcount = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-01') | Q(
+        Date__contains='2022-02') | Q(Date__contains='2022-03')).count()
+    qtcount1 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-04') | Q(
+        Date__contains='2022-05') | Q(Date__contains='2022-06')).count()
+    qtcount2 = RY_Enquiry_Header.objects.filter(
+        Q(Date__contains='2022-07') | Q(Date__contains='2022-08')).count()
+    qt_total.append(qtcount)
+    qt_total.append(qtcount1)
+    qt_total.append(qtcount2)
+    # enquires status for 0 ---- New Enquiry
+    qtsts = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-01') | Q(
+        Date__contains='2022-02') | Q(Date__contains='2022-03')).filter(Status__exact='0').count()
+    qtcount12 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-04') | Q(
+        Date__contains='2022-05') | Q(Date__contains='2022-06')).filter(Status__exact='0').count()
+    qtcount22 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-07') | Q(
+        Date__contains='2022-08')).filter(Status__exact='0').count()
+    qt_0.append(qtsts)
+    qt_0.append(qtcount12)
+    qt_0.append(qtcount22)
+    # enquires status for 3,6,12 ---- External
+    qtsts = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-01') | Q(Date__contains='2022-02') | Q(
+        Date__contains='2022-03')).filter(Q(Status__exact='6') | Q(Status__exact='12') | Q(Status__exact='3')).count()
+    qtsts1 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-04') | Q(Date__contains='2022-05') | Q(
+        Date__contains='2022-06')).filter(Q(Status__exact='6') | Q(Status__exact='12') | Q(Status__exact='3')).count()
+    qtsts2 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-07') | Q(
+        Date__contains='2022-08')).filter(Q(Status__exact='6') | Q(Status__exact='12') | Q(Status__exact='3')).count()
+    qt_ex.append(qtsts)
+    qt_ex.append(qtsts1)
+    qt_ex.append(qtsts2)
+
+    qtsts51 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-01') | Q(Date__contains='2022-02') | Q(Date__contains='2022-03')).filter(Q(Status__exact='1') | Q(
+        Status__exact='2') | Q(Status__exact='5') | Q(Status__exact='7') | Q(Status__exact='8') | Q(Status__exact='9') | Q(Status__exact='10') | Q(Status__exact='11') | Q(Status__exact='13') | Q(Status__exact='4')).count()
+    qtsts52 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-04') | Q(Date__contains='2022-05') | Q(Date__contains='2022-06')).filter(Q(Status__exact='1') | Q(
+        Status__exact='2') | Q(Status__exact='5') | Q(Status__exact='7') | Q(Status__exact='8') | Q(Status__exact='9') | Q(Status__exact='10') | Q(Status__exact='11') | Q(Status__exact='13') | Q(Status__exact='4')).count()
+    qtsts53 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-07') | Q(Date__contains='2022-08')).filter(Q(Status__exact='1') | Q(Status__exact='2') | Q(
+        Status__exact='5') | Q(Status__exact='7') | Q(Status__exact='8') | Q(Status__exact='9') | Q(Status__exact='10') | Q(Status__exact='11') | Q(Status__exact='13') | Q(Status__exact='4')).count()
+    qt_in.append(qtsts51)
+    qt_in.append(qtsts52)
+    qt_in.append(qtsts53)
+    #  enquires status for -1 ---- Rejected
+    qtsts71 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-01') | Q(
+        Date__contains='2022-02') | Q(Date__contains='2022-03')).filter(Status__exact='-1').count()
+    qtsts72 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-04') | Q(
+        Date__contains='2022-05') | Q(Date__contains='2022-06')).filter(Status__exact='-1').count()
+    qtsts73 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-07') | Q(
+        Date__contains='2022-08')).filter(Status__exact='-1').count()
+    qt_rej.append(qtsts71)
+    qt_rej.append(qtsts72)
+    qt_rej.append(qtsts73)
+    # enquires status for 14 ---- Completed
+    qtsts01 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-01') | Q(
+        Date__contains='2022-02') | Q(Date__contains='2022-03')).filter(Status__exact='14').count()
+    qtsts02 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-04') | Q(
+        Date__contains='2022-05') | Q(Date__contains='2022-06')).filter(Status__exact='14').count()
+    qtsts03 = RY_Enquiry_Header.objects.filter(Q(Date__contains='2022-07') | Q(
+        Date__contains='2022-08')).filter(Status__exact='14').count()
+    qt_com.append(qtsts01)
+    qt_com.append(qtsts02)
+    qt_com.append(qtsts03)
+
+    #array for items
+    type_name=[]
+    items_values=[]
+    items_no=RY_Enquiry_Items.objects.values('Type').annotate(Count('id')).order_by().filter(id__count__gt=0)
+    for itm in items_no:
+        type_name.append(itm['Type'])
+        items_values.append(itm['id__count'])
+    return render(request, 'app/graph.html',{'type_name': type_name, 'items_values':items_values, 'enquiry': count, 'completed': completed, 'inprocess': inprocess, 'rejected': rejected,'totalenq' : totaleq,'mon_0': mon_0, 'mon_in':mon_in,'mon_ex': mon_ex, 'mon_com':mon_com, 'rej':rej, 'qt_total' :qt_total, 'qt_0':qt_0 ,'qt_in' :qt_in ,'qt_ex' :qt_ex ,'qt_com':qt_com ,'qt_rej':qt_rej })
 
 def Upload(request):
     res1 = request.COOKIES.get('username')

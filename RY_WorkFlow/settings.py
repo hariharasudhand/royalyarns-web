@@ -84,9 +84,9 @@ WSGI_APPLICATION = 'RY_WorkFlow.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'portaldb',
         'USER': 'postgres',
-        'PASSWORD': 'dhilip97',
+        'PASSWORD': 'choco',
         'HOST': 'localhost',
         'PORT': '5432',
     }
