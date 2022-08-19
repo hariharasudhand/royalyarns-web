@@ -1,534 +1,79 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>Quotation to Supplier</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-    <!-- <link href="//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
-    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js">
-    </script> -->
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-    rel="stylesheet"> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script> -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        $(document).ready(function () {
-            var showEmailAction = function () {
-            //   alert("hi");
-            $('#myPopup').fadeIn(1000);
-            $('#myPopup').resizable().draggable();
-              $('#hidepop').click(function(){
-                $('#myPopup').fadeOut(1000);
-               })
-            }
-            $('#showEmailAction').on('click', showEmailAction)
-        });
-    // console.log("popup")
-    </script>
-    <script>
-        function onButtonClick() {
-            document.getElementById('textInput').className = "show";
-            document.getElementById('button').className = "show";
-        }
-    </script>
-    <script>
-        $(document).ready(function () {
-            var saveAndProceed = function(){
-                $('#hBtnAction').val("sap");
-                $('#RYform').submit();
-            }
-            $('#saveAndProceed').on('click', saveAndProceed)
-
-            var cancelAction = function () {
-                $('#hBtnAction').val("cancel");
-                $('#RYform').submit();
-            }
-            $('#cancelAction').on('click', cancelAction)
-
-        });
-        if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-        }
-    </script>
-
-
-    <script>
-        //initialising a variable name row_count
-        var row_count = 0;
-        //printing default value of row_count that is 0 in h2 tag
-        document.getElementById("counting").innerText = row_count;
-
-        //creation of increment function
-        function increment() {
-            row_count = row_count + 1;
-            // document.getElementById("counting").innerText = row_count;
-        }
-        //creation of decrement function
-        function decrement() {
-            row_count = row_count - 1;
-            // document.getElementById("counting").innerText = row_count;
-        }
-    </script>
-    <script>
-        $(document).ready(function () {
-            var row_count = $('#MyTable >tbody >tr').length;
-            //var row_count = 0;
-            // document.getElementById("counting").innerText = row_count;
-            //Set total row count of Enquiry Items on load in hidden field
-            $("#txtRowCount").val(row_count);
-
-            //alert(" find total");
-            //calculate total
-           
-            //alert(" total rows"+row_count);
-            var totalAmount = 0;
-            for ( i = 1;i<row_count;i++){
-                
-                var row_rate = parseInt($('#Arate'+i).val());
-                var row_quantity = parseInt($('#Quantity'+i).val());
-
-                totalAmount = totalAmount + (row_rate * row_quantity);
-            }
-            $("div.txtTotalAmount").text(totalAmount.toLocaleString('en-IN'));
-
-            $(".add-row").click(function () {
-                row_count = row_count + 1;
-                var markup = "<tr>";
-                markup+= "<th scope=\"row\">"+row_count+"</th>";
-                markup+= "<td scope=\"row\"><input type='checkbox' name='record'> </td>";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Counts"+row_count+" name=Counts"+row_count+" style=\"width:60px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Quality"+row_count+" name=Quality"+row_count+" style=\"width:60px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=YarnType"+row_count+" name=YarnType"+row_count+" style=\"width:100px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Blend"+row_count+" name=Blend"+row_count+" style=\"width:250px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Shade"+row_count+" name=Shade"+row_count+" style=\"width:150px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Depth"+row_count+" name=Depth"+row_count+" style=\"width:100px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=UOM"+row_count+" name=UOM"+row_count+" style=\"width:60px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Quantity"+row_count+" name=Quantity"+row_count+" style=\"width:80px\" > </td>  ";  
-                markup+= "</tr>";
-                $("table tbody").append(markup);
-                $("#txtRowCount").val(row_count);
-            });
-
-            // Find and remove selected table rows
-            $(".delete-row").click(function () {
-                $("table tbody").find('input[name="record"]').each(function () {
-                    if ($(this).is(":checked")) {
-                        $(this).parents("tr").remove();
-                        row_count = row_count - 1;
-                        // document.getElementById("counting").innerText = row_count;
-                    }
-                });
-                $("#txtRowCount").val(row_count);
-            });
-        });
-        $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').trigger('focus')
-        })   
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('#wrapper').dialog({
-                autoOpen: false,
-                title: 'Email Details'
-            });
-            $('#opener').click(function () {
-                $('#wrapper').dialog('open');
-                // return false;
-            });
-        });
-    </script>
-
-    <style>
-        .accordion {
-            text-align: center;
-        }
-
-        .accordion.width {
-            display: flex;
-            width: 100px;
-        }
-
-        .accordion.width .card {
-            flex-direction: row;
-            min-width: min-content;
-        }
-
-        .accordion.width .card .card-header {
-            cursor: pointer;
-            transform: rotate(180deg);
-            writing-mode: vertical-rl;
-            background-color: #0F9D58;
-            border: 2px solid black;
-        }
-
-        .card-body {
-            width: 600px;
-            background-color: white;
-        }
-
-        .card-Email {
-            width: 475px;
-            background-color: white;
-        }
-
-        .collapsing.width {
-            transition: width 0.5s ease;
-            height: auto;
-            width: 5px;
-        }
-
-        h1 {
-            color: green;
-        }
-
-        p {
-            color: black;
-        }
-
-        .button {
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            margin-left: 850px;
-            cursor: pointer;
-        }
-
-        .button2 {
-            background-color: #008CBA;
-        }
-
-        .popup {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        /* The actual popup */
-        .popup .popuptext {
-            visibility: hidden;
-            width: 160px;
-            background-color: #555;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px 0;
-            position: absolute;
-            z-index: 1;
-            bottom: 95%;
-            left: 50%;
-            margin-left: 50px;
-        }
-
-        /* Popup arrow */
-        .popup .popuptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #555 transparent transparent transparent;
-        }
-
-        /* Toggle this class - hide and show the popup */
-        .popup .show {
-            visibility: visible;
-            -webkit-animation: fadeIn 1s;
-            animation: fadeIn 1s;
-        }
-
-        /* Add animation (fade in the popup) */
-        @-webkit-keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        body {
-            margin-top: 20px;
-            background-color: #ffffff;
-        }
-
-       
-        .form-group.fl_icon .icon {
-            position: absolute;
-            top: 1px;
-            left: 16px;
-            width: 48px;
-            height: 48px;
-            background: #f6f6f7;
-            color: #b5b8c2;
-            text-align: center;
-            line-height: 50px;
-            -webkit-border-top-left-radius: 2px;
-            -webkit-border-bottom-left-radius: 2px;
-            -moz-border-radius-topleft: 2px;
-            -moz-border-radius-bottomleft: 2px;
-            border-top-left-radius: 2px;
-            border-bottom-left-radius: 2px;
-        }
-
-        .form-group .form-input {
-            font-size: 13px;
-            line-height: 50px;
-            font-weight: 400;
-            color: #b4b7c1;
-            width: 100%;
-            height: 50px;
-            padding-left: 20px;
-            padding-right: 20px;
-            border: 1px solid #edeff2;
-            border-radius: 3px;
-        }
-
-        .form-group.fl_icon .form-input {
-            padding-left: 70px;
-        }
-
-        .form-group textarea.form-input {
-            height: 150px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .topright {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 18px;
-        }
-        .topcenter {
-            position: absolute;
-            top: 50px;
-            right: 610px;
-        }
-        .popuptext{
-            position: fixed;
-            top: 60%;
-            left: 88%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            text-align: center;
-            background-color: #f8f5f6;
-            opacity: 5;
-            padding: 10px;
-            z-index: 100;
-            display: none;
-            /* min-height: 30px;
-            min-width: 30px;
-            resize: both;
-            overflow: auto;
-            max-height: fit-content;
-            max-width: fit-content; */
-        }
-        .close-btn {
-            position: absolute;
-            right: 20px;
-            top: 15px;
-            background-color: black;
-            color: white;
-            border-radius: 50%;
-            padding: 4px;
-        }
-        
-        .right2 {
-            position: absolute;
-            left: 150px;
-        }
-
-    
-    /*  Comment Box CSS */
-    @import url(//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css);
-
-    .container {
-        width:240%;
-        margin:50px;
-        display: flex;
-        padding-bottom: 0px;
-    }
-
-    .detailBox {
-        width:240%;
-        border:1px solid rgb(204, 167, 167);
-        margin:50px;
-        display: flex;
-        padding-bottom: 20px;
-    }
-    .left{
-            flex: 50%;
-        }
-    .right{
-        flex: 25%;
-    }
-   
-    .titleBox {
-        background-color:#fdfdfd;
-        padding:10px;
-    }
-    .titleBox label{
-    color:#444;
-    margin:0;
-    display:inline-block;
-    }
-
-    .commentBox {
-        padding:10px;
-        border-top:1px dotted rgb(24, 24, 24);
-    }
-    .commentBox .form-group:first-child, .actionBox .form-group:first-child {
-        width:80%;
-    }
-    .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
-        width:18%;
-    }
-    .actionBox .form-group * {
-        width:100%;
-    }
-    .taskDescription {
-        margin-top:10px 0;
-        width:100%;
-    }
-    .commentList {
-        padding:0;
-        list-style:none;
-        max-height:200px;
-        overflow:auto;
-    }
-    .commentList li {
-        margin:0;
-        margin-top:10px;
-    }
-    .commentList li > div {
-        display:table-cell;
-    }
-    .commenterImage {
-        width:30px;
-        margin-right:5px;
-        height:100%;
-        float:left;
-    }
-    .commenterImage img {
-        width:100%;
-        border-radius:50%;
-    }
-    .commentText p {
-        margin:0;
-    }
-    .sub-text {
-        color:#aaa;
-        font-family:verdana;
-        font-size:11px;
-    }
-    .actionBox {
-        border-top:1px dotted rgb(17, 16, 16);
-        padding:10px;
-    }
+<style>
     .topright {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 18px;
-        }
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        font-size: 18px;
+    }
+
     .userCircle {
-            border-radius: 50%;
-            background: #289c34;
-            border: 1px solid #289c34;
-            color: #e6f2ea;
-            text-align: center;
-            display: block;
-            margin: 0px;
-            position: relative;
-            height: 42px;
-            width: 42px;
-            z-index: 0;
-            font: 32px  Courier New;
-        }
-    </style>
+        border-radius: 50%;
+        background: #289c34;
+        border: 1px solid #289c34;
+        color: #e6f2ea;
+        text-align: center;
+        display: block;
+        margin: 0px;
+        position: relative;
+        height: 42px;
+        width: 42px;
+        z-index: 0;
+
+        font: 32px  Courier New;
+    }
+
+</style>
+
+{% extends 'layouts/base.html' %}
+
+{% block title %} UI Tables {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
 
 </head>
 <body>
-    <header>
+    
+    <div class="container-fluid py-4">
 
-        <div class="rounded float-start">
-            
-            <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60">
-            <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
-        
-            </div>
-            <center>
-                <h1>Enquiry Validation </h1>
-            </center>
-        </div>
-        
+        <div class="row">
+          <div class="col-12">
+            <div class="card mb-4">
+              <div class="card-header pb-0">
                 
-                
-                
-    </header>
-    <hr>
-    <br><br>
+                <header>
+    
+                    <div class="rounded float-start">
+                        {% load static %}
+                        <a href="{% static 'images/Terata.jpeg'%}"><img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60"></a>
+                        <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+                    </div>
+                    </div>
+                    <center>
+                        <h3>Enquiry Validation </h3>
+                    </center>
+                </header><br><br>
 
     
     <form name="RYform" id="RYform" action="/QuantityStore" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">    
-        <input type="hidden"style="margin-left: 10px;" class="form-control" name="Rno" id="Rno" value="{{vReg_no}}">
+        
         <div class="col-md-6">
           <label for="delivery_Schedule" style="margin-left: 10px;" class="form-label">delivery Schedule:</label>
-          <input type="text"style="margin-left: 10px;" class="form-control" name="Delivery" id="delivery" required>
+          <input type="text"style="margin-left: 10px;" class="form-control" name="Delivery" id="delivery">
           <label for="payment_term"style="margin-left: 10px;" class="form-label">payment term:</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" name="Payment" id="payment_term" required>
+          <input type="text" style="margin-left: 10px;" class="form-control" name="Payment" id="payment_term">
           <label for="price" style="margin-left: 10px;" class="form-label">price:</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" name="Price" id="price" required>
+          <input type="text" style="margin-left: 10px;" class="form-control" name="Price" id="price">
           <label for="matching_source" style="margin-left: 10px;" class="form-label">matching_source</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" name="Matching" id="matching_source" required>
+          <input type="text" style="margin-left: 10px;" class="form-control" name="Matching" id="matching_source">
           <label for="buyer" style="margin-left: 10px;" class="form-label">buyer</label>
-          <input type="text" style="margin-left: 10px;" class="form-control" name="Buyer" id="buyer" required>
+          <input type="text" style="margin-left: 10px;" class="form-control" name="Buyer" id="buyer">
           <label for="any_other_specification" style="margin-left: 10px;" class="form-label">any_other_specification</label>
-          <input type="text" class="form-control" style="margin-left: 10px;" name="OtherSpecification" id="any_other_specification" >
+          <input type="text" class="form-control" style="margin-left: 10px;" name="OtherSpecification" id="any_other_specification">
           <label for="specification_if_no_product_type" style="margin-left: 10px;" class="form-label">specification_if_no_product_type</label>
           <input type="text" style="margin-left: 10px;" class="form-control" name="Specification" id="specification_if_no_product_type">
           
@@ -577,14 +122,14 @@
             <fieldset>
                 <legend style="padding-bottom: 37px; margin-left: 10px;">Fabric Design Wise Qty</legend>
          
-            <label for="feeder_stripes" style="margin-left:required 10px;" class="form-label">feeder_stripes</label>
-            <input type="text"  style="margin-left: 10px;"  class="form-control" name="Feeder" id="feeder_stripes" required>
+            <label for="feeder_stripes" style="margin-left: 10px;" class="form-label">feeder_stripes</label>
+            <input type="text"  style="margin-left: 10px;"  class="form-control" name="Feeder" id="feeder_stripes">
             <label for="jacaquard" style="margin-left: 10px;" class="form-label">jacaquard</label>
-            <input type="text"  style="margin-left: 10px;" class="form-control" name="Jacaquard" id="jacaquard" required>
+            <input type="text"  style="margin-left: 10px;" class="form-control" name="Jacaquard" id="jacaquard">
             <label for="mini_jaq"  style="margin-left: 10px;"class="form-label">mini_jaq</label>
-            <input type="text" style="margin-left: 10px;" class="form-control" name="Mini_jaq" id="mini_jaq" required>
+            <input type="text" style="margin-left: 10px;" class="form-control" name="Mini_jaq" id="mini_jaq">
             <label for="auto_stripes" style="margin-left: 10px;" class="form-label">auto_stripes</label>
-            <input type="text" style="margin-left: 10px;" class="form-control" name="Auto_stripes" id="auto_stripes" required>
+            <input type="text" style="margin-left: 10px;" class="form-control" name="Auto_stripes" id="auto_stripes">
             
             
             </fieldset>
@@ -594,48 +139,48 @@
             <fieldset>
                 <legend>Fabric Structure Wise Qty</legend>
          
-            <label for="single_jersey" style="margin-top: 39px;" class="form-label">single_jersey</label>
-            <input type="text" class="form-control" name="Single_jersey" id="single_jersey" required>
+            <label for="single_jersey" style="margin-top: 37px;" class="form-label">single_jersey</label>
+            <input type="text" class="form-control" name="Single_jersey" id="single_jersey">
             <label for="p_k" class="form-label">p_k</label>
-            <input type="text" class="form-control" name="P_K" id="p_k" required>
+            <input type="text" class="form-control" name="P_K" id="p_k">
             <label for="interlock" class="form-label">interlock</label>
-            <input type="text" class="form-control" name="Interlock" id="interlock" required>
+            <input type="text" class="form-control" name="Interlock" id="interlock">
             <label for="rib" class="form-label">rib</label>
-            <input type="text" class="form-control" name="Rib" id="rib" required>
+            <input type="text" class="form-control" name="Rib" id="rib">
             
             
             </fieldset>
       
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3" style="margin-top: 37px;">
             <fieldset>
                 <legend style="padding-bottom: 37px;">Dyeing Qty</legend>
          
             <label for="white" class="form-label">white</label>
-            <input type="text" class="form-control" name="White" id="white" required>
+            <input type="text" class="form-control" name="White" id="white">
             <label for="light" class="form-label">light</label>
-            <input type="text" class="form-control" name="Light" id="light" required>
+            <input type="text" class="form-control" name="Light" id="light">
             <label for="medium" class="form-label">medium</label>
-            <input type="text" class="form-control" name="Medium" id="medium" required>
+            <input type="text" class="form-control" name="Medium" id="medium">
             <label for="dark" class="form-label">dark</label>
-            <input type="text" class="form-control" name="Dark" id="dark" required>
+            <input type="text" class="form-control" name="Dark" id="dark">
             
             
             </fieldset>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-3" style="margin-top: 37px;">
             <fieldset>
                 <legend style="padding-bottom: 37px;">P/C, C/P Dyeing Qty</legend>
             <label for="overdyed" class="form-label">overdyed</label>
-            <input type="text" class="form-control" name="Overdyed" id="overdyed" required>
+            <input type="text" class="form-control" name="Overdyed" id="overdyed">
             <label for="white" class="form-label">white</label>
-            <input type="text" class="form-control" name="White1" id="white" required>
+            <input type="text" class="form-control" name="White1" id="white">
             <label for="light" class="form-label">light</label>
-            <input type="text" class="form-control" name="Light1" id="light" required>
+            <input type="text" class="form-control" name="Light1" id="light">
             <label for="dark" class="form-label">dark</label>
-            <input type="text" class="form-control" name="Dark1" id="dark" required>
+            <input type="text" class="form-control" name="Dark1" id="dark">
                 
         
         </fieldset>
@@ -664,36 +209,31 @@
         <div class="col-md-2">
            
             <label for="rs" class="form-label">Rs.</label>
-            <input type="text" class="form-control" name="Rupees" id="rs" required>
+            <input type="text" class="form-control" name="Rupees" id="rs">
         </div>
 
         <div class="col-md-2">
            
             <label for="no" class="form-label">No.</label>
-            <input type="text" class="form-control" name="Numbers1" id="no" required>
+            <input type="text" class="form-control" name="Numbers1" id="no">
         </div>
 
         <div class="col-md-2">
     
             <label for="date" class="form-label">Date</label>
-            <input type="date" class="form-control" name="Date" id="Date" required>
+            <input type="date" class="form-control" name="Date" id="Date">
         </div>
         
         <div class="col-md-3">
     
             <label for="bank" class="form-label">Bank</label>
-            <input type="text" class="form-control" name="Bank" id="Bank" required>
+            <input type="text" class="form-control" name="Bank" id="Bank">
         </div>
     </fieldset>
     <div class="col-12">
-        <button style="margin-top:10px; margin-left: 1000px;" type="submit" class="btn btn-primary">Submit</button>
+        <button style="margin-top:10px; margin-left: 890px;" type="submit" class="btn btn-primary">Submit</button>
       </div>
       </div>
     </form>
-
-
-
-
-</body>
-
-</html>
+    </div>
+{% endblock content %}

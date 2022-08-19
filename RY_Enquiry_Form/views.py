@@ -353,7 +353,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             Customer = item.Customer
             vCreatedByUser = item.CreatedByUser
             GrpAssignedTo = item.GrpAssignedTo
-            Sc_Number = item.Sc_Number
+            # Sc_Number = item.Sc_Number
             #Customer = item.Customer
             # Item Status >= 3 is for Supplier to enter Rates
             vStatus = int(item.Status)
@@ -415,7 +415,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             'user': vLoggedInUserID,
             'CreatedByUser':vCreatedByUser,
             'GrpAssignedTo':GrpAssignedTo,
-            'Sc_Number':Sc_Number,
+            # 'Sc_Number':Sc_Number,
             'supplierGroupNames': vDAO.GetSupplierGroupNames()
         }
 

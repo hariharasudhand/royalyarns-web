@@ -78,7 +78,7 @@ class EMAIL_UTIL:
         email_list = []
         email_list.append(email)
         message = 'Hi,'+'\nPlease click on the link to confirm your registration, ' + \
-            '\nhttp://127.0.0.1:8000/activate/'+base64_string
+            '\nhttp://103.86.176.153/activate/'+base64_string
         mail = EmailMultiAlternatives(
             subject, message, settings.EMAIL_HOST_USER, email_list)
         mail.send()
