@@ -2,8 +2,9 @@
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute right-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="/">
-        <img src="/static/assets/img/logo-ct.png" class="navbar-brand-img h-100 w-15" alt="...">
-        <span class="ms-1 font-weight-bold">Terata</span>
+       
+        <span class="ms-1 font-weight-bold">{% load static %}
+          <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60"></span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -26,7 +27,7 @@
                 </g>
               </svg>
             </div>
-            <span class="nav-link-text ms-1">Work Space</span>
+            <span class="nav-link-text ms-1">Workspace</span>
             
           </a>
         </li>
@@ -74,4 +75,8 @@
       </ul>
     </div>
    
+    <span class="ms-1 font-weight-bold"> 
+      <small class="text-muted">  Tenancy :  </small>
+      <br>
+      <img src="/static/assets/img/logo-ct.png" alt="no image" max-width="50%" height="60"></span>
   </aside>

@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html>
+{% extends 'layouts/base.html' %}
 
-<head>
-    <title>Terata Enquiry Confirmation Form</title>
+{% block title %}Terata Enquiry Workspace {% endblock title %}
+
+{% block stylesheets %}
     <!-- <link href="//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
@@ -12,176 +12,11 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
     <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
     rel="stylesheet"> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
+   
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-        /*document.getElementById("current_date").innerHTML = Date();*/
-        $(document).ready(function () {
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = today.getFullYear();
-
-            today = mm + '/' + dd + '/' + yyyy;
-            /*document.write(today);*/
-            document.getElementById("current_date").innerText = today;
-        });
-        </script>
-        <script>
-            $(document).ready(function () {
-            var showEmailAction = function () {
-            //   alert("hi");
-              $('#myPopup').fadeIn(1000);
-            $('#myPopup').resizable().draggable();
-              $('#hidepop').click(function(){
-                $('#myPopup').fadeOut(1000);
-                })
-            }
-            $('#showEmailAction').on('click', showEmailAction)
-        });
-        
-        // console.log("popup")
-    </script>
-    <script>
-        function onButtonClick() {
-            document.getElementById('textInput').className = "show";
-            document.getElementById('button').className = "show";
-        }
-    </script>
-    <script>
-        $(document).ready(function () {
-
-            var saveAndProceed = function(){
-                $('#hBtnAction').val("sap");
-                $('#RYform').submit();
-            }
-            $('#saveAndProceed').on('click', saveAndProceed)
-
-            var cancelAction = function () {
-                $('#hBtnAction').val("cancel");
-                $('#RYform').submit();
-            }
-            $('#cancelAction').on('click', cancelAction)
-
-            
-
-            var commentAction = function () {
-                $('#hBtnAction').val("comment");
-                
-                $('#RYform').submit();
-                /*window.location("app/ryn.html")*/
-                /*$('#RYform').trigger("reset");
-                $(this).closest('#RYform').find("textarea").val("");*/
-            }
-            $('#commentAction').on('click', commentAction)
-
-        });
-        if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
-        }
-    </script>
-
-
-    <script>
-        //initialising a variable name row_count
-        var row_count = 0;
-        //printing default value of row_count that is 0 in h2 tag
-        document.getElementById("counting").innerText = row_count;
-
-        //creation of increment function
-        function increment() {
-            row_count = row_count + 1;
-            // document.getElementById("counting").innerText = row_count;
-        }
-        //creation of decrement function
-        function decrement() {
-            row_count = row_count - 1;
-            // document.getElementById("counting").innerText = row_count;
-        }
-    </script>
-    <script>
-        $(document).ready(function () {
-            var row_count = $('#MyTable >tbody >tr').length;
-            //var row_count = 0;
-            // document.getElementById("counting").innerText = row_count;
-            //Set total row count of Enquiry Items on load in hidden field
-            $("#txtRowCount").val(row_count);
-
-            $(".add-row").click(function () {
-                row_count = row_count + 1;
-                // document.getElementById("counting").innerText = row_count;
-                // var Counts = $("#Counts").val();
-                // var Quality = $("#Quality").val();
-                // var Type = $("#Type").val();
-                // var Blend = $("#Blend").val();
-                // var Shade = $("#Shade").val();
-                // var Depth = $("#Depth").val();
-                // var UOM = $("#UOM").val();
-                // var Quantity = $("#Quantity").val();
-                // var markup = "<tr><td>" + row_count + "</td><td><input type='checkbox' name='record'>" + name + "</td><td><input type='text' class='form-control' >" + Counts + "</td><td><input type='text' class='form-control' >" + Quality + "</td><td><input type='text' class='form-control' >" + Type + "</td><td><input type='text' class='form-control' >" + Blend + "</td><td><input type='text' class='form-control' >" + Shade + "</td><td><input type='text' class='form-control' >" + Depth + "</td><td><input type='text' class='form-control' >" + UOM + "</td><td><input type='text' class='form-control' >" + Quantity + "</td></tr>";
-                var markup = "<tr>";
-                markup+= "<th scope=\"row\">"+row_count+"</th>";
-                markup+= "<td scope=\"row\"><input type='checkbox' name='record'> </td>";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Counts"+row_count+" name=Counts"+row_count+" style=\"width:60px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Quality"+row_count+" name=Quality"+row_count+" style=\"width:60px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=YarnType"+row_count+" name=YarnType"+row_count+" style=\"width:100px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Blend"+row_count+" name=Blend"+row_count+" style=\"width:250px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Shade"+row_count+" name=Shade"+row_count+" style=\"width:150px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Depth"+row_count+" name=Depth"+row_count+" style=\"width:100px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=UOM"+row_count+" name=UOM"+row_count+" style=\"width:60px\" > </td>  ";
-                markup+= "<td><input type=\"text\" class=\"form-control\" id=Quantity"+row_count+" name=Quantity"+row_count+" style=\"width:80px\" > </td>  ";  
-                markup+= "</tr>";
-                $("table tbody").append(markup);
-                $("#txtRowCount").val(row_count);
-            });
-
-            // Find and remove selected table rows
-            $(".delete-row").click(function () {
-                $("table tbody").find('input[name="record"]').each(function () {
-                    if ($(this).is(":checked")) {
-                        $(this).parents("tr").remove();
-                        row_count = row_count - 1;
-                        // document.getElementById("counting").innerText = row_count;
-                    }
-                });
-                $("#txtRowCount").val(row_count);
-            });
-        });
-        $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').trigger('focus')
-        })   
-    </script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $('#wrapper').dialog({
-                autoOpen: false,
-                title: 'Email Details'
-            });
-            $('#opener').click(function () {
-                $('#wrapper').dialog('open');
-                // return false;
-            });
-        });
-    </script>
-    <script type="text/javascript"> 
-        $(document).ready(function () {
-            var a = "{{ vStatus }}";
-            if (a=='0'){
-                $('#vGrp_to').removeAttr('disabled')
-            }
-        });
-         </script>
-
     <style>
         .accordion {
             text-align: center;
@@ -341,8 +176,8 @@
             line-height: 50px;
             font-weight: 400;
             color: #b4b7c1;
-            width: 100%;
-            height: 50px;
+            /* width: 100%;
+            height: 50px; */
             padding-left: 20px;
             padding-right: 20px;
             border: 1px solid #edeff2;
@@ -411,12 +246,12 @@
     /*  Comment Box CSS */
     @import url(//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css);
 
-    .container {
-        width:240%;
-        margin:50px;
+    /* .container {
+        /* width:240%; 
+        margin:15px;
         display: flex;
         padding-bottom: 0px;
-    }
+    } */
 
     .detailBox {
         width:220%;
@@ -511,20 +346,24 @@
         }
     </style>
 
-</head>
+{% endblock stylesheets %}
 
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
 
-        {% load static %}
-        <img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="100%" height="100">
+<!-- Specific CSS goes HERE -->
+
+
+{% block content %}
+
+ 
+
+  
+
+        
         <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
         </div>
-        <div class="topcenter">
-                <h1>Enquiry Validation </h1>
-        </div>
+        <center>
+            <h3>Enquiry Workspace </h3>
+        </center>
         
     
     {% if not Error %}
@@ -532,11 +371,11 @@
         <div class="text-right">
             <div  class="btn btn-primary" id="showEmailAction"> Raw Message
             </div>
-            </div>
-            <div class="popuptext" style="border:solid 1px;" id="myPopup">
+        </div>
+        <div class="popuptext" style="border:solid 1px;" id="myPopup">
                 <button class='btn btn-danger' style="float: right; cursor: pointer;" id="hidepop"> X </button>
                 <center>{{Email_Details}}</center>
-            </div>
+        </div>
 
         <div class="card">
             
@@ -547,9 +386,9 @@
                     <div class="card">
                         <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
                             {% if vLoggedInRole == 'agent' and vStatus == 0 %}
-                            Enquiry To : 
+                            Assign To : 
                             
-                            <select class="form-control" id="vGrp_to" name="vGrp_to" disabled style="width: 30%;">
+                            <select class="form-control form-control-sm" id="vGrp_to" name="vGrp_to" disabled style="width: 30%;">
                                 <option disabled selected value> -- select an group-- </option>
                                 {% for supplierGrp in supplierGroupNames%}
                                     <option value="{{ supplierGrp }}">{{supplierGrp}}</option>
@@ -559,54 +398,60 @@
                             {% else %}
                                 Enquiry Form : 
                                 
-                                <input type="hidden" class="form-control" id="vGrp_to" name="vGrp_to" style="width: 30%;" value="{{GrpAssignedTo}}"readonly>
+                                <input type="hidden" class="form-control form-control-sm" id="vGrp_to" name="vGrp_to" style="width: 30%;" value="{{GrpAssignedTo}}"readonly>
                                       
                             {% endif %}
                        </div>
                         <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
                             <div class="card-body">
                     
-                        <div class="container">
-                            <!-- <div class="row"> -->
-                                <div class="left2">
-                                <span class="label label-default">Reg_No<br>
-                                    <input type="text" class="form-control" id="Rno" name="Rno" value={{vReg_no}}
-                                    readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
-                                </span><br><br>
-                                <span class="label label-default">Date:<br>
-                                    <input type="text" class="form-control" id="Date" name="Date" value='{{Date}}'
-                                        {{Default_Enq_Fileds}} style="width:100px; border: solid rgb(183, 146, 146) 1px;">
-                                </span><br><br>
-                                <span class="label label-default">Marketing_Zone:<br>
-                                    <input type="text" class="form-control" id="Marketing_Zone" name="Marketing_Zone"
-                                        value='{{Marketing_Zone}}' {{Default_Enq_Fileds}} style="width:150px; border: solid rgb(183, 146, 146) 1px;">
-                                </span><br><br>
-                                </div>
-                                <div class="right2" style="left: 450px;">
-                                <span class="label label-default">Mill:<br>
-                                        <input type="text" class="form-control" id="Mill" name="Mill" value='{{Mill}}'
-                                            {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
-                                    </span><br><br>
-                            <!-- </div> -->
-                            <!-- <div class="row"> -->
-                                <span class="label label-default">Mill_Rep:<br>
-                                    <input type="text" class="form-control" id="Mill_Rep" name="Mill_Rep"
-                                        value='{{Mill_Rep}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
-                                </span><br><br>
-                                <span class="label label-default">Customer:<br>
-                                    <input type="text" class="form-control" id="Customer" name="Customer"
-                                        value='{{Customer}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
-                                </span><br><br>
-                                {% for d in det %}
-                                <input type="text" class="form-control" id="UserName" name="UserName"
+                                <table>
+                                    <tr>
+                                        <td><span class="label label-default">Reg_No<br>
+                                            <input type="text" class="form-control form-control-sm" id="Rno" name="Rno" value={{vReg_no}}
+                                            readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
+                                        </span> </td>
+                                        <td>
+                                            <span class="label label-default">Date:<br>
+                                                <input type="text" class="form-control form-control-sm" id="Date" name="Date" value='{{Date}}'
+                                                    {{Default_Enq_Fileds}} style="width:100px; border: solid rgb(183, 146, 146) 1px;">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td> <span class="label label-default">Marketing_Zone:<br>
+                                            <input type="text" class="form-control form-control-sm" id="Marketing_Zone" name="Marketing_Zone"
+                                                value='{{Marketing_Zone}}' {{Default_Enq_Fileds}} style="width:150px; border: solid rgb(183, 146, 146) 1px;">
+                                        </span></td>
+                                        <td>
+                                            <span class="label label-default">Mill:<br>
+                                                <input type="text" class="form-control form-control-sm" id="Mill" name="Mill" value='{{Mill}}'
+                                                    {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="label label-default">Mill_Rep:<br>
+                                            <input type="text" class="form-control form-control-sm" id="Mill_Rep" name="Mill_Rep"
+                                                value='{{Mill_Rep}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                        </span> </td>
+                                        <td>
+                                            <span class="label label-default">Customer:<br>
+                                                <input type="text" class="form-control form-control-sm" id="Customer" name="Customer"
+                                                    value='{{Customer}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                            </span>
+                                            {% for d in det %}
+                                             <input type="text" class="form-control form-control-sm" id="UserName" name="UserName"
                                         value='{{d.UserName}}' style="width:450px; border: solid rgb(183, 146, 146) 1px;">
                                         {% endfor %}
-                                    </div>
-                            <!-- </div> -->
-                        </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                                
                        
                         <!-- Counts in a table-->
-                        <table id="MyTable" class="table table-striped">
+                        <table id="MyTable" class="table table-bordered">
 
                             <thead>
                                 <tr>
@@ -636,35 +481,35 @@
                                     ></th>
                                     <th scope="row"></th>
 
-                                    <td><input type="text" class="form-control" id="Counts{{forloop.counter}}"
+                                    <td><input type="text" class="form-control form-control-sm" id="Counts{{forloop.counter}}"
                                             name="Counts{{forloop.counter}}" value="{{Reg_no.Counts}}" style="width:60px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="Quality{{forloop.counter}}"
+                                    <td><input type="text" class="form-control form-control-sm" id="Quality{{forloop.counter}}"
                                             name="Quality{{forloop.counter}}" value="{{Reg_no.Quality}}" style="width:60px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="YarnType{{forloop.counter}}"
+                                    <td><input type="text" class="form-control form-control-sm" id="YarnType{{forloop.counter}}"
                                             name="YarnType{{forloop.counter}}" value="{{Reg_no.Type}}" style="width:100px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="Blend{{forloop.counter}}"
+                                    <td><input type="text" class="form-control form-control-sm" id="Blend{{forloop.counter}}"
                                             name="Blend{{forloop.counter}}" value="{{Reg_no.Blend}}" style="width:250px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="Shade{{forloop.counter}}"
+                                    <td><input type="text" class="form-control form-control-sm" id="Shade{{forloop.counter}}"
                                             name="Shade{{forloop.counter}}" value="{{Reg_no.Shade}}" style="width:150px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
-                                    <td> <input type="text" class="form-control" id="Depth{{forloop.counter}}"
+                                    <td> <input type="text" class="form-control form-control-sm" id="Depth{{forloop.counter}}"
                                             name="Depth{{forloop.counter}}" value="{{Reg_no.Depth}}" style="width:100px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="UOM{{forloop.counter}}"
+                                    <td><input type="text" class="form-control form-control-sm" id="UOM{{forloop.counter}}"
                                             name="UOM{{forloop.counter}}" value="{{Reg_no.UOM}}" style="width:60px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
-                                    <td><input type="text" class="form-control" id="Quantity{{forloop.counter}}"
+                                    <td><input type="text" class="form-control form-control-sm" id="Quantity{{forloop.counter}}"
                                             name="Quantity{{forloop.counter}}" value="{{Reg_no.Quantity}}" style="width:80px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
@@ -673,42 +518,42 @@
                                     
                                     <td>
                                         {% if vLoggedInRole == 'agent' %}
-                                        <input type="text" class="form-control col-xs-2" id="Rate{{forloop.counter}}"
+                                        <input type="text" class="form-control form-control-sm" id="Rate{{forloop.counter}}"
                                             name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:60px" {{Default_Enq_Fileds}}>
                                         {% else %}    
-                                            <input type="text" class="form-control col-xs-2" id="Rate{{forloop.counter}}"
+                                            <input type="text" class="form-control form-control-sm" id="Rate{{forloop.counter}}"
                                             name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:60px" {{Supplier_Fileds}}>
                                         {% endif %}    
                                         {% if vLoggedInRole == 'agent' %}
-                                                <input type="text" class="form-control col-xs-2" id="Arate{{forloop.counter}}"
+                                                <input type="text" class="form-control form-control-sm" id="Arate{{forloop.counter}}"
                                                 name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:60px" {{Quotation_ready}}>
                                             {% endif %}
                                     </td>
                                     <td>
                                         {% if vLoggedInRole == 'agent' %}
-                                        <input type="text" class="form-control col-xs-2" id="Amount{{forloop.counter}}"
+                                        <input type="text" class="form-control form-control-sm" id="Amount{{forloop.counter}}"
                                             name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:60px" {{Default_Enq_Fileds}}>
                                         {% else %}
-                                        <input type="text" class="form-control col-xs-2" id="Amount{{forloop.counter}}"
+                                        <input type="text" class="form-control form-control-sm" id="Amount{{forloop.counter}}"
                                             name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:60px" {{Supplier_Fileds}}>
                                         {% endif %}
                                             {% if vLoggedInRole == 'agent' %}
-                                            <input type="text" class="form-control col-xs-2" id="Aamount{{forloop.counter}}"
+                                            <input type="text" class="form-control form-control-sm" id="Aamount{{forloop.counter}}"
                                             name="Aamount{{forloop.counter}}" value="{{Reg_no.Agent_Amount}}" style="width:60px" {{Quotation_ready}}>
                                             {% endif %}
                                     </td>
                                     <td>
                                         {% if vLoggedInRole == 'agent' %}
-                                        <input type="text" class="form-control col-xs-2" id="Last_order{{forloop.counter}}"
+                                        <input type="text" class="form-control form-control-sm" id="Last_order{{forloop.counter}}"
                                             name="Last_order{{forloop.counter}}" value="{{Reg_no.Supplier_Last_order}}"
                                             style="width:80px" {{Default_Enq_Fileds}}>
                                         {% else %}
-                                            <input type="text" class="form-control col-xs-2" id="Last_order{{forloop.counter}}"
+                                            <input type="text" class="form-control form-control-sm" id="Last_order{{forloop.counter}}"
                                             name="Last_order{{forloop.counter}}" value="{{Reg_no.Supplier_Last_order}}"
                                             style="width:80px" {{Supplier_Fileds}}>
                                         {% endif %}
                                         {% if vLoggedInRole == 'agent' %}
-                                            <input type="text" class="form-control col-xs-2" id="Alast_order{{forloop.counter}}"
+                                            <input type="text" class="form-control form-control-sm" id="Alast_order{{forloop.counter}}"
                                             name="Alast_order{{forloop.counter}}" value="{{Reg_no.Agent_Last_order}}"
                                             style="width:80px" {{Quotation_ready}}>
                                             {% endif %}
@@ -720,22 +565,22 @@
                                 {% endfor %}
                                 
                                 <input type="hidden" id="txtRowCount" name="txtRowCount" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+                                <br>
                                 {% if not Default_Enq_Fileds %}
-                                <div class="alert alert-danger" role="alert">
-                                    <center>Click (+) symbol to ADD Rows (-)  to DELETE rows</center>  
-                                </div>
+                                
+                                
+                                
                                 <span class="add-row fa fa-plus-square " style="font-size: x-large; color:#008CBA;" value="Add Row" {{Default_Enq_Fileds}}></span>
                                 
                                 <span class="delete-row fa fa-minus-square" style="font-size: x-large; color:#008CBA;" value="Delete Row" {{Default_Enq_Fileds}}></span>
-
+                                <small class="text-muted"> Click (+) symbol to ADD Rows (-)  to DELETE rows</small>  
                                 {% endif %}
                             </tbody>
                         </table>
                     
-                    <div class="alert alert-danger" role="alert">
-                        Please Click on Save only if there is a change
-                    </div>
+                        <small class="text-muted">
+                             Please Click on Save only if there is a change
+                        </small>
                     <!--
                         Change button size using bootstrap
                     -->
@@ -845,7 +690,7 @@
                 </div>
             </div>
         </div>
-    </div>
+   
     
         
     {% else %}
@@ -860,7 +705,177 @@
       </p>
     {% endif %}
    
+{% endblock content %}
 
-</body>
 
-</html>
+{% block javascripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    /*document.getElementById("current_date").innerHTML = Date();*/
+    $(document).ready(function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+        /*document.write(today);*/
+        document.getElementById("current_date").innerText = today;
+    });
+    </script>
+    <script>
+        $(document).ready(function () {
+        var showEmailAction = function () {
+        //   alert("hi");
+          $('#myPopup').fadeIn(1000);
+        $('#myPopup').resizable().draggable();
+          $('#hidepop').click(function(){
+            $('#myPopup').fadeOut(1000);
+            })
+        }
+        $('#showEmailAction').on('click', showEmailAction)
+    });
+    
+    // console.log("popup")
+</script>
+<script>
+    function onButtonClick() {
+        document.getElementById('textInput').className = "show";
+        document.getElementById('button').className = "show";
+    }
+</script>
+<script>
+    $(document).ready(function () {
+
+        var saveAndProceed = function(){
+            $('#hBtnAction').val("sap");
+            $('#RYform').submit();
+        }
+        $('#saveAndProceed').on('click', saveAndProceed)
+
+        var cancelAction = function () {
+            $('#hBtnAction').val("cancel");
+            $('#RYform').submit();
+        }
+        $('#cancelAction').on('click', cancelAction)
+
+        
+
+        var commentAction = function () {
+            $('#hBtnAction').val("comment");
+            
+            $('#RYform').submit();
+            /*window.location("app/ryn.html")*/
+            /*$('#RYform').trigger("reset");
+            $(this).closest('#RYform').find("textarea").val("");*/
+        }
+        $('#commentAction').on('click', commentAction)
+
+    });
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+
+
+<script>
+    //initialising a variable name row_count
+    var row_count = 0;
+    //printing default value of row_count that is 0 in h2 tag
+    document.getElementById("counting").innerText = row_count;
+
+    //creation of increment function
+    function increment() {
+        row_count = row_count + 1;
+        // document.getElementById("counting").innerText = row_count;
+    }
+    //creation of decrement function
+    function decrement() {
+        row_count = row_count - 1;
+        // document.getElementById("counting").innerText = row_count;
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        var row_count = $('#MyTable >tbody >tr').length;
+        //var row_count = 0;
+        // document.getElementById("counting").innerText = row_count;
+        //Set total row count of Enquiry Items on load in hidden field
+        $("#txtRowCount").val(row_count);
+
+        $(".add-row").click(function () {
+            row_count = row_count + 1;
+            // document.getElementById("counting").innerText = row_count;
+            // var Counts = $("#Counts").val();
+            // var Quality = $("#Quality").val();
+            // var Type = $("#Type").val();
+            // var Blend = $("#Blend").val();
+            // var Shade = $("#Shade").val();
+            // var Depth = $("#Depth").val();
+            // var UOM = $("#UOM").val();
+            // var Quantity = $("#Quantity").val();
+            // var markup = "<tr><td>" + row_count + "</td><td><input type='checkbox' name='record'>" + name + "</td><td><input type='text' class='form-control' >" + Counts + "</td><td><input type='text' class='form-control' >" + Quality + "</td><td><input type='text' class='form-control' >" + Type + "</td><td><input type='text' class='form-control' >" + Blend + "</td><td><input type='text' class='form-control' >" + Shade + "</td><td><input type='text' class='form-control' >" + Depth + "</td><td><input type='text' class='form-control' >" + UOM + "</td><td><input type='text' class='form-control' >" + Quantity + "</td></tr>";
+            var markup = "<tr>";
+            markup+= "<th scope=\"row\">"+row_count+"</th>";
+            markup+= "<td scope=\"row\"><input type='checkbox' name='record'> </td>";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Counts"+row_count+" name=Counts"+row_count+" style=\"width:60px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-contro form-control-sml\" id=Quality"+row_count+" name=Quality"+row_count+" style=\"width:60px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=YarnType"+row_count+" name=YarnType"+row_count+" style=\"width:100px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Blend"+row_count+" name=Blend"+row_count+" style=\"width:250px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Shade"+row_count+" name=Shade"+row_count+" style=\"width:150px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Depth"+row_count+" name=Depth"+row_count+" style=\"width:100px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=UOM"+row_count+" name=UOM"+row_count+" style=\"width:60px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Quantity"+row_count+" name=Quantity"+row_count+" style=\"width:80px\" > </td>  ";  
+            markup+= "</tr>";
+            $("#MyTable").append(markup);
+            $("#txtRowCount").val(row_count);
+        });
+
+        // Find and remove selected table rows
+        $(".delete-row").click(function () {
+            $("#MyTable").find('input[name="record"]').each(function () {
+                if ($(this).is(":checked")) {
+                    $(this).parents("tr").remove();
+                    row_count = row_count - 1;
+                    // document.getElementById("counting").innerText = row_count;
+                }
+            });
+            $("#txtRowCount").val(row_count);
+        });
+    });
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })   
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#wrapper').dialog({
+            autoOpen: false,
+            title: 'Email Details'
+        });
+        $('#opener').click(function () {
+            $('#wrapper').dialog('open');
+            // return false;
+        });
+    });
+</script>
+<script type="text/javascript"> 
+    $(document).ready(function () {
+        var a = "{{ vStatus }}";
+        if (a=='0'){
+            $('#vGrp_to').removeAttr('disabled')
+        }
+    });
+     </script>
+{% endblock javascripts %}
