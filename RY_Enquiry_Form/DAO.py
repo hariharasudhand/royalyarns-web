@@ -57,8 +57,8 @@ class DAO:
                 Q(Status='7') | Q(Status='8') | Q(Status='9') | 
                 Q(Status='10') | Q(Status='11') | Q(Status='13'))
         else:
-            Internal_Review = RY_Enquiry_Header.objects.filter(Status='6')
-            
+            Internal_Review = RY_Enquiry_Header.objects.filter(Status='6').filter(CreatedByUser=vLoggedInUserID)
+            External_Review = RY_Enquiry_Header.objects.exclude(Status='6').filter(CreatedByUser=vLoggedInUserID)
             # Query and Fetch only status that an BUYER should see
             
 

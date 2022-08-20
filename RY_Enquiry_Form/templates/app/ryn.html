@@ -54,6 +54,20 @@
 
         font: 32px  Courier New;
     }
+    .statusCircle {
+        border-radius: 50%;
+        
+        border: 1px solid #8d868d;
+        color: #e6f2ea;
+        text-align: center;
+        display: block;
+        margin: 0px;
+        position: relative;
+        height: 32px;
+        width: 32px;
+        z-index: 0;
+        font: 22px  Courier New;
+    }
     .topright1 {
         position: absolute;
         top: 90px;
@@ -234,46 +248,46 @@
         user-select: none;
     }
     .color0{
-        background-color: #8cf396;
+        background: #b4eeb9;
     }
     .color1{
-        background-color: #8cf3d1;
+        background: #98caba;
     }
     .color2{
-        background-color: #c3f38c;
+        background: #bad59b;
     }
     .color3{
-        background-color: #f3c38c;
+        background: #e4c6a4;
     }
     .color4{
-        background-color: #50d6c4;
+        background: #b4cdf5;
     }
     .color5{
-        background-color: #8cb0f3;
+        background: #d4b4d1;
     }
     .color6{
-        background-color: #7554eb;
+        background: #bcb0e6;
     }
     .color7{
-        background-color: #bb60f8;
+        background: #bb60f8;
     }
     .color8{
-        background-color: #f03ff0;
+        background: #dfdb9c;
     }
     .color9{
-        background-color: #7e2a43;
+        background: #eec6d2;
     }
     .color10{
-        background-color: #69b3dd;
+        background: #d9cbcf;
     }
     .color11{
-        background-color: #973fca;
+        background: #c4efd7;
     }
     .color12{
-        background-color: #b7cc3d;
+        background: #b7cc3d;
     }
     .color13{
-        background-color: #8c40ca;
+        background: #8c40ca;
     }
 
 
@@ -488,7 +502,8 @@
                       <span class="text-xs font-weight-bold">{{UnrData.Customer}}</span>
                     </td>
                     <td>
-                        <span class="text-xs font-weight-bold">{{UnrData.Status}}</span>
+                        <span class="statusCircle mb-0 color{{UnrData.Status}}">{{UnrData.Status}}</span>
+                        
                     </td>
                     <td>
                         <span class="text-xs font-weight-bold">{{UnrData.Date}}</span>
@@ -510,8 +525,17 @@
                         </div>
                       </div>
                     </td>
+                    
                     <td>
+                        
+                        {% if Role == 'buyer' and UnrData.Status == '6' %}
+                        
                         <a href="?Rno={{UnrData.Reg_no}}" class="btn btn-info" role="button">View</a>
+                        {% elif Role == 'buyer' and UnrData.Status != '6' %}
+                        
+                        {% else %}
+                        <a href="?Rno={{UnrData.Reg_no}}" class="btn btn-info" role="button">View</a>
+                        {% endif %}
                     </td>
                    
                   </tr>
