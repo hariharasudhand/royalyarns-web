@@ -254,7 +254,7 @@
     } */
 
     .detailBox {
-        width:220%;
+        width:970px;
         border:1px solid rgb(204, 167, 167);
         margin-top:40px;
         margin-left: 04%;
@@ -346,24 +346,38 @@
         }
     
         .MyTable {
-            max-width: 600px;
+            max-width: 1000px;
             margin: 0 auto;
+            height: 100px;
         }
 
-        #MyTable th, td {
-        white-space: nowrap;
+        
+        /* scrool Bar menu deisgn */
+        div.scrollmenu {
+  
+             overflow: auto;
+            white-space: nowrap;
         }
-        table.dataTable thead .sorting:after,
-        table.dataTable thead .sorting:before,
-        table.dataTable thead .sorting_asc:after,
-        table.dataTable thead .sorting_asc:before,
-        table.dataTable thead .sorting_asc_disabled:after,
-        table.dataTable thead .sorting_asc_disabled:before,
-        table.dataTable thead .sorting_desc:after,
-        table.dataTable thead .sorting_desc:before,
-        table.dataTable thead .sorting_desc_disabled:after,
-        table.dataTable thead .sorting_desc_disabled:before {
-        bottom: .5em;
+
+        div.scrollmenu a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+        }
+
+        div.scrollmenu a:hover {
+            background-color: #777;
+        }
+        div.scroll {
+        
+        
+            height: 150px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: center;
+            padding: 10px;
         }
     </style>
 
@@ -375,15 +389,15 @@
 
 {% block content %}
 
-       <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+       <div class="topright" style="margin-top: 20px;"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
         </div>
         <center>
-            <h3>Enquiry Workspace </h3>
+            <h3 style="padding-top: 20px;">Enquiry Workspace </h3>
         </center>
     {% if not Error %}
     <div class="col">
         <div class="text-right">
-            <div  class="btn btn-primary" id="showEmailAction"> Raw Message
+            <div  class="btn btn-primary" id="showEmailAction" style="margin-top: 40px;"> Raw Message
             </div>
         </div>
         <div class="popuptext" style="border:solid 1px;" id="myPopup">
@@ -416,7 +430,7 @@
                        </div>
                         <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
                             <div class="card-body">
-                    
+                                
                                 <table>
                                     <tr>
                                         <td><span class="label label-default">Reg_No<br>
@@ -461,11 +475,14 @@
                                     </tr>
                                 </table>
                                 
-                                
+                                <br>
+                                <br>
                        
                         <!-- Counts in a table-->
+                        <div class="scroll">
+                        <div class="scrollmenu">
                         <table id="MyTable" class="table table-striped table-bordered table-sm " cellspacing="0"
-                        width="100%">
+                        width="100%" >
 
                             <thead>
                                 <tr>
@@ -488,6 +505,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            
                             {% for Reg_no in data %}
                                 <tr>
                                     <th scope="row">{{forloop.counter}} <input type="hidden"  id="DBID{{forloop.counter}}"
@@ -584,26 +602,29 @@
                                 
                                 
                                 
-                                <span class="add-row fa fa-plus-square " style="font-size: x-large; color:#008CBA;" value="Add Row" {{Default_Enq_Fileds}}></span>
+                                <span class="add-row fa fa-plus-square " style="font-size: x-large; color:#008CBA; margin-left: 80px;" value="Add Row" {{Default_Enq_Fileds}}></span>&nbsp;
                                 
                                 <span class="delete-row fa fa-minus-square" style="font-size: x-large; color:#008CBA;" value="Delete Row" {{Default_Enq_Fileds}}></span>
                                 <small class="text-muted"> Click (+) symbol to ADD Rows (-)  to DELETE rows</small>  
                                 {% endif %}
                             </tbody>
                         </table>
-                    
+                    </div>
+                    </div>
+                    <p></p>
+                    <br>
                         <small class="text-muted">
                              Please Click on Save only if there is a change
                         </small>
                     <!--
                         Change button size using bootstrap
                     -->
-                    <div class="d-grid gap-2">
-                        <input class="btn btn-primary" id="saveAndProceed" value="save and proceed">
+                    <br>
+                        <input class="btn btn-primary" style="width: 20%;" id="saveAndProceed" value="save and proceed">
                         {% if vStatus == 0 %}
-                        <input class="btn btn-primary" id="cancelAction" value=" proceed ">
+                        <input class="btn btn-primary" style="width: 20%;" id="cancelAction" value=" proceed ">
                         {% endif %}
-                    </div>
+                    
                    
                    <div class="detailBox">
                                     <div class="left">
@@ -661,7 +682,7 @@
                                 <!-- <form method="post" class="form-block"> -->
                                     <div class="right">
                                         <center> <div class="form-group form-check form-check-inline" style="margin-top: 37px;">
-                                             <button id="commentAction" class="btn btn-default" style="background-color: #85daf7;" >Add</button>
+                                             
                                              {% if vLoggedInRole == 'agent' %}
                                              <select class="form-control" style="width: 150%;" id="sel2" name="GroupName">
                                                 <option disabled selected value> -- select an group-- </option>
@@ -674,7 +695,7 @@
                                               {% else %}
                                               <input type="hidden" value="buyer_to_agent" name="GroupName">
                                               {% endif %}
-                                        
+                                              <button id="commentAction" class="btn btn-default" style="background-color: #85daf7; margin-top: 13px;" >Add</button>
                                         </div>
                                     </center>
 
@@ -821,13 +842,6 @@ crossorigin="anonymous"></script>
 </script>
 <script>
     $(document).ready(function () {
-            
-            // Enquiry Item Horizontal and Vertical Scroll
-            $('#MyTable').DataTable({
-                 "scrollX": true,
-                 "scrollY": 200,
-             });
-         $('.dataTables_length').addClass('bs-select');
 
         var row_count = $('#MyTable >tbody >tr').length;
         //var row_count = 0;
