@@ -118,7 +118,7 @@ def index(request):
 
         context = __prepareUIData(
             vReg_no, vENQ_Items, vENQ_Header, data3, vLoggedInRole, vLoggedInUserID)
-        print("Status of Enq ", context['vStatus'])
+        print(context)
         if (context['vStatus'] == 6):
             print("Its is status 6", vStatus)
             print("this is register number in quotations", vReg_no)
@@ -615,6 +615,7 @@ def QuantityStore(request):
 
 
 def StoreCopNumber(request):
+   
     if request.method == 'POST':
         vCopNumber = request.POST.get("COPNumber")
         vReg_no = request.POST.get("Rno")
@@ -623,7 +624,7 @@ def StoreCopNumber(request):
         return HttpResponseRedirect('/')
 
 def dashboard(request):
-    context={'segment':'dashboard'}
+    vLoggedInRole = request.COOKIES.get('role')
     completed = RY_Enquiry_Header.objects.filter(Status__exact='14').count()
     inprocess = RY_Enquiry_Header.objects.filter(Q(Status__exact='1') | Q(Status__exact='2') | Q(Status__exact='5') | Q(Status__exact='7') | Q(
         Status__exact='8') | Q(Status__exact='9')| Q(Status__exact='0') | Q(Status__exact='10') | Q(Status__exact='11') | Q(Status__exact='13') | Q(Status__exact='4') | Q(Status__exact='6')| Q(Status__exact='12')| Q(Status__exact='3')).count()
@@ -774,7 +775,7 @@ def dashboard(request):
     qt_com.append(qtsts01)
     qt_com.append(qtsts02)
     qt_com.append(qtsts03)
-
+    res1 = request.COOKIES.get('username')
     #array for items
     type_name=[]
     items_values=[]
@@ -782,8 +783,9 @@ def dashboard(request):
     for itm in items_no:
         type_name.append(itm['Type'])
         items_values.append(itm['id__count'])
-    return render(request, 'app/graph.html',{'type_name': type_name, 'items_values':items_values, 'enquiry': count, 'completed': completed, 'inprocess': inprocess, 'rejected': rejected,'totalenq' : totaleq,'mon_0': mon_0, 'mon_in':mon_in,'mon_ex': mon_ex, 'mon_com':mon_com, 'rej':rej, 'qt_total' :qt_total, 'qt_0':qt_0 ,'qt_in' :qt_in ,'qt_ex' :qt_ex ,'qt_com':qt_com ,'qt_rej':qt_rej })
+    return render(request, 'app/graph.html',{'segment':'dashboard','Role':vLoggedInRole,'user':res1,'type_name': type_name, 'items_values':items_values, 'enquiry': count, 'completed': completed, 'inprocess': inprocess, 'rejected': rejected,'totalenq' : totaleq,'mon_0': mon_0, 'mon_in':mon_in,'mon_ex': mon_ex, 'mon_com':mon_com, 'rej':rej, 'qt_total' :qt_total, 'qt_0':qt_0 ,'qt_in' :qt_in ,'qt_ex' :qt_ex ,'qt_com':qt_com ,'qt_rej':qt_rej })
 
 def Upload(request):
     res1 = request.COOKIES.get('username')
-    return render(request, 'app/Upload.html',{'user':res1,'segment':'Upload'})
+    vLoggedInRole = request.COOKIES.get('role')
+    return render(request, 'app/Upload.html',{'user':res1,'segment':'Upload','Role':vLoggedInRole})

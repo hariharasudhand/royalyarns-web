@@ -30,8 +30,8 @@ class RY_Enquiry_Items(models.Model):
         db_table = 'RY_Enquiry_Items'
         ordering = ['Reg_no']
 
-    def __str__(self):
-        return self.Agent_Rate + ' ' + self.Agent_Amount + ' ' + self.Agent_Last_order + self.Supplier_Rate + ' ' + self.Supplier_Amount + ' ' + self.Supplier_Last_order + ' ' + self.Counts + ' ' + self.Quality + ' ' + self.Type + ' ' + self.Blend + ' ' + self.Shade + ' ' + self.Shade_Ref + ' ' + self.Depth + ' ' + self.UOM + ' ' + self.Quantity + ' ' + self.Reg_no + ' ' + self.Status + '' + self.Id
+    # def __str__(self):
+    #     return self.Agent_Rate + ' ' + self.Agent_Amount + ' ' + self.Agent_Last_order + self.Supplier_Rate + ' ' + self.Supplier_Amount + ' ' + self.Supplier_Last_order + ' ' + self.Counts + ' ' + self.Quality + ' ' + self.Type + ' ' + self.Blend + ' ' + self.Shade + ' ' + self.Shade_Ref + ' ' + self.Depth + ' ' + self.UOM + ' ' + self.Quantity + ' ' + self.Reg_no + ' ' + self.Status + '' + self.Id
 
 
 class RY_Enquiry_Header(models.Model):
