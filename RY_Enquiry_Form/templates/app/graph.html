@@ -707,6 +707,8 @@ var chart;
                 plugins: {
                   legend: {
                     display: true,
+                    usePointStyle: true,
+                    pointStyle: 'dash'
                   }
                 },
                 interaction: {
@@ -934,6 +936,8 @@ options: {
                 plugins: {
                   legend: {
                     display: true,
+                    usePointStyle: true,
+                    pointStyle: 'dash'      
                   }
                 },
                 interaction: {
@@ -1033,7 +1037,12 @@ show_lables = true;
             plugins: {
               legend:{
                 display: legends,
-              }
+                lables: {
+                       padding: 20,
+                      usePointStyle: true,
+                      pointStyle: 'dash'
+                },
+              },
             },
             responsive: true,
             maintainAspectRatio: false,

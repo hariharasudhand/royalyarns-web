@@ -64,7 +64,6 @@ class EMAIL_UTIL:
 
     def send_po(self, subject, message, files):
         email_list = []
-        
         vDAO = DAO("dao")
         message = ''
         vGroupEmailList = vDAO.GetGroupEmailList('agent-only')
