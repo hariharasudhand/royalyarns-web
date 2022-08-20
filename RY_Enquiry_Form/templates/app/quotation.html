@@ -21,6 +21,23 @@
 
         font: 32px  Courier New;
     }
+    div.scrollmenu {
+  
+  overflow: auto;
+ white-space: nowrap;
+}
+
+div.scrollmenu a {
+ display: inline-block;
+ color: white;
+ text-align: center;
+ padding: 14px;
+ text-decoration: none;
+}
+
+div.scrollmenu a:hover {
+ background-color: #777;
+}
 </style>
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
@@ -101,7 +118,7 @@ rel="stylesheet"> -->
                     Vardhman Textiles Limited (Unit-Arihant Spinning Mills)</footer>
               </blockquote></p>
     
-                    
+              <div class="scrollmenu">                   
                         <table id="MyTable" class="table table-striped">
                            <thead>
                                 <tr>
@@ -178,9 +195,7 @@ rel="stylesheet"> -->
                                       style="width:80px" {{Quotation_ready}} readonly>
                                     </td>
                                 </tr>
-                                <td><input type="hidden" class="form-control" id="Rno" name="Rno" value={{vReg_no}}
-                                    readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
-                            </td>
+                                
                                 {% endfor %}
                                 <tr class="table-success">
                                     <td colspan="11" align="right"> Total <small class="text-muted"> INR  ( Excluding GST)</small> </td>
@@ -195,9 +210,10 @@ rel="stylesheet"> -->
                                 
                             </tbody>
                         </table>
+                        </div>
                         <br><br>
                        
-                        
+                        {% if vLoggedInRole == 'buyer' %}
                         <form name="RYform" id="RYform" action="/confirmpo" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% for Reg_no in data %}
@@ -205,6 +221,7 @@ rel="stylesheet"> -->
                                 readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
                         </td>
                         {% endfor %}
+                        
                         <div class="form-group">
                           <label for="email"> &nbsp;&nbsp;&nbsp;&nbsp;Enter Purcahse Order Num
                             ber :</label>
@@ -221,7 +238,7 @@ rel="stylesheet"> -->
                       <input class="btn btn-primary" id="cancelAction" value=" Cancel ">
                         </label>
                         </div>
-                        
+                        {% endif %}
                         
                         <br>
                     
