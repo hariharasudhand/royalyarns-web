@@ -69,18 +69,18 @@ class DAO:
         Count_External = str(len(External_Review))
 
         if (vLoggedInRole == 'agent'):
-            context['NewEnquiry('+Count_Unr+')'] = Unread_Data
-            context['YarnPrice('+Count_RYP+')'] = Req_Yarn_Price
-            context['ForQuotation('+Count_RFQ+')'] = Ready_for_Quote
-            context['InternalReview('+Count_Internal+')'] = Internal_Review
-            context['ExternalReview('+Count_External+')'] = External_Review
+            context['New('+ Count_Unr+')'] = Unread_Data
+            context['Pricing('+Count_RYP+')'] = Req_Yarn_Price
+            context['Quotation('+Count_RFQ+')'] = Ready_for_Quote
+            context['Internal('+Count_Internal+')'] = Internal_Review
+            context['External('+Count_External+')'] = External_Review
         elif (vLoggedInRole == 'supplier'):
-            context['NewEnquiry('+Count_Unr+')'] = Unread_Data
-            context['InternalReview('+Count_Internal+')'] = Internal_Review
-            context['ExternalReview('+Count_External+')'] = External_Review
+            context['New('+Count_Unr+')'] = Unread_Data
+            context['Internal('+Count_Internal+')'] = Internal_Review
+            context['External('+Count_External+')'] = External_Review
         else:
-            context['InternalReview('+Count_Internal+')'] = Internal_Review
-            context['ExternalReview('+Count_External+')'] = External_Review
+            context['Internal('+Count_Internal+')'] = Internal_Review
+            context['External('+Count_External+')'] = External_Review
 
         context['Role'] = vLoggedInRole
         context['segment'] = 'index'
