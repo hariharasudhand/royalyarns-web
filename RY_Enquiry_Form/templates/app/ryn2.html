@@ -41,7 +41,7 @@
         }
 
         .card-body {
-            width: 600px;
+            /* width: 100px; */
             background-color: white;
         }
 
@@ -344,6 +344,27 @@
             z-index: 0;
             font: 32px  Courier New;
         }
+    
+        .MyTable {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #MyTable th, td {
+        white-space: nowrap;
+        }
+        table.dataTable thead .sorting:after,
+        table.dataTable thead .sorting:before,
+        table.dataTable thead .sorting_asc:after,
+        table.dataTable thead .sorting_asc:before,
+        table.dataTable thead .sorting_asc_disabled:after,
+        table.dataTable thead .sorting_asc_disabled:before,
+        table.dataTable thead .sorting_desc:after,
+        table.dataTable thead .sorting_desc:before,
+        table.dataTable thead .sorting_desc_disabled:after,
+        table.dataTable thead .sorting_desc_disabled:before {
+        bottom: .5em;
+        }
     </style>
 
 {% endblock stylesheets %}
@@ -353,19 +374,11 @@
 
 
 {% block content %}
-
- 
-
-  
-
-        
-        <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+       <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
         </div>
         <center>
             <h3>Enquiry Workspace </h3>
         </center>
-        
-    
     {% if not Error %}
     <div class="col">
         <div class="text-right">
@@ -376,9 +389,7 @@
                 <button class='btn btn-danger' style="float: right; cursor: pointer;" id="hidepop"> X </button>
                 <center>{{Email_Details}}</center>
         </div>
-
         <div class="card">
-            
             <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
                 <form name="RYform" id="RYform" action="" method="post">
 
@@ -409,36 +420,37 @@
                                     <tr>
                                         <td><span class="label label-default">Reg_No<br>
                                             <input type="text" class="form-control form-control-sm" id="Rno" name="Rno" value={{vReg_no}}
-                                            readonly style="width:100px; border: solid rgb(183, 146, 146) 1px;" >
+                                            readonly style="width:50px;" >
                                         </span> </td>
                                         <td>
                                             <span class="label label-default">Date:<br>
                                                 <input type="text" class="form-control form-control-sm" id="Date" name="Date" value='{{Date}}'
-                                                    {{Default_Enq_Fileds}} style="width:100px; border: solid rgb(183, 146, 146) 1px;">
+                                                    {{Default_Enq_Fileds}} style="width:100px;">
                                             </span>
                                         </td>
-                                    </tr>
-                                    <tr>
                                         <td> <span class="label label-default">Marketing_Zone:<br>
                                             <input type="text" class="form-control form-control-sm" id="Marketing_Zone" name="Marketing_Zone"
-                                                value='{{Marketing_Zone}}' {{Default_Enq_Fileds}} style="width:150px; border: solid rgb(183, 146, 146) 1px;">
+                                                value='{{Marketing_Zone}}' {{Default_Enq_Fileds}} style="width:120px;">
                                         </span></td>
+                                    </tr>
+                                    <tr><td colspan="3"><br></td></tr>
+                                    <tr>
+                                       
                                         <td>
                                             <span class="label label-default">Mill:<br>
                                                 <input type="text" class="form-control form-control-sm" id="Mill" name="Mill" value='{{Mill}}'
-                                                    {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                                    {{Default_Enq_Fileds}} style="width:250px;">
                                             </span>
                                         </td>
-                                    </tr>
-                                    <tr>
+                                   
                                         <td><span class="label label-default">Mill_Rep:<br>
                                             <input type="text" class="form-control form-control-sm" id="Mill_Rep" name="Mill_Rep"
-                                                value='{{Mill_Rep}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                                value='{{Mill_Rep}}' {{Default_Enq_Fileds}} style="width:250px;">
                                         </span> </td>
                                         <td>
-                                            <span class="label label-default">Customer:<br>
+                                            <span class="label label-default" style="margin-left:10px;">Customer:<br>
                                                 <input type="text" class="form-control form-control-sm" id="Customer" name="Customer"
-                                                    value='{{Customer}}' {{Default_Enq_Fileds}} style="width:450px; border: solid rgb(183, 146, 146) 1px;">
+                                                    value='{{Customer}}' {{Default_Enq_Fileds}} style="width:250px; margin-left:10px;">
                                             </span>
                                             {% for d in det %}
                                              <input type="text" class="form-control form-control-sm" id="UserName" name="UserName"
@@ -451,7 +463,8 @@
                                 
                        
                         <!-- Counts in a table-->
-                        <table id="MyTable" class="table table-bordered">
+                        <table id="MyTable" class="table table-striped table-bordered table-sm " cellspacing="0"
+                        width="100%">
 
                             <thead>
                                 <tr>
@@ -807,6 +820,14 @@ crossorigin="anonymous"></script>
 </script>
 <script>
     $(document).ready(function () {
+            
+            // Enquiry Item Horizontal and Vertical Scroll
+            $('#MyTable').DataTable({
+                 "scrollX": true,
+                 "scrollY": 200,
+             });
+         $('.dataTables_length').addClass('bs-select');
+
         var row_count = $('#MyTable >tbody >tr').length;
         //var row_count = 0;
         // document.getElementById("counting").innerText = row_count;
