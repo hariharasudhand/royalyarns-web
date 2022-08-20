@@ -63,8 +63,15 @@ class EMAIL_UTIL:
         return True
 
     def send_po(self, subject, message, files):
-        mail = EmailMultiAlternatives(subject, message, settings.EMAIL_HOST_USER, [
-                            'dhineshofficial99@gmail.com'])
+        email_list = []
+        
+        message = ''
+        vGroupEmailList = vDAO.GetGroupEmailList('agent-only')
+        for vQueryData in vGroupEmailList:
+                print("sending email to ", vQueryData[0].UserName)
+                email_list.append(vQueryData[0].UserName)
+
+        mail = EmailMultiAlternatives(subject, message, settings.EMAIL_HOST_USER, email_list)
         for f in files:
             mail.attach(f.name, f.read(), f.content_type)
         mail.send()
