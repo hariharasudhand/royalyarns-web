@@ -612,7 +612,7 @@
                     </div>
                     
                     <p></p>
-                    <br>
+                    <br>{% if vLoggedInRole == 'agent' and vStatus == 4 or vLoggedInRole == 'agent' and vStatus == 0 or vLoggedInRole == 'supplier' and vStatus == 3 %}
                         <small class="text-muted">
                              Please Click on Save only if there is a change
                         </small>
@@ -620,9 +620,9 @@
                         Change button size using bootstrap
                     -->
                     <br>
-                        
-                    {% if vLoggedInRole == 'agent' and vStatus == 3 %}
-                    {% else %}
+
+                    
+
                         <input class="btn btn-primary" style="width: 20%;" id="saveAndProceed" value="save and proceed">
                     {% endif %}
                         {% if vStatus == 0 %}
