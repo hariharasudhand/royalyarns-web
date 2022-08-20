@@ -373,12 +373,12 @@
 
     <div class="rounded float-start">
         {% load static %}
-        <a href="{% static 'images/Terata.jpeg'%}"><img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60"></a>
+        <!-- <a href="{% static 'images/Terata.jpeg'%}"><img src="{% static 'images/Terata.jpeg'%}" alt="no image" max-width="50%" height="60"></a> -->
         <div class="topright"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
     </div>
     </div>
     <center>
-        <h3>Conformation of Purchase</h3>
+        <h3>Confirmation of Purchase</h3>
     </center>
 </header><br><br>
 
@@ -390,8 +390,10 @@
     <div class="row">    
         
         <div class="col-md-6">
-          <label for="SCNumber" style="margin-left: 10px;" class="form-label">SC Number:</label>
-          <input type="text"style="margin-left: 10px;" class="form-control" name="SCNumber" id="delivery">
+            <input type="hidden"style="margin-left: 10px;" class="form-control" name="Rno" id="delivery" value="{{ vReg_no.Reg_no }}">
+        
+            <label for="SCNumber" style="margin-left: 10px;" class="form-label">SC Number:</label>
+            <input type="text"style="margin-left: 10px;" class="form-control" name="SCNumber" id="delivery" value="{{vReg_no.Sc_Number}}" readonly>
           <label for="COPNumber"style="margin-left: 10px;" class="form-label">COP Number</label>
           <input type="text" style="margin-left: 10px;" class="form-control" name="COPNumber" id="payment_term">
           <button style="margin-top:10px; margin-left: 600px;" type="submit" class="btn btn-primary">Submit</button>
