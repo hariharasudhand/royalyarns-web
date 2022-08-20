@@ -707,9 +707,11 @@ var chart;
                 plugins: {
                   legend: {
                     display: true,
+                    labels:{
                     usePointStyle: true,
-                    pointStyle: 'dash'
-                  }
+                    pointStyle: 'dash',
+                    },
+                  },
                 },
                 interaction: {
                   intersect: false,
@@ -936,8 +938,10 @@ options: {
                 plugins: {
                   legend: {
                     display: true,
+                    labels:{
                     usePointStyle: true,
-                    pointStyle: 'dash'      
+                    pointStyle: 'dash',
+                    },      
                   }
                 },
                 interaction: {
@@ -1036,11 +1040,11 @@ show_lables = true;
           options: {
             plugins: {
               legend:{
-                display: legends,
-                lables: {
+                display: true,
+                labels: {
                        padding: 20,
                       usePointStyle: true,
-                      pointStyle: 'dash'
+                      pointStyle: 'dash',
                 },
               },
             },
