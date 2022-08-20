@@ -59,11 +59,10 @@ class RY_Enquiry_Header(models.Model):
     Po_Date = models.CharField(max_length=100, null=True)
     Po_PDF = models.FileField(max_length=500, null=True)
     Po_RevDate = models.CharField(max_length=100, null=True)
-    GrpAssignedTo=models.CharField(max_length=100, null=True)
+    GrpAssignedTo = models.CharField(max_length=100, null=True)
     Sc_Number = models.CharField(max_length=100, null=True)
     Pc_Number = models.CharField(max_length=100, null=True)
     Cop_number = models.CharField(max_length=100, null=True)
-    
 
     class Meta:
         db_table = 'RY_Enquiry_Header'
@@ -71,7 +70,6 @@ class RY_Enquiry_Header(models.Model):
 
     # def __str__(self):
     #     return self.Mill_Rep + ' ' + self.Reg_no + ' ' + self.Mill + ' ' + self.Customer + ' ' + self.Marketing_Zone + ' ' + self.Payment_Term + ' ' + self.Narration + ' ' + self.Reason_For_Non_Acception + ' ' + self.Reason_For_Non_Acception + ' ' + self.Acceptance_from_the_mill + ' ' + self.Date + '' + self.Email_Details + ' ' + self.Status
-
 
 
 # class RY_Purcahse_Sales_Confirmation(models.Model):
@@ -115,8 +113,7 @@ class User_Details(models.Model):
     UserName = models.TextField(max_length=200,  null=True)
     Password = models.TextField(max_length=200,  null=True)
     Role = models.TextField(max_length=200,  null=True)
-    Status =  models.BooleanField(default=False)
-   
+    Status = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'User_Details'
@@ -139,8 +136,8 @@ class customer_comments(models.Model):
         db_table = 'customer_comments'
         ordering = ['DT']
 
-    def __str__(self):
-        return self.id + ' ' + self.UserId + ' ' + self.Comments + ' ' + self.Reg_no + ' ' + self.DT
+    # def __str__(self):
+    #     return str(self.id) + ' ' + self.UserId + ' ' + self.Comments + ' ' + self.Reg_no + ' ' + self.DT
 
 
 class purchase(models.Model):
@@ -173,19 +170,16 @@ class Upload_Data(models.Model):
     class Meta:
         db_table = 'Upload_data'
 
-    
 
 class Email_Distribution_Groups(models.Model):
     id = models.AutoField(primary_key=True)
     GroupName = models.CharField(max_length=100, null=True)
     GroupUsersID = models.CharField(max_length=100, null=True)
     Status = models.BooleanField(max_length=10, null=True)
-   
-   
-   
 
     class Meta:
         db_table = 'Email_Distribution_Groups'
+
 
 class Other_Details(models.Model):
     id = models.AutoField(primary_key=True)
@@ -195,18 +189,16 @@ class Other_Details(models.Model):
     matching_source = models.CharField(max_length=100, null=True)
     buyer = models.CharField(max_length=100, null=True)
     any_other_specification = models.CharField(max_length=100, null=True)
-    specification_if_no_product_type = models.CharField(max_length=100, null=True)
+    specification_if_no_product_type = models.CharField(
+        max_length=100, null=True)
     commision = models.CharField(max_length=100, null=True)
     Baby_cone = models.BooleanField(max_length=10, null=True)
     air = models.BooleanField(max_length=10, null=True)
     Reg_no = models.CharField(max_length=200,  null=True)
 
-   
-   
-   
-
     class Meta:
         db_table = 'Other_Details'
+
 
 class Quantity_Details(models.Model):
     id = models.AutoField(primary_key=True)
@@ -236,14 +228,14 @@ class Quantity_Details(models.Model):
     class Meta:
         db_table = 'Quantity_Details'
 
-#ROCKETBOT TABLES CREATES HERE
+# ROCKETBOT TABLES CREATES HERE
+
 
 class Customer_Name(models.Model):
     id = models.AutoField(primary_key=True)
-    customer_names =  models.TextField(max_length=200,  null=True)
+    customer_names = models.TextField(max_length=200,  null=True)
     customer_emailid = models.TextField(max_length=200,  null=True)
-    splited_details =  models.TextField(max_length=200,  null=True)
-
+    splited_details = models.TextField(max_length=200,  null=True)
 
     class Meta:
         db_table = 'Customer_Name'
@@ -255,7 +247,6 @@ class Duplication(models.Model):
     Blend = models.TextField(max_length=200,  null=True)
     Shade_Ref = models.TextField(max_length=200,  null=True)
     Quantity = models.TextField(max_length=200,  null=True)
-
 
     class Meta:
         db_table = 'Duplication'
@@ -271,6 +262,7 @@ class ShadeRef_With_mill(models.Model):
     class Meta:
         db_table = 'ShadeRef_With_mill'
 
+
 class items_to_mill_mapping(models.Model):
     id = models.AutoField(primary_key=True)
     type = models.TextField(max_length=200,  null=True)
@@ -278,10 +270,3 @@ class items_to_mill_mapping(models.Model):
 
     class Meta:
         db_table = 'items_to_mill_mapping'
-
-
-     
-
-
-    
-
