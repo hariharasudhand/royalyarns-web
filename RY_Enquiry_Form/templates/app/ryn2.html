@@ -409,13 +409,14 @@
                 <form name="RYform" id="RYform" action="" method="post">
 
                     {% csrf_token %}
+                    <!-- -->
                     <div class="card text-sm font-weight-bold">
                         <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
                             {% if vLoggedInRole == 'agent' and vStatus == 0 %}
                             Assign To : 
                             
                             <select class="form-control form-control-sm" id="vGrp_to" name="vGrp_to" disabled style="width: 30%;" required>
-                                <option disabled selected value> -- select an group-- </option>
+                                <option disabled selected value>-- select an group--</option>
                                 {% for supplierGrp in supplierGroupNames%}
                                     <option value="{{ supplierGrp }}">{{supplierGrp}}</option>
                                 {%endfor%}
@@ -622,8 +623,8 @@
                     <br>
 
                     
-
-                        <input class="btn btn-primary" style="width: 20%;" id="saveAndProceed" value="save and proceed">
+                        <button type="button" class="btn btn-primary" style="width: 20%;" id="saveAndProceed" >save and proceed</button>
+                        <!-- <input class="btn btn-primary" style="width: 20%;" id="saveAndProceed" onclick="Verified" value="save and proceed"> -->
                     {% endif %}
                         {% if vStatus == 0 %}
                         <input class="btn btn-primary" style="width: 20%;" id="cancelAction" value=" proceed ">
@@ -797,6 +798,7 @@ crossorigin="anonymous"></script>
     $(document).ready(function () {
 
         var saveAndProceed = function(){
+            
             $('#hBtnAction').val("sap");
             $('#RYform').submit();
         }
@@ -824,6 +826,13 @@ crossorigin="anonymous"></script>
     if (window.history.replaceState) {
         window.history.replaceState(null, null, window.location.href);
     }
+
+    $(document).keypress(
+        function(event){
+            if (event.which == '13') {
+            event.preventDefault();
+            }
+        });
 </script>
 
 
@@ -918,4 +927,16 @@ crossorigin="anonymous"></script>
         }
     });
      </script>
+    <script>
+        
+        function Verified()
+	        {    
+        console.log("dhinesh")
+        var vGroup= document.getElementById("vGrp_to").value;
+
+        if(vGroup == '-- select an group--'){
+            alert("Please Assign the Group")
+        }
+    }
+    </script>
 {% endblock javascripts %}

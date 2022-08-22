@@ -550,8 +550,9 @@ def roleassigned(request):
         vUSER = request.POST.get("UserName")
         vROLE = request.POST.get("Role")
         vGRP = request.POST.get("GroupName")
+        print(vROLE)
         context = User_Details.objects.get(UserName=vUSER)
-        context.ROLE = vROLE
+        context.Role = vROLE
         context.save()
 
         context1 = Email_Distribution_Groups.objects.get(GroupName=vGRP)
