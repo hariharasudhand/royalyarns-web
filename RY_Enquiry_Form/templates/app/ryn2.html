@@ -379,6 +379,8 @@
             text-align: center;
             padding: 10px;
         }
+    
+
     </style>
 
 {% endblock stylesheets %}
@@ -388,6 +390,11 @@
 
 
 {% block content %}
+
+    <!-- <div class="spinner-border not-visible" style="width: 6rem; height: 6rem;" role="status">
+        <span class="sr-only"></span>
+    </div> -->
+
 
        <div class="topright" style="margin-top: 20px;"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
         </div>
@@ -429,6 +436,7 @@
                                       
                             {% endif %}
                        </div>
+
                         <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
                             <div class="card-body">
                                 
@@ -444,6 +452,7 @@
                                                     {{Default_Enq_Fileds}} style="width:100px;">
                                             </span>
                                         </td>
+                                            
                                         <td> <span class="label label-default text-sm font-weight-bold">Marketing_Zone:<br>
                                             <input type="text" class="form-control form-control-sm" id="Marketing_Zone" name="Marketing_Zone"
                                                 value='{{Marketing_Zone}}' {{Default_Enq_Fileds}} style="width:120px;">
@@ -613,6 +622,7 @@
                     </div>
                     
                     <p></p>
+                    
                     <br>{% if vLoggedInRole == 'agent' and vStatus == 4 or vLoggedInRole == 'agent' and vStatus == 0 or vLoggedInRole == 'supplier' and vStatus == 3 %}
                         <small class="text-muted">
                              Please Click on Save only if there is a change
@@ -685,43 +695,46 @@
                                     
                                 </ul>
                                 <!-- <form method="post" class="form-block"> -->
-                                    <div class="right">
-                                        <center> <div class="form-group form-check form-check-inline" style="margin-top: 37px;">
-                                             
-                                             {% if vLoggedInRole == 'agent' %}
-                                             <select class="form-control" style="width: 150%;" id="sel2" name="GroupName">
-                                                <option disabled selected value> -- select an group-- </option>
-                                                <option value="agent">Internal </option>
-                                                <option value="{{CreatedByUser}}"> {{CreatedByUser}} </option>
-                                                <option value="{{GrpAssignedTo}}"> {{GrpAssignedTo}} </option>
-                                              </select> 
-                                              {% elif vLoggedInRole == 'supplier' %}
-                                              <input type="hidden" value="supplier_to_agent" name="GroupName">
-                                              {% else %}
-                                              <input type="hidden" value="buyer_to_agent" name="GroupName">
-                                              {% endif %}
-                                              <button id="commentAction" class="btn btn-default" style="background-color: #85daf7; margin-top: 13px;" >Add</button>
+                                    
+                                        <div class="right">
+                                            <div id="blur">
+                                            <center> <div class="form-group form-check form-check-inline" style="margin-top: 37px;">
+                                                
+                                                {% if vLoggedInRole == 'agent' %}
+                                                <select class="form-control" style="width: 150%;" id="sel2" name="GroupName">
+                                                    <option disabled selected value> -- select an group-- </option>
+                                                    <option value="agent">Internal </option>
+                                                    <option value="{{CreatedByUser}}"> {{CreatedByUser}} </option>
+                                                    <option value="{{GrpAssignedTo}}"> {{GrpAssignedTo}} </option>
+                                                </select> 
+                                                {% elif vLoggedInRole == 'supplier' %}
+                                                <input type="hidden" value="supplier_to_agent" name="GroupName">
+                                                {% else %}
+                                                <input type="hidden" value="buyer_to_agent" name="GroupName">
+                                                {% endif %}
+                                                <button id="commentAction" class="btn btn-default" style="background-color: #85daf7; margin-top: 13px;" >Add</button>
+                                            </div>
+                                        </center>
                                         </div>
-                                    </center>
 
                                
-                                    <div class="form-group">
-                                       
-                                        <center><textarea style="height:250px;width:400px; border: solid rgb(183, 146, 146) 1px; resize: none;" 
-                                            class="form-control" required="" id="Ccomment" aria-describedby="emailHelp"
-                                            name="Ccomment" value="" placeholder="Your text"></textarea></center>
-                                    </div>
+                                            <div class="form-group">
+                                            
+                                                <center><textarea style="height:250px;width:400px; border: solid rgb(183, 146, 146) 1px; resize: none;" 
+                                                    class="form-control" required="" id="Ccomment" aria-describedby="emailHelp"
+                                                    name="Ccomment" value="" placeholder="Your text"></textarea></center>
+                                            </div>
                                     
-                                    <input type="hidden" id="hBtnAction" name="hBtnAction" value="">
-                                    {% if messages %}
-                                    <div class="alert alert-success alert-dismissible">
-                                        {% for message in messages %}
-                                        <p>{{ message }}</p>
-                                        {% endfor %}
-                                    </div>
-                                    {% endif %}
+                                            <input type="hidden" id="hBtnAction" name="hBtnAction" value="">
+                                            {% if messages %}
+                                            <div class="alert alert-success alert-dismissible">
+                                                {% for message in messages %}
+                                                <p>{{ message }}</p>
+                                                {% endfor %}
+                                            </div>
+                                            {% endif %}
                                     <!-- </form> -->
-                            </div>
+                                    </div>
                         </div>
                         <!-- Ends-->
                     </form>  
@@ -744,7 +757,7 @@
         {{Error}}
       </p>
     {% endif %}
-   
+
 {% endblock content %}
 
 
@@ -798,9 +811,19 @@ crossorigin="anonymous"></script>
     $(document).ready(function () {
 
         var saveAndProceed = function(){
+        var vGroup= $("#vGrp_to").val();
+        // var vGroup = $("#vGrp_to option:selected").text()
+            console.log(vGroup)
+            if(vGroup == null) {
+                alert("Please Assign the Group")
+            }
+            else{
+                console.log("vGroup dhinesh")
+                $('#hBtnAction').val("sap");
+                $('#RYform').submit();
+            }
             
-            $('#hBtnAction').val("sap");
-            $('#RYform').submit();
+        
         }
         $('#saveAndProceed').on('click', saveAndProceed)
 
@@ -813,9 +836,12 @@ crossorigin="anonymous"></script>
         
 
         var commentAction = function () {
+
+            
             $('#hBtnAction').val("comment");
             
             $('#RYform').submit();
+            $("#blur").toggle();
             /*window.location("app/ryn.html")*/
             /*$('#RYform').trigger("reset");
             $(this).closest('#RYform').find("textarea").val("");*/
@@ -926,17 +952,7 @@ crossorigin="anonymous"></script>
             $('#vGrp_to').removeAttr('disabled')
         }
     });
+   
      </script>
-    <script>
-        
-        function Verified()
-	        {    
-        console.log("dhinesh")
-        var vGroup= document.getElementById("vGrp_to").value;
-
-        if(vGroup == '-- select an group--'){
-            alert("Please Assign the Group")
-        }
-    }
-    </script>
+    
 {% endblock javascripts %}

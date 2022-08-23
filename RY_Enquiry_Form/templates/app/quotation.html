@@ -348,7 +348,7 @@ crossorigin="anonymous"></script>
             markup+= "<td><input type=\"text\" class=\"form-control\" id=UOM"+row_count+" name=UOM"+row_count+" style=\"width:60px\" > </td>  ";
             markup+= "<td><input type=\"text\" class=\"form-control\" id=Quantity"+row_count+" name=Quantity"+row_count+" style=\"width:80px\" > </td>  ";  
             markup+= "</tr>";
-            $("table tbody").append(markup);
+            $("table tbody").appendf(markup);
             $("#txtRowCount").val(row_count);
         });
 
