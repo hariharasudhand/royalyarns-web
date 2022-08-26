@@ -477,10 +477,6 @@
                                                 <input type="text" class="form-control form-control-sm" id="Customer" name="Customer"
                                                     value='{{Customer}}' {{Default_Enq_Fileds}} style="width:250px; margin-left:10px;">
                                             </span>
-                                            {% for d in det %}
-                                             <input type="text" class="form-control form-control-sm" id="UserName" name="UserName"
-                                        value='{{d.UserName}}' style="width:450px; border: solid rgb(183, 146, 146) 1px;">
-                                        {% endfor %}
                                         </td>
                                     </tr>
                                 </table>
@@ -697,34 +693,37 @@
                                 <!-- <form method="post" class="form-block"> -->
                                     
                                         <div class="right">
-                                            <div id="blur">
-                                            <center> <div class="form-group form-check form-check-inline" style="margin-top: 37px;">
-                                                
-                                                {% if vLoggedInRole == 'agent' %}
-                                                <select class="form-control" style="width: 150%;" id="sel2" name="GroupName">
-                                                    <option disabled selected value> -- select an group-- </option>
-                                                    <option value="agent">Internal </option>
-                                                    <option value="{{CreatedByUser}}"> {{CreatedByUser}} </option>
-                                                    <option value="{{GrpAssignedTo}}"> {{GrpAssignedTo}} </option>
-                                                </select> 
-                                                {% elif vLoggedInRole == 'supplier' %}
-                                                <input type="hidden" value="supplier_to_agent" name="GroupName">
-                                                {% else %}
-                                                <input type="hidden" value="buyer_to_agent" name="GroupName">
-                                                {% endif %}
-                                                <button id="commentAction" class="btn btn-default" style="background-color: #85daf7; margin-top: 13px;" >Add</button>
-                                            </div>
-                                        </center>
-                                        </div>
+                                            
 
                                
-                                            <div class="form-group">
+                                            <div class="form-group" style="padding-top: 90px;">
                                             
                                                 <center><textarea style="height:250px;width:400px; border: solid rgb(183, 146, 146) 1px; resize: none;" 
                                                     class="form-control" required="" id="Ccomment" aria-describedby="emailHelp"
                                                     name="Ccomment" value="" placeholder="Your text"></textarea></center>
                                             </div>
-                                    
+                                            <div id="blur">
+                                                <center> <div class="form-group form-check form-check-inline">
+                                                    
+                                                    {% if vLoggedInRole == 'agent' %}
+                                                    <select class="form-control" style="width: 150%;" id="Comments_to" name="GroupName">
+                                                        <option disabled selected value> -- select an group-- </option>
+                                                        <option value="agent">Internal </option>
+                                                        <option value="{{CreatedByUser}}"> {{CreatedByUser}} </option>
+                                                        <option value="{{GrpAssignedTo}}"> {{GrpAssignedTo}} </option>
+                                                    </select> 
+                                                    {% elif vLoggedInRole == 'supplier' %}
+                                                    <input type="hidden" value="supplier_to_agent" name="GroupName" id="Comments_to">
+                                                    <!-- <input type="hidden" value="supplier_to_agent" name="GroupName"> -->
+                                                    {% else %}
+                                                    <input type="hidden" value="buyer_to_agent" name="GroupName">
+                                                    {% endif %}
+                                                    <button id="commentAction" class="btn btn-default" style="background-color: #85daf7; margin-top: 13px;" >Add</button>
+                                                </div>
+                                            </center>
+                                            </div>
+                                            <input type="hidden" id="role" value="{{vLoggedInRole}}">
+                                        
                                             <input type="hidden" id="hBtnAction" name="hBtnAction" value="">
                                             {% if messages %}
                                             <div class="alert alert-success alert-dismissible">
@@ -790,9 +789,9 @@ crossorigin="anonymous"></script>
         $(document).ready(function () {
         var showEmailAction = function () {
         //   alert("hi");
-          $('#myPopup').fadeIn(1000);
+        $('#myPopup').fadeIn(1000);
         $('#myPopup').resizable().draggable();
-          $('#hidepop').click(function(){
+        $('#hidepop').click(function(){
             $('#myPopup').fadeOut(1000);
             })
         }
@@ -826,22 +825,32 @@ crossorigin="anonymous"></script>
         
         }
         $('#saveAndProceed').on('click', saveAndProceed)
-
+        
         var cancelAction = function () {
+            var vGroup= $("#vGrp_to").val();
+            if(vGroup == null) {
+                alert("Please Assign the Group")
+            }
+            else{
             $('#hBtnAction').val("cancel");
             $('#RYform').submit();
         }
+    }
         $('#cancelAction').on('click', cancelAction)
 
         
 
         var commentAction = function () {
-
+            var Comments_to = $("#Comments_to").val();
+            if(Comments_to == null){
+                alert("If you forget who goes to the comment")
+            }
+            else{
+                $('#hBtnAction').val("comment");
+                $('#RYform').submit();
+                $("#blur").toggle();
+            }
             
-            $('#hBtnAction').val("comment");
-            
-            $('#RYform').submit();
-            $("#blur").toggle();
             /*window.location("app/ryn.html")*/
             /*$('#RYform').trigger("reset");
             $(this).closest('#RYform').find("textarea").val("");*/

@@ -41,15 +41,6 @@ from .models import RY_Enquiry_Header, RY_Enquiry_Items
 vDAO = DAO("dao")
 vDispatchDAO = DispatchDAO("DispatchDAO")
 
-#vExcelUtlis = ExcelUtlis("excelutlis")
-
-# @csrf_exempt
-# def checkUserCookie(request):
-
-#     if request.COOKIES.get('role') == None:
-#         return render(request, 'app/ryn_login.html')
-
-
 @csrf_exempt
 def index(request):
 
@@ -75,16 +66,13 @@ def index(request):
     else:
         vReg_no = request.GET.get('Rno')
 
-    print("******* vRegNo", vReg_no)
     ##
     #  When the home page is accessed , all enquiries are to be displayed
     #  Rno will be empty not available in GET or POST varibale vReg_no will be empty
     ##
     if vReg_no == None:
         context = vDAO.GetLandingPageData(vLoggedInUserID, vLoggedInRole)
-        print('****************',vLoggedInRole)
         role = request.COOKIES.get('role')
-        #print("**********>> context", context)
         return render(request, 'app/ryn.html', context)
     else:
         #CONDITION CHECK FOR NOT TO ACCESS THE DATA THROUGH URL
@@ -106,33 +94,31 @@ def index(request):
         data3 = vDAO.GetComments(vReg_no, vLoggedInRole)
 
         if request.method == 'POST':
-
-            # data = RY_Enquiry_Items.objects.filter(Reg_no=vReg_no)
-            # data2 = RY_Enquiry_Header.objects.filter(Reg_no=vReg_no)
             __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header)
 
-            # form = Ry_En_Form()
-            # form = Ry_En_Form(request.POST)
-            # if form.is_valid():
-            #     form.save()
 
         context = __prepareUIData(
             vReg_no, vENQ_Items, vENQ_Header, data3, vLoggedInRole, vLoggedInUserID)
-        print(context)
+        
+        #If Buyer login quotation form in status 6
         if (context['vStatus'] == 6):
-            print("Its is status 6", vStatus)
-            print("this is register number in quotations", vReg_no)
-
             return render(request, 'app/quotation.html', context)
+        
+        #In status 7 entry form for quantity and quality 
         if (context['vStatus'] == 7):
-            print("Its is status 7", vStatus)
-            print("this is register number in Quantity", vReg_no)
             res1 = request.COOKIES.get('username')
-            return render(request, 'app/ryn_quantity.html', {'vReg_no':vReg_no, 'user':res1})
+            vLoggedInRole = request.COOKIES.get('role')
+            return render(request, 'app/ryn_quantity.html', {'vReg_no':vReg_no, 'user':res1, 'Role':vLoggedInRole})
+        
+        #
+        ##Agent Copnumber Enter form
+        #
         if (context['vStatus'] == 12):
             res = RY_Enquiry_Header.objects.get(Reg_no=vReg_no)
             res1 = request.COOKIES.get('username')
-            return render(request, 'app/Copnumber.html', {'vReg_no':res, 'user':res1})
+            vLoggedInRole = request.COOKIES.get('role')
+            return render(request, 'app/Copnumber.html', {'vReg_no':res, 'user':res1, 'Role':vLoggedInRole})
+        
         else:
 
             return render(request, 'app/ryn2.html', context)
@@ -158,22 +144,18 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
     #
 
     vBtnAction = request.POST.get('hBtnAction')
-    #print("***** vBtnAction", vBtnAction)
     vStatus = 0
 
     if vBtnAction == 'sap':
 
-        print("***** txtRowCount", request.POST.get('txtRowCount'))
         vRowCount = 0
         if (request.POST.get('txtRowCount') != None):
             vRowCount = int(request.POST.get('txtRowCount'))
-            print("Row Count : ", vRowCount)
 
         for itemIndex in range(vRowCount):
             vRowIndex = itemIndex+1
-            print("Processing Index", vRowIndex)
             DBItemID = request.POST.get('DBID'+str(vRowIndex))
-            print("Processing DBItemID", str(DBItemID))
+
             vStatus = 1
 
             vCounts = request.POST.get('Counts'+str(vRowIndex))
@@ -188,33 +170,23 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
 
             # Supplier Entered Rates
             vRate = request.POST.get('Rate'+str(vRowIndex))
-            print('vrate is printing', vRate)
             vAmount = request.POST.get('Amount'+str(vRowIndex))
-            print('vrate is printing', vAmount)
             vLast_order = request.POST.get('Last_order'+str(vRowIndex))
-
             # Agent ReEntered Rates
             vARate = request.POST.get('Arate'+str(vRowIndex))
             vAAmount = request.POST.get('Aamount'+str(vRowIndex))
             vALast_order = request.POST.get('Alast_order'+str(vRowIndex))
 
-            print("****** Rate", vRate)
-            print("****** Amount", vAmount)
-            print("****** Last Order", vLast_order)
-
-            print("****** Rate", vARate)
-            print("****** Amount", vAAmount)
-            print("****** Last Order", vALast_order)
-
             if vARate != None:
                 vStatus = '5'
             elif vRate != None:
                 vStatus = '4'
+
             # if DBItemID is None that means this is a newly added row, as when the page
             # loads db record index will be filled in the hidden field which is queried and
             # stored above in DBItemID field
+
             if DBItemID != None:
-                print("inside updating existing", vStatus)
                 vDAO.StoreEnquiryItem(DBItemID, vReg_no, vCounts, vQuality, vYarnType, vBlend,
                                       vShade, vDepth, vUOM, vQuantity, vRate, vAmount, vLast_order, vStatus, 1,
                                       vARate, vAAmount, vALast_order, vUserID, vNow)
@@ -225,18 +197,15 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
                                       vShade, vDepth, vUOM, vQuantity, vRate, vAmount,
                                       vLast_order, vStatus, 0, vARate, vAAmount, vALast_order,
                                       vUserID, vNow)
-        print('testing', vStatus)
+        
         vDAO.StoreEnquiryHeader(vReg_no, vMill, vDate,
                                 vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUserID, vNow,vGrpAssignedTo)
 
     elif vBtnAction == 'comment':
-        print("this is inside elseif")
         __command_update(request, vReg_no)
 
     elif vBtnAction == 'cancel':
         vDAO.UpdateEnquiryStatus(vReg_no, 2,vGrpAssignedTo)
-        
-        print(vStatus)
 
     return render(request, 'app/ryn2.html', {'upload_form': Ry_En_Form})
 
@@ -245,13 +214,19 @@ def __command_update(request, vReg_no):
     vComments = request.POST.get('Ccomment')
     now = datetime.now()
     vUserID = request.COOKIES.get('username')
-    print('this is userName', vUserID)
     vRole = request.COOKIES.get('role')
     vNow = datetime.now()
     vDT = now.strftime("%d/%m/%Y:%H:%M:%S")
     vComments_to = request.POST.get('GroupName')
+    supplier_grp = list(Email_Distribution_Groups.objects.values_list('GroupName'))
+    grp=[]
+    for i in supplier_grp:
+        grp.append(i[0])
 
-    print("this is time and date", vDT)
+   
+   
+        
+
 
     if len(vComments) != 0:
 
@@ -260,11 +235,24 @@ def __command_update(request, vReg_no):
         html_content = render_to_string(
             "app/emailmessage.html", {'vUserID': vUserID, 'vReg_no': vReg_no})
         text_content = strip_tags(html_content)
-        # print(text_content)
-        # print(html_content)
         emailComp = EMAIL_UTIL()
-        emailComp.send_group('supplier-only', '[Terata.io] Comment from User : ' +
+        if vComments_to in grp:
+            emailComp.send_group(vComments_to, '[Terata.io] Comment from User : ' +
                              vUserID.split('@')[0]+" /  "+vReg_no, html_content)
+        elif vComments_to == 'agent':
+            emailComp.send_group('agent-only', '[Terata.io] Comment from User : ' +
+                             vUserID.split('@')[0]+" /  "+vReg_no, html_content)
+        
+        elif vComments_to == 'supplier_to_agent':
+            emailComp.send_group('agent-only', '[Terata.io] Comment from User : ' +
+                             vUserID.split('@')[0]+" /  "+vReg_no, html_content)
+        elif vComments_to == 'buyer_to_agent':
+            emailComp.send_group('agent-only', '[Terata.io] Comment from User : ' +
+                             vUserID.split('@')[0]+" /  "+vReg_no, html_content)
+        else:
+             emailComp.send_single(vComments_to, '[Terata.io] Comment from User : ' +
+                             vUserID.split('@')[0]+" /  "+vReg_no, html_content)
+        
 
         return http.HttpResponseRedirect('')
 
@@ -309,14 +297,12 @@ def confirmpo(request):
         # myfile is the name of your html file button
         for f in request.FILES.getlist('txtPOPDF'):
             vFiles = RY_Enquiry_Header.objects.get(Reg_no=vReg_no)
-            print("@@@@@@@@@@@@", vReg_no)
             vFiles.Po_PDF = f
-            print(vFiles)
             vFiles.save()
             #RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update( Po_PDF=f)
             filename = f.name
             list.append(filename)
-        print("This is the multiple PDF Name", list)
+       
 
         vPO_Date = datetime.now()
         vRev_date = datetime.now()
@@ -356,15 +342,10 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             Customer = item.Customer
             vCreatedByUser = item.CreatedByUser
             GrpAssignedTo = item.GrpAssignedTo
-            # Sc_Number = item.Sc_Number
-            #Customer = item.Customer
-            # Item Status >= 3 is for Supplier to enter Rates
+            vQuotation_Number = item.Quotation_Number 
             vStatus = int(item.Status)
-            
-            print("status in view :", vStatus)
 
             vUserAction = vDAO.GetUserActionByRole(vLoggedInRole, vStatus)
-            print("vUserAction.Action", len(vUserAction))
             if len(vUserAction) <= 0:
                 context = {'Error': 'User: ' + vLoggedInUserID +
                            'Is Not Authorized to View Record Number :' + vReg_no, 'vStatus': vStatus}
@@ -385,17 +366,10 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
                   Default_Enq_Fileds = 'readonly'
             else:
                 Default_Enq_Fileds = ''
-                # if vStatus =='3':
-
-            # if vStatus >= 3:
-            #     Default_Enq_Fileds = 'readonly'
             if vStatus >= 4:
 
                 Supplier_Fileds = 'readonly'
-            # if vStatus >= 5:
-            #     # Probably there is a better status - i will use this in the Agent ReEntered Field as readonly
-            #     Quotation_ready = 'readonly'
-            # print("Default_Enq_Fileds in view :", Default_Enq_Fileds)
+
     if len(vENQ_Items) != 0:
 
         context = {
@@ -418,7 +392,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             'user': vLoggedInUserID,
             'CreatedByUser':vCreatedByUser,
             'GrpAssignedTo':GrpAssignedTo,
-            # 'Sc_Number':Sc_Number,
+            'vQuotation_Number':vQuotation_Number,
             'supplierGroupNames': vDAO.GetSupplierGroupNames()
         }
 
@@ -445,17 +419,10 @@ def checklogin(request):
     # if so fetch the role
     vData3 = vDAO.GetUserInfo(username, password)
     if len(vData3) > 0:
-
-        # request.session['user'] = username
-        # request.session['role'] =
-
-        # getting the cookies from the login Page using Context:
-        # context = {
-        #     'username': username,
-        #     'role': vRole,
-        # }
         if (vData3[0].Role == 'admin'):
             response = redirect('/group')
+        # elif (vData3[0].Role == 'buyer'):
+        #     response = redirect('/buyer')
         else:
             response = redirect('/')
         # setting cookies
@@ -464,9 +431,14 @@ def checklogin(request):
         return response
 
     else:
-        messages.success(request, "Unvalid User Name or Password!")
+        messages.success(request, "Invalid User Name or Password! or Not been Permitted")
         return render(request, 'app/ryn_login.html')
 
+# def buyer(request):
+#     vLoggedInRole = request.COOKIES.get('role')
+#     vLoggedInUserID = request.COOKIES.get('username')
+#     context = vDAO.GetLandingPageData(vLoggedInUserID, vLoggedInRole)
+#     return render(request, 'app/ryn1.html', context)  
 
 def logout(request):
     response = HttpResponseRedirect(reverse('login'))
@@ -509,11 +481,8 @@ def login(request):
 def UploadExcel(request):
     if request.method == "POST":
         vUpload = request.FILES['upload']
-        # print(vUpload)
         vDate = datetime.now()
         vUser = request.COOKIES.get('username')
-        # return excel._make_response(vUpload.get_sheet(),"xslx")
-
         vDispatchDAO.StoreUpload_Data(vUpload, vDate, vUser)
     return render(request, 'app/ryn.html')
 
@@ -537,12 +506,14 @@ def activate(request, id1):
 def assignrole(request):
     context = User_Details.objects.filter(Role=None)
     context1 = Email_Distribution_Groups.objects.all()
-    return render(request, 'app/addrole.html', {'context': context, 'context1': context1})
+    User = request.COOKIES.get('username')
+    return render(request, 'app/addrole.html', {'context': context, 'context1': context1, 'user':User})
 
 
 def group(request):
+    User = request.COOKIES.get('username')
     context1 = Email_Distribution_Groups.objects.all()
-    return render(request, 'app/group.html', {'context1': context1})
+    return render(request, 'app/group.html', {'context1': context1, 'user':User})
 
 
 def roleassigned(request):
@@ -550,7 +521,6 @@ def roleassigned(request):
         vUSER = request.POST.get("UserName")
         vROLE = request.POST.get("Role")
         vGRP = request.POST.get("GroupName")
-        print(vROLE)
         context = User_Details.objects.get(UserName=vUSER)
         context.Role = vROLE
         context.save()
@@ -620,7 +590,6 @@ def StoreCopNumber(request):
     if request.method == 'POST':
         vCopNumber = request.POST.get("COPNumber")
         vReg_no = request.POST.get("Rno")
-        print("regnumber in storecomments",vReg_no)
         vDAO.StoreCopNumber(vReg_no,vCopNumber)
         return HttpResponseRedirect('/')
 

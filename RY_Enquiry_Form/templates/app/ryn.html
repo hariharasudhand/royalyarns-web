@@ -476,6 +476,7 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Reg_no</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mill</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Customer</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Remark</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Date</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Progress</th>
@@ -500,6 +501,40 @@
                     </td>
                     <td>
                       <span class="text-xs font-weight-bold">{{UnrData.Customer}}</span>
+                    </td>
+                    <td>
+                        {%  if UnrData.Status == '0' %}
+                            <span class="text-xs font-weight-bold">Agent Check the value</span>
+                        {% elif UnrData.Status == '1' %}
+                            <span class="text-xs font-weight-bold">Its internal change</span>
+                        {% elif UnrData.Status == '2' %}
+                            <span class="text-xs font-weight-bold">Its internal Change</span>
+                        {% elif UnrData.Status == '3' %}
+                            <span class="text-xs font-weight-bold">Supplier fixing Rate</span>
+                        {% elif UnrData.Status == '4' %}
+                            <span class="text-xs font-weight-bold">Agent fixing Rate</span>
+                        {% elif UnrData.Status == '5' %}
+                            <span class="text-xs font-weight-bold">Its internal Review</span>
+                        {% elif UnrData.Status == '6' %}
+                            <span class="text-xs font-weight-bold">Buyer generate Po number </span>
+                        {% elif UnrData.Status == '7' %}
+                            <span class="text-xs font-weight-bold">Agent Quotation change</span>
+                        {% elif UnrData.Status == '8' %}
+                            <span class="text-xs font-weight-bold">Its Internal Review</span>
+                        {% elif UnrData.Status == '9' %}
+                            <span class="text-xs font-weight-bold">Its Internal Review</span>
+                        {% elif UnrData.Status == '10' %}
+                            <span class="text-xs font-weight-bold">Its Internal Review</span>
+                        {% elif UnrData.Status == '11' %}
+                            <span class="text-xs font-weight-bold">agent generate Cop Number</span>
+                        {% elif UnrData.Status == '12' %}
+                            <span class="text-xs font-weight-bold">Its Internal Review</span>
+                        {% elif UnrData.Status == '13' %}
+                            <span class="text-xs font-weight-bold">Its Internal Review</span>
+                        {% else %}
+                            <span class="text-xs font-weight-bold">Finished process</span>
+                        {% endif %}
+
                     </td>
                     <td>
                         <span class="statusCircle mb-0 color{{UnrData.Status}}">{{UnrData.Status}}</span>
