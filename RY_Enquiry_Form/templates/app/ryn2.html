@@ -1,7 +1,7 @@
 {% extends 'layouts/base.html' %}
-
+{% load static %}
 {% block title %}Terata Enquiry Workspace {% endblock title %}
-
+<link rel="stylesheet" href="{% static 'style.css' %}">
 {% block stylesheets %}
     <!-- <link href="//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -17,185 +17,16 @@
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
     <style>
-        .accordion {
-            text-align: center;
-        }
-
-        .accordion.width {
-            display: flex;
-            width: 100px;
-        }
-
-        .accordion.width .card {
-            flex-direction: row;
-            min-width: min-content;
-        }
-
-        .accordion.width .card .card-header {
-            cursor: pointer;
-            transform: rotate(180deg);
-            writing-mode: vertical-rl;
-            background-color: #0F9D58;
-            border: 2px solid black;
-        }
-
-        .card-body {
-            /* width: 100px; */
-            background-color: white;
-        }
-
-        .card-Email {
-            width: 475px;
-            background-color: white;
-        }
-
-        .collapsing.width {
-            transition: width 0.5s ease;
-            height: auto;
-            width: 5px;
-        }
-
-        h1 {
-            color: green;
-        }
-
-        p {
-            color: black;
-        }
-
-        .button {
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            margin-left: 850px;
-            cursor: pointer;
-        }
-
-        .button2 {
-            background-color: #008CBA;
-        }
-
-        .popup {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        /* The actual popup */
-        .popup .popuptext {
-            visibility: hidden;
-            width: 160px;
-            background-color: #555;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 8px 0;
-            position: absolute;
-            z-index: 1;
-            bottom: 95%;
-            left: 50%;
-            margin-left: 50px;
-        }
-
-        /* Popup arrow */
-        .popup .popuptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #555 transparent transparent transparent;
-        }
-
-        /* Toggle this class - hide and show the popup */
-        .popup .show {
-            visibility: visible;
-            -webkit-animation: fadeIn 1s;
-            animation: fadeIn 1s;
-        }
-
-        /* Add animation (fade in the popup) */
-        @-webkit-keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
+       
         body {
             margin-top: 20px;
             background-color: #e9ebee;
         }
 
        
-        .form-group.fl_icon .icon {
-            position: absolute;
-            top: 1px;
-            left: 16px;
-            width: 48px;
-            height: 48px;
-            background: #f6f6f7;
-            color: #b5b8c2;
-            text-align: center;
-            line-height: 50px;
-            -webkit-border-top-left-radius: 2px;
-            -webkit-border-bottom-left-radius: 2px;
-            -moz-border-radius-topleft: 2px;
-            -moz-border-radius-bottomleft: 2px;
-            border-top-left-radius: 2px;
-            border-bottom-left-radius: 2px;
-        }
-
-        .form-group .form-input {
-            font-size: 13px;
-            line-height: 50px;
-            font-weight: 400;
-            color: #b4b7c1;
-            /* width: 100%;
-            height: 50px; */
-            padding-left: 20px;
-            padding-right: 20px;
-            border: 1px solid #edeff2;
-            border-radius: 3px;
-        }
-
-        .form-group.fl_icon .form-input {
-            padding-left: 70px;
-        }
-
-        .form-group textarea.form-input {
-            height: 150px;
-        }
-
-        .hidden {
-            display: none;
-        }
-
+        
         .topright {
             position: absolute;
             top: 20px;
@@ -382,6 +213,8 @@
     
 
     </style>
+    
+    
 
 {% endblock stylesheets %}
 
@@ -395,7 +228,7 @@
         <span class="sr-only"></span>
     </div> -->
 
-
+        
        <div class="topright" style="margin-top: 20px;"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
         </div>
         <center>
@@ -457,6 +290,22 @@
                                             <input type="text" class="form-control form-control-sm" id="Marketing_Zone" name="Marketing_Zone"
                                                 value='{{Marketing_Zone}}' {{Default_Enq_Fileds}} style="width:120px;">
                                         </span></td>
+
+                                        <td>
+                                            {% if vStatus == 3 and vLoggedInRole == 'supplier' %}
+                                            <span class="label label-default text-sm font-weight-bold" style="margin-left:10px;">Ready Stock<br>
+                                                <input type="text" class="form-control form-control-sm" id="ReadyStock" name="ReadyStock"
+                                                 style="width:150px; margin-left:5px;">
+                                            </span>
+                                            {% elif vStatus == 4 and vLoggedInRole != 'buyer' %}
+                                            <span class="label label-default text-sm font-weight-bold" style="margin-left:10px;">Ready Stock<br>
+                                                <input type="text" class="form-control form-control-sm" id="ReadyStock" name="ReadyStock" value="{{vReadyStock}}Kgs"
+                                                 style="width:150px; margin-left:5px;" readonly>
+                                            </span>
+                                            {% else %}
+
+                                            {% endif %}
+                                        </td>
                                     </tr>
                                     <tr><td colspan="3"><br></td></tr>
                                     <tr>
@@ -478,14 +327,37 @@
                                                     value='{{Customer}}' {{Default_Enq_Fileds}} style="width:250px; margin-left:10px;">
                                             </span>
                                         </td>
+                                        
+                                        <td>
+                                            {% if vStatus == 3 and vLoggedInRole == 'supplier' %}
+                                            <span class="label label-default text-sm font-weight-bold" style="margin-left:10px;">Delivery Date<br>
+                                                <input type="date" class="form-control form-control-sm" id="Delivery_Date" name="Delivery_Date"
+                                                 style="width:150px; margin-left:10px;">
+                                            </span>
+                                            {% elif vStatus == 4 and vLoggedInRole != 'buyer' %}
+                                            <span class="label label-default text-sm font-weight-bold" style="margin-left:10px;">Delivery Date<br>
+                                                <input type="date" class="form-control form-control-sm" id="Delivery_Date" name="Delivery_Date" value="{{vDelivery_Date}}"
+                                                 style="width:150px; margin-left:10px;" readonly>
+                                            </span>
+                                            {% else %}
+
+                                            {% endif %}
+                                        </td>
+                                        
                                     </tr>
+                                    
+                                    
                                 </table>
                                 
                                 <br>
                                 <br>
-                       
+                                
                         <!-- Counts in a table-->
+                        {% if vStatus == 4 and vLoggedInRole == 'agent' %}
                         
+                        <input type="checkbox" style="margin-left:900px" id="select_all" name="ApprovedRate" value="Approved">&nbsp;Prize Fixed
+                        
+                        {% endif %}
                         <div class="scrollmenu">
                         <table id="MyTable" class="table table-striped table-bordered table-sm " cellspacing="0"
                         width="100%" >
@@ -504,7 +376,7 @@
                                     <th scope="col">Quantity</th>
                                     {% if vStatus >= 3 %}
                                     <th scope="col">Rate</th>
-                                    <th scope="col">Amount</th>
+                                    <!-- <th scope="col">Amount</th> -->
                                     <th scope="col">Last order</th>
                                     {% endif %}
 
@@ -539,69 +411,74 @@
                                             name="Shade{{forloop.counter}}" value="{{Reg_no.Shade}}" style="width:150px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
-                                    <td> <input type="text" class="form-control form-control-sm" id="Depth{{forloop.counter}}"
+                                    <td>
+                                        {% if  vLoggedInRole == 'supplier' and vStatus == 4 %} 
+                                        <input type="text" class="form-control form-control-sm" id="Depth{{forloop.counter}}"
+                                            name="Depth{{forloop.counter}}" value="{{Reg_no.Depth}}" style="width:100px"
+                                            >
+                                            {% else %}
+                                        <input type="text" class="form-control form-control-sm" id="Depth{{forloop.counter}}"
                                             name="Depth{{forloop.counter}}" value="{{Reg_no.Depth}}" style="width:100px"
                                             {{Default_Enq_Fileds}}>
+                                            {% endif %}
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm" id="UOM{{forloop.counter}}"
-                                            name="UOM{{forloop.counter}}" value="{{Reg_no.UOM}}" style="width:60px"
+                                            name="UOM{{forloop.counter}}" value="Kgs" style="width:60px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
                                     <td><input type="text" class="form-control form-control-sm" id="Quantity{{forloop.counter}}"
                                             name="Quantity{{forloop.counter}}" value="{{Reg_no.Quantity}}" style="width:80px"
                                             {{Default_Enq_Fileds}}>
                                     </td>
-
+                                    <input type="hidden" name="Shade_rep" value="{{Reg_no.Shade_Ref}}">
                                     {% if vStatus >= 3 %}
                                     
                                     <td>
                                         {% if vLoggedInRole == 'agent' %}
                                         <input type="text" class="form-control form-control-sm" id="Rate{{forloop.counter}}"
-                                            name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:60px" {{Default_Enq_Fileds}}>
-                                        {% else %}    
+                                            name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:90px"{{Default_Enq_Fileds}}>
+                                        {% elif vLoggedInRole == 'supplier' %}    
                                             <input type="text" class="form-control form-control-sm" id="Rate{{forloop.counter}}"
-                                            name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:60px" {{Supplier_Fileds}}>
+                                            name="Rate{{forloop.counter}}" value="{{Reg_no.Supplier_Rate}}" style="width:90px">
+                                        {% else %}
+
                                         {% endif %}    
-                                        {% if vLoggedInRole == 'agent' %}
+                                        {% if vLoggedInRole != 'supplier' %}
                                                 <input type="text" class="form-control form-control-sm" id="Arate{{forloop.counter}}"
-                                                name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:60px" {{Quotation_ready}}>
+                                                name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:90px" {{Quotation_ready}}>
                                             {% endif %}
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         {% if vLoggedInRole == 'agent' %}
                                         <input type="text" class="form-control form-control-sm" id="Amount{{forloop.counter}}"
-                                            name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:60px" {{Default_Enq_Fileds}}>
-                                        {% else %}
+                                            name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:150px"{{Default_Enq_Fileds}}>
+                                        {% elif vLoggedInRole == 'supplier' %}
                                         <input type="text" class="form-control form-control-sm" id="Amount{{forloop.counter}}"
-                                            name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:60px" {{Supplier_Fileds}}>
+                                            name="Amount{{forloop.counter}}" value="{{Reg_no.Supplier_Amount}}" style="width:150px" >
+                                        {% else %}
+
                                         {% endif %}
-                                            {% if vLoggedInRole == 'agent' %}
+                                            {% if vLoggedInRole != 'supplier' %}
                                             <input type="text" class="form-control form-control-sm" id="Aamount{{forloop.counter}}"
-                                            name="Aamount{{forloop.counter}}" value="{{Reg_no.Agent_Amount}}" style="width:60px" {{Quotation_ready}}>
+                                            name="Aamount{{forloop.counter}}" value="{{Reg_no.Agent_Amount}}" style="width:150px" {{Quotation_ready}}>
                                             {% endif %}
-                                    </td>
+                                    </td> -->
                                     <td>
-                                        {% if vLoggedInRole == 'agent' %}
-                                        <input type="text" class="form-control form-control-sm" id="Last_order{{forloop.counter}}"
-                                            name="Last_order{{forloop.counter}}" value="{{Reg_no.Supplier_Last_order}}"
-                                            style="width:80px" {{Default_Enq_Fileds}}>
-                                        {% else %}
-                                            <input type="text" class="form-control form-control-sm" id="Last_order{{forloop.counter}}"
-                                            name="Last_order{{forloop.counter}}" value="{{Reg_no.Supplier_Last_order}}"
-                                            style="width:80px" {{Supplier_Fileds}}>
-                                        {% endif %}
-                                        {% if vLoggedInRole == 'agent' %}
-                                            <input type="text" class="form-control form-control-sm" id="Alast_order{{forloop.counter}}"
-                                            name="Alast_order{{forloop.counter}}" value="{{Reg_no.Agent_Last_order}}"
-                                            style="width:80px" {{Quotation_ready}}>
-                                            {% endif %}
-                                    </td>
+                                        <div  class="btn btn-primary" id="ShowDetails" style="margin-top: 10px; margin-left: 30px;"> View
+                                        </div>
+                                    
+                                    <div class="popuptext" style="border:solid 1px;" id="Show">
+                                            <button class='btn btn-danger' style="float: right; cursor: pointer;" id="hidepopdetails"> X </button>
+                                            {{vMill}}
+                                    </div>
+                                    
+                                        </td>
                                     {% endif %}
                                     
 
                                 </tr>
                                 {% endfor %}
-                                
+                                      
                                 <input type="hidden" id="txtRowCount" name="txtRowCount" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <br>
                                 {% if not Default_Enq_Fileds %}
@@ -613,16 +490,31 @@
                                 <span class="delete-row fa fa-minus-square" style="font-size: x-large; color:#008CBA;" value="Delete Row" {{Default_Enq_Fileds}}></span>
                                 <small class="text-muted"> Click (+) symbol to ADD Rows (-)  to DELETE rows</small>  
                                 {% endif %}
+                                
                             </tbody>
+                            
                         </table>
+                        
                     </div>
-                    
+                        {% if vStatus == 4 and vLoggedInRole != 'supplier' %}
+                        <p> Total Amount<small class="text-muted"> INR  ( Excluding GST)</small> </p>
+                        <div class="txtTotalAmount"> </div>
+                        {% endif %}
+                        <br><br>
+                        {% if vStatus == 4 and vLoggedInRole != 'buyer' %}
+                        <p> Total Amount<small class="text-muted"> INR  ( Excluding GST)</small> </p>
+                        <div class="SupplierRate"> </div>
+                        {% endif %}
+
+                        <!-- <input type="text" id="textTotalAmount" readonly>     -->
                     <p></p>
                     
                     <br>{% if vLoggedInRole == 'agent' and vStatus == 4 or vLoggedInRole == 'agent' and vStatus == 0 or vLoggedInRole == 'supplier' and vStatus == 3 %}
                         <small class="text-muted">
                              Please Click on Save only if there is a change
                         </small>
+                        
+
                     <!--
                         Change button size using bootstrap
                     -->
@@ -630,13 +522,22 @@
 
                     
                         <button type="button" class="btn btn-primary" style="width: 20%;" id="saveAndProceed" >save and proceed</button>
+
                         <!-- <input class="btn btn-primary" style="width: 20%;" id="saveAndProceed" onclick="Verified" value="save and proceed"> -->
                     {% endif %}
                         {% if vStatus == 0 %}
-                        <input class="btn btn-primary" style="width: 20%;" id="cancelAction" value=" proceed ">
+                        <button type="button" class="btn btn-primary" style="width: 20%;" id="cancelAction" >Proceed</button>
+                        <!-- <input class="btn btn-primary" style="width: 20%;" id="cancelAction" value=" proceed "> -->
                         {% endif %}
+                        {% if vLoggedInRole == 'supplier' and vStatus == 4 %}
+                    <br>
+                    <small class="text-muted">
+                         Please Click on Save only if there is a change
+                    </small> <br>
+                    <button type="button" class="btn btn-primary" style="width: 20%;" id="UpdateRate">save and proceed</button>
                     
                    
+                    {% endif %}
                    <div class="detailBox">
                                     <div class="left">
                                     <div class="titleBox">
@@ -698,7 +599,7 @@
                                
                                             <div class="form-group" style="padding-top: 90px;">
                                             
-                                                <center><textarea style="height:250px;width:400px; border: solid rgb(183, 146, 146) 1px; resize: none;" 
+                                                <center><textarea style="height:250px;width:400px; border: solid rgb(183, 146, 146) 1px; resize: none; background-color: #dadfdc;" 
                                                     class="form-control" required="" id="Ccomment" aria-describedby="emailHelp"
                                                     name="Ccomment" value="" placeholder="Your text"></textarea></center>
                                             </div>
@@ -710,7 +611,9 @@
                                                         <option disabled selected value> -- select an group-- </option>
                                                         <option value="agent">Internal </option>
                                                         <option value="{{CreatedByUser}}"> {{CreatedByUser}} </option>
+                                                        {% if GrpAssignedTo != None %}
                                                         <option value="{{GrpAssignedTo}}"> {{GrpAssignedTo}} </option>
+                                                        {% endif %}
                                                     </select> 
                                                     {% elif vLoggedInRole == 'supplier' %}
                                                     <input type="hidden" value="supplier_to_agent" name="GroupName" id="Comments_to">
@@ -718,7 +621,7 @@
                                                     {% else %}
                                                     <input type="hidden" value="buyer_to_agent" name="GroupName">
                                                     {% endif %}
-                                                    <button id="commentAction" class="btn btn-default" style="background-color: #85daf7; margin-top: 13px;" >Add</button>
+                                                    <button id="commentAction" class="btn btn-default" style="background-color: #85daf7; margin-top: 13px; margin-left: 90px;" >POST Comments</button>
                                                 </div>
                                             </center>
                                             </div>
@@ -796,6 +699,16 @@ crossorigin="anonymous"></script>
             })
         }
         $('#showEmailAction').on('click', showEmailAction)
+
+        var ShowDetails = function () {
+        //   alert("hi");
+        $('#Show').fadeIn(1000);
+        $('#Show').resizable().draggable();
+        $('#hidepopdetails').click(function(){
+            $('#Show').fadeOut(1000);
+            })
+        }
+        $('#ShowDetails').on('click', ShowDetails)
     });
     
     // console.log("popup")
@@ -851,11 +764,28 @@ crossorigin="anonymous"></script>
                 $("#blur").toggle();
             }
             
+                
             /*window.location("app/ryn.html")*/
             /*$('#RYform').trigger("reset");
             $(this).closest('#RYform').find("textarea").val("");*/
         }
         $('#commentAction').on('click', commentAction)
+        // Supplier Rate fixed to status change 4
+        var UpdateRate= function(){ 
+                $('#hBtnAction').val("UpdateRate");
+                $('#RYform').submit();
+            }
+        $('#UpdateRate').on('click', UpdateRate)
+        //agent Rate fixed to status change 5
+        var AgentRate= function(){ 
+                $('#hBtnAction').val("UpdateRate");
+                $('#RYform').submit();
+            }
+        $('#UpdateRate').on('click', UpdateRate)
+
+        
+        
+
 
     });
     if (window.history.replaceState) {
@@ -867,9 +797,61 @@ crossorigin="anonymous"></script>
             if (event.which == '13') {
             event.preventDefault();
             }
+        
+        
         });
 </script>
+<script>
+    $(document).ready(function () {
+        var row_count = $('#MyTable >tbody >tr').length;
+        //var row_count = 0;
+        // document.getElementById("counting").innerText = row_count;
+        //Set total row count of Enquiry Items on load in hidden field
+        $("#txtRowCount").val(row_count);
+        //calculate total
+       
+        //alert(" total rows"+row_count);
+        var totalAmount = 0;
+        
+        for ( i = 1;i<=row_count;i++){
+            
+            var row_rate = parseInt($('#Arate'+i).val());
+            var row_quantity = parseInt($('#Quantity'+i).val());
 
+            totalAmount = totalAmount + (row_rate * row_quantity);
+            
+        }
+        
+        //  $("#txtTotalAmount").val('totalAmount');
+        $("div.txtTotalAmount").text(totalAmount.toLocaleString('en-IN'));
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var row_count = $('#MyTable >tbody >tr').length;
+        //var row_count = 0;
+        // document.getElementById("counting").innerText = row_count;
+        //Set total row count of Enquiry Items on load in hidden field
+        $("#txtRowCount").val(row_count);
+        //calculate total
+       
+        //alert(" total rows"+row_count);
+        var totalAmount = 0;
+        
+        for ( i = 1;i<=row_count;i++){
+            
+            var row_rate = parseInt($('#Rate'+i).val());
+            var row_quantity = parseInt($('#Quantity'+i).val());
+
+            totalAmount = totalAmount + (row_rate * row_quantity);
+            
+        }
+        
+        //  $("#txtTotalAmount").val('totalAmount');
+        $("div.SupplierRate").text(totalAmount.toLocaleString('en-IN'));
+    });
+</script>
 
 <script>
     //initialising a variable name row_count

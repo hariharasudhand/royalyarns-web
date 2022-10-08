@@ -229,7 +229,7 @@ form .btn input[type="submit"]{
                   {% if messages %}
             
                   {% for msg in messages %}
-                    {{ msg }}
+                  <h5 style="margin-top: 20px; color: red; font-size: 20px; text-align: center;"> {{ msg }} </h5>  
                   {% endfor %}
                   
                   {% endif %}
@@ -240,20 +240,22 @@ form .btn input[type="submit"]{
                <form action="/register" method="POST" enctype="multipart/form-data" class="signup">
                   {% csrf_token %}
                   <div class="field">
-                     <input type="email" placeholder="Enter the Mail ID" name="Uname" required>
+                     <input type="email" placeholder="Enter the Mail ID" name="Uname" id="Uname" required>
                   </div>
                   <div class="field">
-                     <input type="password" placeholder="Enter the Password" name="Password" required>
-                  </div>
+                     <input type="password" placeholder="Enter the Password" name="Password" id="Password" required>
+                     <!-- <p style="margin: 0px; color: red;">should must strong password (min 8 character lowercase+uppercase+spcial character+ number)</p>
+                    </div>
+                    <br> -->
                     <div class="field">
-                     <input type="password" placeholder="Enter the Confirm Passwrod" name="CPassword" required>
+                     <input type="password" placeholder="Enter the Confirm Passwrod" name="CPassword" id="CPassword" required>
                   </div>
                    
                   
                   
                   <div class="field btn">
                      <div class="btn-layer"></div>
-                     <input type="submit" value="Signup">
+                     <input type="submit" value="Signup" onclick="registerValidation()">
                   </div>
           
                </form>
@@ -279,6 +281,45 @@ form .btn input[type="submit"]{
            return false;
          });
       </script>
-      
+      <script>
+        function registerValidation(){
+          var EmailId = document.getElementById("Uname").value;
+          var PWD = document.getElementById("Password").value;
+          var CPWD = document.getElementById("CPassword").value;
+
+          var filter = /^([a-z0-9_\.\-])+\@(([a-z0-9\-])+\.)+([a-z0-9]{2,4})+$/;
+          var pwd_expression = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/;
+
+          if(EmailId==''){
+            alert('Please enter the email ID')
+          }
+          else if (!filter.test(EmailId)){
+            alert('Please enter valid email');
+          }
+          else if(PWD == ''){
+            alert('Please enter the Password')
+          }
+          else if(!pwd_expression.test(PWD)){
+            alert('Password should be Strong its Uppercase + LowerCase + number +  special Character')
+          }
+          else if(CPWD == ''){
+            alert('Please enter the Confirm Password')
+          }
+          else  if(PWD == CPWD){
+            alert('Password are not same')
+          }
+          else{
+            alert('You register Successfully')
+          }
+        }
+        // $(document).ready(function(){
+        //   var registerValidation = function(){
+        //     var Email_id = $("#Uname").val();
+        //     alert(Email_id)
+
+
+        //   }
+        // });
+      </script>
    </body>
 </html>

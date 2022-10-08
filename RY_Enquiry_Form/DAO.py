@@ -1,3 +1,4 @@
+from RY_Enquiry_Form.forms import Ry_En_Header
 from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data, Email_Distribution_Groups, Other_Details, Quantity_Details
 from django.db.models import Q
 from .ExcelUtlis import ExcelUtlis
@@ -58,6 +59,7 @@ class DAO:
                 Q(Status='10') | Q(Status='11') | Q(Status='13'))
         else:
             Internal_Review = RY_Enquiry_Header.objects.filter(Status='6').filter(CreatedByUser=vLoggedInUserID)
+            Req_Yarn_Price = RY_Enquiry_Header.objects.filter(Status='4').filter(CreatedByUser=vLoggedInUserID)
             External_Review = RY_Enquiry_Header.objects.exclude(Status='6').filter(CreatedByUser=vLoggedInUserID)
             # Query and Fetch only status that an BUYER should see
             
@@ -80,6 +82,7 @@ class DAO:
             context['External('+Count_External+')'] = External_Review
         else:
             context['Internal('+Count_Internal+')'] = Internal_Review
+            context['Pricing('+Count_RYP+')'] = Req_Yarn_Price
             context['External('+Count_External+')'] = External_Review
 
         context['Role'] = vLoggedInRole
@@ -154,12 +157,12 @@ class DAO:
                                          Status=vStatus, CreatedByUser='RPABOT', LastUpdateby=vUserID, LastUpdateddate=vNow)
             ryNewItem.save()
 
-    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow,vGrpAssignedTo):
+    def StoreEnquiryHeader(self, vReg_no, vMill, vDate, vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUser, vNow,vGrpAssignedTo, vReadyStock, vDelivery_Date):
         # TO:DO Header is always an update - this has to check if there is a change only then this should be
         # updated
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
             Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=vStatus, LastUpdateby=vUser,
-            LastUpdateddate=vNow,GrpAssignedTo=vGrpAssignedTo)
+            LastUpdateddate=vNow,GrpAssignedTo=vGrpAssignedTo, Ready_stock=vReadyStock, Delivery_Date=vDelivery_Date)
 
     def StoreComments(self, vComments, vReg_no, vUserID, vDT, vComments_to):
         customer_comments.objects.create(
@@ -292,5 +295,13 @@ class DAO:
             return RY_Enquiry_Header.objects.filter(GrpAssignedTo=vGetGroup.GroupName)
 
     def StoreCopNumber(self,vReg_no, vCopNumber):
+        
         RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status='13')
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Cop_number=vCopNumber, Status='13')
+
+    def StoreNewEnquiry(self, vCounts, vQuality, vYarnType, vBlend, vShade, vDepth, vQuantity, vUOM):
+        RY_Enquiry_Items.objects.create(Counts = vCounts, Quality = vQuality, Type=vYarnType,
+                                        Blend=vBlend,Shade=vShade, Depth=vDepth, Quantity=vQuantity, UOM =vUOM, Status='0')
+    
+    def UpdateRate(self, vReg_no, vRate, vAmount):
+        RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Supplier_Rate=vRate, Supplier_Amount=vAmount)

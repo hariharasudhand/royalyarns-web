@@ -113,6 +113,11 @@ table {
   padding-left: 250px;
 
 }
+td, a{
+    padding: 8px;
+    text-align: left;
+    text-decoration: none;
+}
 
 
 
@@ -193,14 +198,16 @@ table {
             
           <table>
             <tr>
-              <th>GroupID</th>
+             
               <th>Group Name</th>
+              <th>Edit</th>
               
             </tr>
             {% for i in context1 %}
             <tr>
-              <td>{{i.id}}</td>
+              
               <td>{{i.GroupName}}</td>
+              <td><a href="/groupDelete/{{i.id}}">Delete</a></td>
               
             </tr>
             {% endfor %}

@@ -3,7 +3,7 @@
     "model": "RY_Enquiry_Form.Email_Distribution_Groups",
     "fields": {
       "GroupName": "supplier-only",
-      "GroupUsersID": "0,1",
+      "GroupUsersID": "0,1,",
       "Status": "1"
     }
   },
@@ -11,7 +11,7 @@
     "model": "RY_Enquiry_Form.Email_Distribution_Groups",
     "fields": {
       "GroupName": "agent-only",
-      "GroupUsersID": "2,3",
+      "GroupUsersID": "2,3,",
       "Status": "1"
     }
   },
@@ -19,15 +19,7 @@
     "model": "RY_Enquiry_Form.Email_Distribution_Groups",
     "fields": {
       "GroupName": "buyer-only",
-      "GroupUsersID": "4,5",
-      "Status": "1"
-    }
-  },
-  {
-    "model": "RY_Enquiry_Form.Email_Distribution_Groups",
-    "fields": {
-      "GroupName": "varadaman-sales",
-      "GroupUsersID": "0,1,2,3",
+      "GroupUsersID": "4,5,",
       "Status": "1"
     }
   }

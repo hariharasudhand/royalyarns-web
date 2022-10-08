@@ -1,8 +1,10 @@
 from contextlib import nullcontext
+# from crypt import methods
 from genericpath import exists
 from multiprocessing import context
 import re
 from unicodedata import name
+from urllib import request
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import AuthenticationForm
 from ast import Return, Store
@@ -102,13 +104,25 @@ def index(request):
         
         #If Buyer login quotation form in status 6
         if (context['vStatus'] == 6):
+
             return render(request, 'app/quotation.html', context)
         
         #In status 7 entry form for quantity and quality 
         if (context['vStatus'] == 7):
             res1 = request.COOKIES.get('username')
             vLoggedInRole = request.COOKIES.get('role')
-            return render(request, 'app/ryn_quantity.html', {'vReg_no':vReg_no, 'user':res1, 'Role':vLoggedInRole})
+            vItems = vDAO.GetEnquiryItems(vReg_no)
+            vHeader = vDAO.GetEnquiryHeader(vReg_no)
+            return render(request, 'app/ryn_quantity.html', {'vReg_no':vReg_no, 'user':res1, 'Role':vLoggedInRole, 'Items':vItems, 'Header':vHeader})
+        
+        # #
+        # ##Owner Aprovel
+        # #
+        # if (context['vStatus'] == 9):
+        #     res = RY_Enquiry_Header.objects.filter(Status = 9).exclude()
+        #     res1 = request.COOKIES.get('username')
+        #     vLoggedInRole = request.COOKIES.get('role')
+        #     return render(request, 'app/ryn_Approved.html', {'vReg_no':res, 'user':res1, 'Role':vLoggedInRole})
         
         #
         ##Agent Copnumber Enter form
@@ -134,6 +148,11 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
     vUser = request.POST.get('UserName')
     vNow = datetime.now()
     vGrpAssignedTo = request.POST.get('vGrp_to')
+    vDelivery_Date = request.POST.get('Delivery_Date')
+    vReadyStock = request.POST.get('ReadyStock')
+    
+    
+
     
 
     ##
@@ -145,13 +164,13 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
 
     vBtnAction = request.POST.get('hBtnAction')
     vStatus = 0
-
+    
     if vBtnAction == 'sap':
-
+        vApprovedRate = request.POST.get('ApprovedRate')
         vRowCount = 0
         if (request.POST.get('txtRowCount') != None):
             vRowCount = int(request.POST.get('txtRowCount'))
-
+            
         for itemIndex in range(vRowCount):
             vRowIndex = itemIndex+1
             DBItemID = request.POST.get('DBID'+str(vRowIndex))
@@ -178,9 +197,11 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
             vALast_order = request.POST.get('Alast_order'+str(vRowIndex))
 
             if vARate != None:
-                vStatus = '5'
+                 vStatus = '4'
+                 if vApprovedRate == 'Approved':
+                    vStatus = '5'
             elif vRate != None:
-                vStatus = '4'
+                 vStatus = '4'
 
             # if DBItemID is None that means this is a newly added row, as when the page
             # loads db record index will be filled in the hidden field which is queried and
@@ -199,13 +220,42 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
                                       vUserID, vNow)
         
         vDAO.StoreEnquiryHeader(vReg_no, vMill, vDate,
-                                vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUserID, vNow,vGrpAssignedTo)
+                                vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUserID, vNow,vGrpAssignedTo, vReadyStock, vDelivery_Date)
 
     elif vBtnAction == 'comment':
         __command_update(request, vReg_no)
 
     elif vBtnAction == 'cancel':
         vDAO.UpdateEnquiryStatus(vReg_no, 2,vGrpAssignedTo)
+
+    # elif vBtnAction == 'confirm':
+    #     vRegno = request.POST.get("select")
+    #     print(vRegno)
+
+    elif vBtnAction == 'UpdateRate':
+        if (request.POST.get('txtRowCount') != None):
+            vRowCount = int(request.POST.get('txtRowCount'))
+            
+        for itemIndex in range(vRowCount):
+            vRowIndex = itemIndex+1
+            DBItemID = request.POST.get('DBID'+str(vRowIndex))
+
+            
+            # Supplier Entered Rates
+            vRate = request.POST.get('Rate'+str(vRowIndex))
+            vAmount = request.POST.get('Amount'+str(vRowIndex))
+            vLast_order = request.POST.get('Last_order'+str(vRowIndex))
+            # Agent ReEntered Rates
+            
+            if DBItemID != None:
+                vDAO.UpdateRate(vReg_no, vRate, vAmount)
+                print("********************", vRate)
+                print("********************", vAmount)
+
+    #         else:
+    #             # else insert new value.
+    #             vDAO.UpdateRate(vReg_no, vRate, vAmount)
+    # #         vDAO.UpdateRate(vReg_no, vRate, vAmount)
 
     return render(request, 'app/ryn2.html', {'upload_form': Ry_En_Form})
 
@@ -271,16 +321,6 @@ def ryn2(request):
     res = User_Details.objects.get(id=id)
     return render(request, 'app/ryn2.html', {'det': res})
 
-
-def register(request):
-    # #
-    # TO:DO - put this inside a reusable method checkLoginStatus
-    #
-    if request.COOKIES.get('role') == None:
-        return render(request, 'app/ryn_login.html')
-    return render(request, 'app/register.html')
-
-
 def confirmpo(request):
     ##
     # TO:DO - put this inside a reusable method checkLoginStatus
@@ -330,6 +370,12 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
     vStatus = ''
     Default_Role_Base = ''
     vFieldStatus = ''
+    
+    if len(vENQ_Items) !=0:
+        for item in vENQ_Items:
+            vRef = item.Shade_Ref
+            
+
 
     if len(data2) != 0:
         for item in data2:
@@ -342,9 +388,12 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             Customer = item.Customer
             vCreatedByUser = item.CreatedByUser
             GrpAssignedTo = item.GrpAssignedTo
-            vQuotation_Number = item.Quotation_Number 
+            vQuotation_Number = item.Quotation_Number
+            vQuotation_Date = item.Quotation_Date
+            vDelivery_Date = item.Delivery_Date
+            vReadyStock = item.Ready_stock
             vStatus = int(item.Status)
-
+            
             vUserAction = vDAO.GetUserActionByRole(vLoggedInRole, vStatus)
             if len(vUserAction) <= 0:
                 context = {'Error': 'User: ' + vLoggedInUserID +
@@ -355,20 +404,31 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'supplier'):
                 Supplier_Fileds = ''
                 Default_Enq_Fileds = 'readonly'
-            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'supplier') and (vStatus >= 4):
+            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'supplier') and (vStatus == 4):
+                Supplier_Fileds = ''
+                Quotation_ready = ''
                 Default_Enq_Fileds = 'readonly'
-                Quotation_ready = 'readonly'
             elif (vUserAction[0].Action == 'W') and (vUserAction[0].Role == 'agent') and (vStatus >= 4):
                 Default_Enq_Fileds = 'readonly'
             elif (vUserAction[0].Role == 'buyer'):
                 Default_Enq_Fileds = 'readonly'
-            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'buyer'): 
+            elif (vUserAction[0].Action == 'R') and (vUserAction[0].Role == 'buyer') and (vStatus == 4) : 
                   Default_Enq_Fileds = 'readonly'
+                  Quotation_ready = 'readonly'
+                    
             else:
                 Default_Enq_Fileds = ''
             if vStatus >= 4:
 
                 Supplier_Fileds = 'readonly'
+    
+    # vMill = RY_Enquiry_Header.objects.filter(Mill=Mill)
+    # Mill_details =[]
+    # for MillD in vMill:
+        #print("Mill Name", MillD.Mill)
+        # if (MillD.Mill != None):
+            
+
 
     if len(vENQ_Items) != 0:
 
@@ -393,6 +453,9 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             'CreatedByUser':vCreatedByUser,
             'GrpAssignedTo':GrpAssignedTo,
             'vQuotation_Number':vQuotation_Number,
+            'vQuotation_Date':vQuotation_Date,
+            'vDelivery_Date' :vDelivery_Date,
+            'vReadyStock' : vReadyStock,
             'supplierGroupNames': vDAO.GetSupplierGroupNames()
         }
 
@@ -484,7 +547,7 @@ def UploadExcel(request):
         vDate = datetime.now()
         vUser = request.COOKIES.get('username')
         vDispatchDAO.StoreUpload_Data(vUpload, vDate, vUser)
-    return render(request, 'app/ryn.html')
+    return HttpResponseRedirect('/Upload')
 
 
 def quantityCheck(request):
@@ -759,3 +822,38 @@ def Upload(request):
     res1 = request.COOKIES.get('username')
     vLoggedInRole = request.COOKIES.get('role')
     return render(request, 'app/Upload.html',{'user':res1,'segment':'Upload','Role':vLoggedInRole})
+
+def groupDelete(request,id):
+    res=Email_Distribution_Groups.objects.get(id=id)
+    res.delete()
+    return HttpResponseRedirect('/group')
+
+def NewEntry(request):
+    res1 = request.COOKIES.get('username')
+    return render(request, 'app/ryn3.html',{'user':res1})
+
+def NewEnquiry(request):
+        vRowCount = 0
+        if (request.POST.get('txtRowCount') != None):
+            vRowCount = int(request.POST.get('txtRowCount'))
+
+        for itemIndex in range(vRowCount):
+            vRowIndex = itemIndex+1
+            DBItemID = request.POST.get('DBID'+str(vRowIndex))
+            vRowIndex = itemIndex+1
+            vCounts = request.POST.get('Counts'+str(vRowIndex))
+            vQuality = request.POST.get('Quality'+str(vRowIndex))
+            vYarnType = request.POST.get('YarnType'+str(vRowIndex))
+            vBlend = request.POST.get('Blend'+str(vRowIndex))
+            vShade = request.POST.get('Shade'+str(vRowIndex))   
+            vDepth = request.POST.get('Depth'+str(vRowIndex))
+            vUOM = request.POST.get('UOM'+str(vRowIndex))
+            vQuantity = request.POST.get('Quantity'+str(vRowIndex))
+            vDAO.StoreNewEnquiry(vCounts, vQuality, vYarnType, vBlend, vShade, vDepth,
+                                vQuantity, vUOM)
+        return HttpResponseRedirect('/NewEntry')
+
+
+def Errors(request):
+        return render(request, 'app/Error.html')
+    

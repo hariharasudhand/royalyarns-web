@@ -64,6 +64,9 @@ class RY_Enquiry_Header(models.Model):
     Pc_Number = models.CharField(max_length=100, null=True)
     Cop_number = models.CharField(max_length=100, null=True)
     Quotation_Number = models.CharField(max_length=100, null=True)
+    Quotation_Date = models.CharField(max_length=50, null=True)
+    Ready_stock = models.CharField(max_length=50, null=True)
+    Delivery_Date = models.CharField(max_length=50, null=True)
     class Meta:
         db_table = 'RY_Enquiry_Header'
         ordering = ['Reg_no']
@@ -127,7 +130,7 @@ class User_Role_Action(models.Model):
 
 class Upload_Data(models.Model):
     id = models.AutoField(primary_key=True)
-    Upload_file = models.FileField(max_length=300, null=True)
+    Upload_file = models.FileField(max_length=5000, null=True)
     Date = models.CharField(max_length=100,  null=True)
     Upload_by = models.CharField(max_length=100, null=True)
     Upload_Status = models.CharField(max_length=2, null=True)

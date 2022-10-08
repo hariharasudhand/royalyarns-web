@@ -6,7 +6,6 @@ from .import views
 urlpatterns = [
     path('', views.index),
     path('ryn2', views.ryn2, name='ryn2'),
-    #path('', views.register, name="register"),
     path('login', views.login, name="login"),
     path('checklogin', views.checklogin, name="checklogin"),
     path('logout', views.logout, name="logout"),
@@ -23,6 +22,9 @@ urlpatterns = [
     path('StoreCopNumber', views.StoreCopNumber, name='StoreCopNumber'),
     path('dashboard', views.dashboard, name='dashboard' ),
     path('Upload', views.Upload, name='Upload'),
-    # path('buyer',views.buyer, name='buyer'),
+    path('groupDelete/<int:id>', views.groupDelete, name='groupDelete'),
+    path('NewEntry', views.NewEntry, name='NewEntry'),
+    path('NewEnquiry', views.NewEnquiry, name= 'NewEnqiury'),
+    path('Errors', views.Errors, name='Errors'),
 ]
  

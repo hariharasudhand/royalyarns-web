@@ -1,4 +1,4 @@
-<style>
+ <style>
     .topright {
         position: absolute;
         top: 20px;
@@ -38,7 +38,7 @@ div.scrollmenu a {
 div.scrollmenu a:hover {
  background-color: #777;
 }
-</style>
+</style> 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
 <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
@@ -65,12 +65,15 @@ rel="stylesheet"> -->
 {% block title %} UI Tables {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block stylesheets %}
 
+{% endblock stylesheets %}
+{% load static %}
+        <link rel="stylesheet" href="{% static 'style.css' %}">
 {% block content %}
 
 
-        {% load static %}
+        
         <div class="container-fluid py-4">
 
             <div class="row">
@@ -83,8 +86,8 @@ rel="stylesheet"> -->
         <div class="topleft">
             <img src="{% static 'images/RYN_logo.jpeg'%}" alt="no image" max-width="100%" height="100">
             <h6> 
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;#4 / 32, 7th Cross Street, College Road,</small><br>
-                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Tirupur - 641602 - INDIA </small><br>
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Royal Industires Coimbatore Private Limited</small><br>
+                <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;#559/2A 1A, Behind D-Mart, Bharathi Nagar, Ammapalayam, Tirupur - 641 652 </small><br>
                 <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Phone: +91 421 2201222, 2247333 </small><br>
                 <small class="text-muted">&nbsp;&nbsp;&nbsp;&nbsp;Email: support@rayaalyarns.com </small><br>
             </h6>
@@ -96,10 +99,10 @@ rel="stylesheet"> -->
             <div class="topcenter">
                 <blockquote class="blockquote text-right">
                     
-                    <p class="mb-0">{{vQuotation_Number}} - Page Industires Pvt Ltd </p>
+                    <!-- <p class="mb-0">{{vQuotation_Number}} - Page Industires Pvt Ltd </p> -->
                     
                     <p>
-                    <footer class="blockquote-footer">{% now "DATE_FORMAT" %} <cite title="Source Title">&nbsp;&nbsp;Quotation No : {{vQuotation_Number}}</cite></footer></p>
+                    <footer class="blockquote-footer">{{vQuotation_Date}}   <cite title="Source Title">&nbsp;&nbsp;Quotation No : {{vQuotation_Number}}</cite></footer></p>
                   </blockquote>
                 <h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </h2>
                 <h4>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <small class="text-muted"></small></h4>
@@ -117,7 +120,7 @@ rel="stylesheet"> -->
                     from </p>
                     <p>
                 <footer class="blockquote-footer">
-                    Vardhman Textiles Limited (Unit-Arihant Spinning Mills)</footer>
+                    {{Mill}}</footer>
               </blockquote></p>
     
               <div class="scrollmenu">                   
@@ -332,7 +335,7 @@ crossorigin="anonymous"></script>
             var row_rate = parseInt($('#Arate'+i).val());
             var row_quantity = parseInt($('#Quantity'+i).val());
 
-            totalAmount = totalAmount + (row_rate * row_quantity);
+            totalAmount = totalAmount  + (row_rate * row_quantity);
         }
         $("div.txtTotalAmount").text(totalAmount.toLocaleString('en-IN'));
 

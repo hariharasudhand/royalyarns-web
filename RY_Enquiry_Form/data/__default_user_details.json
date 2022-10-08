@@ -3,7 +3,7 @@
     "model": "RY_Enquiry_Form.User_Details",
     "fields": {
       "id": 0,
-      "UserName": "hariharasudhan.d@gmail.com",
+      "UserName": "dhineshofficial99@gmail.com",
       "Password": "supplier",
       "Role": "supplier"
     }
@@ -12,7 +12,7 @@
     "model": "RY_Enquiry_Form.User_Details",
     "fields": {
       "id": 1,
-      "UserName": "hari@weeroda.com",
+      "UserName": "dhilippan97@gmail.com",
       "Password": "supplier1",
       "Role": "supplier"
     }
@@ -21,7 +21,7 @@
     "model": "RY_Enquiry_Form.User_Details",
     "fields": {
       "id": 2,
-      "UserName": "malika.k@weeroda.com",
+      "UserName": "dhilippan1997@gmail.com",
       "Password": "agent",
       "Role": "agent"
     }
@@ -30,7 +30,7 @@
     "model": "RY_Enquiry_Form.User_Details",
     "fields": {
       "id": 3,
-      "UserName": "malika.tahseen@gmail.com",
+      "UserName": "dhineshraina28@gmail.com",
       "Password": "agent1",
       "Role": "agent"
     }
@@ -39,7 +39,7 @@
     "model": "RY_Enquiry_Form.User_Details",
     "fields": {
       "id": 4,
-      "UserName": "logeshwari.m.k@weeroda.com",
+      "UserName": "dinesh@weeroda.com",
       "Password": "buyer",
       "Role": "buyer"
     }
@@ -48,7 +48,7 @@
     "model": "RY_Enquiry_Form.User_Details",
     "fields": {
       "id": 5,
-      "UserName": "spacerockbot@gmail.com",
+      "UserName": "dhilippan28@gmail.com",
       "Password": "buyer1",
       "Role": "buyer"
     }
