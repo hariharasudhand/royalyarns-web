@@ -103,6 +103,7 @@ def index(request):
             vReg_no, vENQ_Items, vENQ_Header, data3, vLoggedInRole, vLoggedInUserID)
         
         #If Buyer login quotation form in status 6
+        print("context",context['vStatus'])
         if (context['vStatus'] == 6):
 
             return render(request, 'app/quotation.html', context)
@@ -150,6 +151,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
     vGrpAssignedTo = request.POST.get('vGrp_to')
     vDelivery_Date = request.POST.get('Delivery_Date')
     vReadyStock = request.POST.get('ReadyStock')
+    vRateFixed  = request.POST.get('RateFixed')
     
     
 
@@ -167,6 +169,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
     
     if vBtnAction == 'sap':
         vApprovedRate = request.POST.get('ApprovedRate')
+        vRateFixed = request.POST.get('RateFixed')
         vRowCount = 0
         if (request.POST.get('txtRowCount') != None):
             vRowCount = int(request.POST.get('txtRowCount'))
@@ -174,8 +177,10 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
         for itemIndex in range(vRowCount):
             vRowIndex = itemIndex+1
             DBItemID = request.POST.get('DBID'+str(vRowIndex))
-
-            vStatus = 1
+            if vRateFixed == 'RateFixed':
+                vStatus = 4
+            else:
+                vStatus = 1
 
             vCounts = request.POST.get('Counts'+str(vRowIndex))
 
@@ -196,6 +201,11 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
             vAAmount = request.POST.get('Aamount'+str(vRowIndex))
             vALast_order = request.POST.get('Alast_order'+str(vRowIndex))
 
+            # emailComp = EMAIL_UTIL()
+            # if vStatus == '3' :
+            #     print("this is checking for the mail")
+            #     emailComp.send_group('agent-only', '[Terata.io] Comment from User : ' +
+            #                  vUserID.split('@')[0]+" /  "+vReg_no, 'test mail for status 3 to 4')
             if vARate != None:
                  vStatus = '4'
                  if vApprovedRate == 'Approved':
@@ -211,7 +221,13 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
                 vDAO.StoreEnquiryItem(DBItemID, vReg_no, vCounts, vQuality, vYarnType, vBlend,
                                       vShade, vDepth, vUOM, vQuantity, vRate, vAmount, vLast_order, vStatus, 1,
                                       vARate, vAAmount, vALast_order, vUserID, vNow)
-
+                print("Email tetsting for outside",vStatus)
+                if (vStatus == '3') or (vStatus == '4'):
+                    print("Email tetsting",vStatus)
+                    emailComp = EMAIL_UTIL()
+                    emailComp.send_group('agent-only', '[Terata.io] Comment from User : ' +
+                                vUserID.split('@')[0]+" /  "+vReg_no,'Price Updated by Mill So Kindly Update your price!'+\
+                                '\nhttp://qa.royalyarns.terata.io:7000/?Rno='+vReg_no)
             else:
                 # else insert new value.
                 vDAO.StoreEnquiryItem(DBItemID, vReg_no, vCounts, vQuality, vYarnType, vBlend,
@@ -222,6 +238,8 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
         vDAO.StoreEnquiryHeader(vReg_no, vMill, vDate,
                                 vMill_Rep, vCustomer, vMarketing_Zone, vStatus, vUserID, vNow,vGrpAssignedTo, vReadyStock, vDelivery_Date)
 
+        
+        
     elif vBtnAction == 'comment':
         __command_update(request, vReg_no)
 
@@ -232,31 +250,7 @@ def __update_enquiryForm(request, vENQ_Items, vReg_no, vENQ_Header):
     #     vRegno = request.POST.get("select")
     #     print(vRegno)
 
-    elif vBtnAction == 'UpdateRate':
-        if (request.POST.get('txtRowCount') != None):
-            vRowCount = int(request.POST.get('txtRowCount'))
-            
-        for itemIndex in range(vRowCount):
-            vRowIndex = itemIndex+1
-            DBItemID = request.POST.get('DBID'+str(vRowIndex))
-
-            
-            # Supplier Entered Rates
-            vRate = request.POST.get('Rate'+str(vRowIndex))
-            vAmount = request.POST.get('Amount'+str(vRowIndex))
-            vLast_order = request.POST.get('Last_order'+str(vRowIndex))
-            # Agent ReEntered Rates
-            
-            if DBItemID != None:
-                vDAO.UpdateRate(vReg_no, vRate, vAmount)
-                print("********************", vRate)
-                print("********************", vAmount)
-
-    #         else:
-    #             # else insert new value.
-    #             vDAO.UpdateRate(vReg_no, vRate, vAmount)
-    # #         vDAO.UpdateRate(vReg_no, vRate, vAmount)
-
+    
     return render(request, 'app/ryn2.html', {'upload_form': Ry_En_Form})
 
 
@@ -370,12 +364,12 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
     vStatus = ''
     Default_Role_Base = ''
     vFieldStatus = ''
-    
-    if len(vENQ_Items) !=0:
-        for item in vENQ_Items:
-            vRef = item.Shade_Ref
-            
 
+    if len(vENQ_Items) != 0:
+        for items in vENQ_Items:
+            vShade_Ref = items.Shade_Ref
+            vAgentRate = items.Agent_Rate
+            print(vShade_Ref)
 
     if len(data2) != 0:
         for item in data2:
@@ -423,11 +417,20 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
                 Supplier_Fileds = 'readonly'
     
     # vMill = RY_Enquiry_Header.objects.filter(Mill=Mill)
-    # Mill_details =[]
-    # for MillD in vMill:
-        #print("Mill Name", MillD.Mill)
-        # if (MillD.Mill != None):
+    # for items in vMill:
+    #     hReg_no = items.Reg_no
+    #     print("Reg number for the header table:", hReg_no)
+    
+    # if RY_Enquiry_Items.objects.filter(Shade_Ref = vShade_Ref) and vAgentRate != None:
+
+
+    #      print("@@@@@@@@@@@",vShade_Ref)
+        # for items in vShade_Ref:
+        #     iReg_no = items.Reg_no
+        #     print("this is regnumber for Items:", iReg_no)
             
+    
+
 
 
     if len(vENQ_Items) != 0:

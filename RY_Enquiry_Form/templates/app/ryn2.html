@@ -31,7 +31,7 @@
             position: absolute;
             top: 20px;
             right: 30px;
-            font-size: 18px;
+            font-size: 18px;    
         }
         .topcenter {
             position: absolute;
@@ -210,7 +210,20 @@
             text-align: center;
             padding: 10px;
         }
-    
+        .box {
+        width:600px;
+        margin-top:40px;
+        display: flex;
+        
+    }
+    .boxleft{
+        margin-left: 20px;    
+        flex: 50%;
+        }
+    .boxright{
+        margin-left: 20px;
+        flex: 50%;
+    }
 
     </style>
     
@@ -293,13 +306,13 @@
 
                                         <td>
                                             {% if vStatus == 3 and vLoggedInRole == 'supplier' %}
-                                            <span class="label label-default text-sm font-weight-bold" style="margin-left:10px;">Ready Stock<br>
+                                            <span class="label label-default text-sm font-weight-bold" style="margin-left:10px;">Ready Stock(Kgs)<br>
                                                 <input type="text" class="form-control form-control-sm" id="ReadyStock" name="ReadyStock"
                                                  style="width:150px; margin-left:5px;">
                                             </span>
                                             {% elif vStatus == 4 and vLoggedInRole != 'buyer' %}
-                                            <span class="label label-default text-sm font-weight-bold" style="margin-left:10px;">Ready Stock<br>
-                                                <input type="text" class="form-control form-control-sm" id="ReadyStock" name="ReadyStock" value="{{vReadyStock}}Kgs"
+                                            <span class="label label-default text-sm font-weight-bold" style="margin-left:10px;">Ready Stock(Kgs)<br>
+                                                <input type="text" class="form-control form-control-sm" id="ReadyStock" name="ReadyStock" value="{{vReadyStock}}"
                                                  style="width:150px; margin-left:5px;" readonly>
                                             </span>
                                             {% else %}
@@ -353,6 +366,11 @@
                                 <br>
                                 
                         <!-- Counts in a table-->
+                        {% if vStatus == 0 and vLoggedInRole == 'agent' %}
+                        
+                        <input type="checkbox" style="margin-left:800px" id="select_all" name="RateFixed" value="RateFixed">&nbsp;Prize Known
+                        
+                        {% endif %}
                         {% if vStatus == 4 and vLoggedInRole == 'agent' %}
                         
                         <input type="checkbox" style="margin-left:900px" id="select_all" name="ApprovedRate" value="Approved">&nbsp;Prize Fixed
@@ -496,15 +514,23 @@
                         </table>
                         
                     </div>
-                        {% if vStatus == 4 and vLoggedInRole != 'supplier' %}
-                        <p> Total Amount<small class="text-muted"> INR  ( Excluding GST)</small> </p>
-                        <div class="txtTotalAmount"> </div>
-                        {% endif %}
-                        <br><br>
-                        {% if vStatus == 4 and vLoggedInRole != 'buyer' %}
-                        <p> Total Amount<small class="text-muted"> INR  ( Excluding GST)</small> </p>
-                        <div class="SupplierRate"> </div>
-                        {% endif %}
+                    <div class = "box">
+                        <div class="boxright">
+                            {% if vStatus == 4  and vLoggedInRole != 'buyer' or vStatus == 5  and vLoggedInRole != 'buyer' %}
+                            <p> Total Amount given by Mill <small class="text-muted"> INR  ( Excluding GST)</small> </p>
+                            <div class="SupplierRate"> </div>
+                            {% endif %}
+                        </div>
+                        <div class="boxleft">
+                            {% if vStatus == 4  and vLoggedInRole != 'supplier' or vStatus == 5  and vLoggedInRole != 'supplier' %}
+                            <p> Total Amount given Agent<small class="text-muted"> INR  ( Excluding GST)</small> </p>
+                        
+                            <div class="txtTotalAmount"> </div>
+                        
+                            {% endif %}
+                        
+                        </div>
+                        </div>
 
                         <!-- <input type="text" id="textTotalAmount" readonly>     -->
                     <p></p>
@@ -813,7 +839,7 @@ crossorigin="anonymous"></script>
         //alert(" total rows"+row_count);
         var totalAmount = 0;
         
-        for ( i = 1;i<=row_count;i++){
+        for ( i = 1;i<=row_count; i++){
             
             var row_rate = parseInt($('#Arate'+i).val());
             var row_quantity = parseInt($('#Quantity'+i).val());
@@ -823,7 +849,10 @@ crossorigin="anonymous"></script>
         }
         
         //  $("#txtTotalAmount").val('totalAmount');
-        $("div.txtTotalAmount").text(totalAmount.toLocaleString('en-IN'));
+        if (!(isNaN(totalAmount))){
+            $("div.txtTotalAmount").text(totalAmount.toLocaleString('en-IN'));    
+        }
+        
     });
 </script>
 
@@ -847,9 +876,12 @@ crossorigin="anonymous"></script>
             totalAmount = totalAmount + (row_rate * row_quantity);
             
         }
-        
+        if (!(isNaN(totalAmount))){
+            
+            $("div.SupplierRate").text(totalAmount.toLocaleString('en-IN'));    
+        }
         //  $("#txtTotalAmount").val('totalAmount');
-        $("div.SupplierRate").text(totalAmount.toLocaleString('en-IN'));
+        
     });
 </script>
 

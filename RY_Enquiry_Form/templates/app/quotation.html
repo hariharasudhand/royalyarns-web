@@ -129,6 +129,7 @@ rel="stylesheet"> -->
                                 <tr>
                                     <th scope="col">Row_no</th>
                                     <th scope="col"></th>
+                                    <th scope="col">Rate</th>
                                     <th scope="col">Counts</th>
                                     <th scope="col">Quality</th>
                                     <th scope="col">Type</th>
@@ -137,9 +138,6 @@ rel="stylesheet"> -->
                                     <th scope="col">Depth</th>
                                     <th scope="col">UOM</th>
                                     <th scope="col">Quantity</th>
-                                    <th scope="col">Rate</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Last order</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,6 +152,11 @@ rel="stylesheet"> -->
                                     ></th>
                                     <th scope="row"><input</th>
                                     
+                                    <td>
+                                        <input type="text" class="form-control col-xs-2" id="Arate{{forloop.counter}}"
+                                         name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:130px" {{Quotation_ready}} readonly>
+                                     </td>
+
                                     <td><input type="text" class="form-control" id="Counts{{forloop.counter}}"
                                             name="Counts{{forloop.counter}}" value="{{Reg_no.Counts}}" style="width:60px"
                                             {{Quotation_ready}} readonly>
@@ -186,23 +189,11 @@ rel="stylesheet"> -->
                                             name="Quantity{{forloop.counter}}" value="{{Reg_no.Quantity}}" style="width:80px"
                                             {{Quotation_ready}} readonly>
                                     </td>
-                                    <td>
-                                       <input type="text" class="form-control col-xs-2" id="Arate{{forloop.counter}}"
-                                        name="Arate{{forloop.counter}}" value="{{Reg_no.Agent_Rate}}" style="width:60px" {{Quotation_ready}} readonly>
-                                    </td>
-                                    <td>
-                                     <input type="text" class="form-control col-xs-2" id="Aamount{{forloop.counter}}"
-                                        name="Aamount{{forloop.counter}}" value="{{Reg_no.Agent_Amount}}" style="width:60px" {{Quotation_ready}} readonly>
-                                  </td>
-                                   <td>
-                                      <input type="text" class="form-control col-xs-2" id="Alast_order{{forloop.counter}}"
-                                      name="Alast_order{{forloop.counter}}" value="{{Reg_no.Agent_Last_order}}"
-                                      style="width:80px" {{Quotation_ready}} readonly>
-                                    </td>
+                
                                 </tr>
                                 
                                 {% endfor %}
-                                <tr class="table-success">
+                                <!-- <tr class="table-success">
                                     <td colspan="11" align="right"> Total <small class="text-muted"> INR  ( Excluding GST)</small> </td>
                                     
                                 <td colspan="1">
@@ -210,7 +201,7 @@ rel="stylesheet"> -->
                                 </td>
                                 <td></td>  
 
-                                </tr>
+                                </tr> -->
                                 <input type="hidden" id="txtRowCount" name="txtRowCount" value="">
                                 
                             </tbody>

@@ -81,17 +81,34 @@ WSGI_APPLICATION = 'RY_WorkFlow.wsgi.application'
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+#
+##Testing server Link portal
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'portal',
+#         'USER': 'postgres',
+#         'PASSWORD': 'weeroda',
+#         'HOST': '103.86.177.164',
+#         'PORT': '5432',
+#     }
+# }
+#
+##my local database server link 
+#
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'portaldb',
-        'USER': 'postgres',
-        'PASSWORD': 'choco',
+        'NAME': 'terattadb',
+        'USER': 'terattaapp',
+        'PASSWORD': 'Admin123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -138,8 +155,9 @@ MEDIA_ROOT= os.path.join(BASE_DIR, 'media/')
 MEDIA_URL= "/media/"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER ='guru2611199@gmail.com'
-EMAIL_HOST_PASSWORD = 'evmfpjbqyoihhhbl'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtpout.secureserver.net'
+EMAIL_HOST_USER ='bot@terata.io'
+EMAIL_HOST_PASSWORD = 'Platform123$'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
