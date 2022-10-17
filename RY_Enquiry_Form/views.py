@@ -343,7 +343,7 @@ def confirmpo(request):
 
         vDAO.UpdateEnquiryHeader(vReg_no, vPONumber, list, vPO_Date, vRev_date)
         emailComp = EMAIL_UTIL()
-        emailComp.send_po('test subject', 'po.no'+vPONumber, file)
+        emailComp.send_po('[Terata.io] Please check the PO Number: ', 'po.no'+vPONumber, file)
         print("email was send successfully")
 
         return HttpResponseRedirect("/")
@@ -623,6 +623,8 @@ def QuantityStore(request):
         vCommision = request.POST.get("Commision")
         vApprovel = request.POST.get("Approvel")
         vRequired = request.POST.get("Required")
+        vQuantity_type = request.POST.get("Quantity_type")
+        vCommit_date = request.POST.get("Commit_date")
         vFeeder = request.POST.get("Feeder")
         vJacaquard = request.POST.get("Jacaquard")
         vMini_jaq = request.POST.get("Mini_jaq")
@@ -646,7 +648,7 @@ def QuantityStore(request):
         vBank = request.POST.get("Bank")
         vReg_no = request.POST.get('Rno')
         vDAO.StoreQuantity(vDelivery, vPayment, vPrice, vMatching, vBuyer, vOtherSpecification, vSpecification,
-                           vCommision, vApprovel, vRequired, vFeeder, vJacaquard, vMini_jaq, vAuto_stripes, vSingle_jersey, vP_K, vInterlock,
+                           vCommision, vApprovel, vRequired, vQuantity_type, vCommit_date, vFeeder, vJacaquard, vMini_jaq, vAuto_stripes, vSingle_jersey, vP_K, vInterlock,
                            vRib, vWhite, vLight, vMedium, vDark, vOverdyed, vWhite1, vLight1, vDark1, vPayMode, vRupees, vNumbers1, vDate, vBank,vReg_no)
         return HttpResponseRedirect('/')
 

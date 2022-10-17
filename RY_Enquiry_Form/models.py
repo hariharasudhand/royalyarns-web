@@ -1,4 +1,5 @@
 from pyexpat import model
+from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -163,6 +164,8 @@ class Other_Details(models.Model):
     commision = models.CharField(max_length=100, null=True)
     Baby_cone = models.BooleanField(max_length=10, null=True)
     air = models.BooleanField(max_length=10, null=True)
+    Quantity_type = models.CharField(max_length=200,  null=True)
+    Commit_date = models.CharField(max_length=200,  null=True)
     Reg_no = models.CharField(max_length=200,  null=True)
 
     class Meta:
@@ -239,3 +242,21 @@ class items_to_mill_mapping(models.Model):
 
     class Meta:
         db_table = 'items_to_mill_mapping'
+
+class mill_name_mapping(models.Model):
+    id = models.AutoField(primary_key=True)
+    Unit_Name = models.TextField(max_length=500,  null=True)
+    Mill = models.TextField(max_length=500,  null=True)
+
+    class Meta:
+        db_table = 'mill_name_mapping'
+
+class customer_data(models.Model):
+    id = models.AutoField(primary_key=True)
+    Columns_names = models.TextField(max_length=500,  null=True)
+    Customer_name = models.TextField(max_length=500,  null=True)
+    payment_terms = models.TextField(max_length=500,  null=True)
+    splitted_details = models.TextField(max_length=500,  null=True)
+
+    class Meta:
+        db_table = 'customer_data'

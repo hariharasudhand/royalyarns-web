@@ -83,7 +83,7 @@
                    <th>Mill Rep</th>
                    <th>Cutomer</th>
                    <th>PO Number</th>
-                   <th>PO PDF</th>
+                   <!-- <th>PO PDF</th> -->
 
                  </tr>
                    {% for d in Header %}
@@ -95,7 +95,7 @@
                      <td> {{ d.Mill_Rep  }} </td>
                      <td> {{ d.Customer  }} </td>
                      <td> {{ d.Po_Number  }} </td>
-                     <td> <a href="{{ d.Po_PDF.url }}"></a><img src="{{ d.Po_PDF.url }}" height="50%" width="100%"></a> </td>
+                     <!-- <td> <a href="{{ d.Po_PDF.url }}">Download</a> </td> -->
                      {% endfor %}
                    
                    <h5>
@@ -191,8 +191,25 @@
                     </div>
 
             </div>
-            
-      
+            <br>
+            <label  style="margin-left: 10px;" class="label label-default text-sm font-weight-bold">Product Type</label>
+            <select class="form-control" style="margin-left: 10px;" id="Quantity_type" name="Quantity_type">
+                <option disabled selected value> -- select a Type-- </option>
+                <option value="Dyed">Dyed </option>
+                <option value="Cotton_Yarn">Cotton Yarn </option>
+                <option value="P/C_Grey">P/C Grey </option>
+                <option value="GMD_Kora">GMD Kora </option>
+                <option value="GMD_Dyed">GMD Dyed </option>
+                <option value="Melange">Melange </option>
+                <option value="Cellulosic">Cellulosic </option>
+                <option value="Fabric">Fabric </option>
+                <option value="Polyester">Polyester </option>
+                <option value="Corespun_Yarn">Corespun Yarn </option>
+            </select>
+            <br>
+            <label for="Commit_date" style="margin-left: 10px;" class="label label-default text-sm font-weight-bold">Commite the date</label>
+          <input type="date" style="margin-left: 10px;" class="form-control" name="Commit_date" id="Commit_date">
+
         </div>
         
         <div style="padding-bottom: 40px;">
