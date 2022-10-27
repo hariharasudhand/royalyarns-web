@@ -53,7 +53,8 @@
 
 {% block content %}
 {% load static %}
-        <link rel="stylesheet" href="{% static 'style.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>        
+<link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
     
@@ -141,8 +142,8 @@
              </table>
              
                <br><br>
-             
-    <form name="RYform" id="RYform" action="/QuantityStore" method="POST" enctype="multipart/form-data">
+    <!-- <form action = "/cgi-bin/test.cgi" name = "myForm" onsubmit = "return(validate());">          -->
+    <form  name = "myForm" onsubmit = "return(validate());" action="/QuantityStore" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">    
         <input type="hidden" id="Rno" name="Rno" value="{{vReg_no}}">
@@ -177,7 +178,6 @@
                 <input class="form-check-input"  style="margin-left: 10px;" type="radio" name="Approvel" id="Approvel" value="False">
                 <label class="form-check-label" style="margin-left: 10px;" for="Approvel">no</label>
                 </div>
-                
             </div>
             <label class="label label-default text-sm font-weight-bold" style="padding-top: 20px;">Required By AIR</label>
             <div class="col">
@@ -333,7 +333,7 @@
         </div>
     </fieldset>
     <div class="col-12">
-        <button style="margin-top:10px; margin-left: 890px;" type="submit" id="Validations" class="btn btn-primary">Submit</button>
+        <button style="margin-top:10px; margin-left: 890px;" type = "submit" value = "Submit" class="btn btn-primary">Submit</button>
       </div>
       </div>
     </form>
@@ -341,9 +341,182 @@
 {% endblock content %}
 {% block javascripts %}
 
-    <script>
+<script>
+    // Form validation
+    
+    function validate() {
+       if( document.myForm.Delivery.value == "" ) {
+          alert( "Please provide your Delivery schedule!" );
+          document.myForm.Delivery.focus() ;
+          return false;
+       }
+       if( document.myForm.Payment.value == "" ) {
+          alert( "Please provide your Payement Term!" );
+          document.myForm.Payment.focus() ;
+          return false;
+       }
+       if( document.myForm.Price.value == "" ) {
+          alert( "Please provide your Price!" );
+          document.myForm.Price.focus() ;
+          return false;
+       }
+       if( document.myForm.Matching.value == "" ) {
+          alert( "Please provide your Matching Source!" );
+          document.myForm.Matching.focus() ;
+          return false;
+       }
+       if( document.myForm.Buyer.value == "" ) {
+          alert( "Please provide your Buyer Name!" );
+          document.myForm.Buyer.focus() ;
+          return false;
+       }
+       if( document.myForm.OtherSpecification.value == "" ) {
+          alert( "Please provide your OtherSpecification!" );
+          document.myForm.OtherSpecification.focus() ;
+          return false;
+       }
+       if( document.myForm.Specification.value == "" ) {
+          alert( "Please provide your Specification!" );
+          document.myForm.Specification.focus() ;
+          return false;
+       }
+       if( document.myForm.Commision.value == "" ) {
+          alert( "Please provide your Commision!" );
+          document.myForm.Commision.focus() ;
+          return false;
+       }
+       if( document.myForm.Approvel.value == "" ) {
+          alert( "Please provide your Approvel!" );
+          document.myForm.Approvel.focus() ;
+          return false;
+       }
+       if( document.myForm.Required.value == "" ) {
+          alert( "Please provide your Required!" );
+          document.myForm.Required.focus() ;
+          return false;
+       }
+       if( document.myForm.Quantity_type.value == "" ) {
+          alert( "Please provide your Quantity type!" );
+          document.myForm.Quantity_type.focus() ;
+          return false;
+       }
+       if( document.myForm.Commit_date.value == "" ) {
+          alert( "Please provide your Commit date!" );
+          document.myForm.Commit_date.focus() ;
+          return false;
+       }
+       if( document.myForm.Feeder.value == "" ) {
+          alert( "Please provide your Feeder!" );
+          document.myForm.Feeder.focus() ;
+          return false;
+       }
+       if( document.myForm.Jacaquard.value == "" ) {
+          alert( "Please provide your Jacaquard!" );
+          document.myForm.Jacaquard.focus() ;
+          return false;
+       }
+       if( document.myForm.Mini_jaq.value == "" ) {
+          alert( "Please provide your Mini jaq!" );
+          document.myForm.Mini_jaq.focus() ;
+          return false;
+       }
+       if( document.myForm.Auto_stripes.value == "" ) {
+          alert( "Please provide your Auto stripes!" );
+          document.myForm.Auto_stripes.focus() ;
+          return false;
+       }
+       if( document.myForm.Single_jersey.value == "" ) {
+          alert( "Please provide your Single jersey!" );
+          document.myForm.Single_jersey.focus() ;
+          return false;
+       }
+       if( document.myForm.P_K.value == "" ) {
+          alert( "Please provide your P_K!" );
+          document.myForm.P_K.focus() ;
+          return false;
+       }
+       if( document.myForm.Interlock.value == "" ) {
+          alert( "Please provide your Interlock!" );
+          document.myForm.Interlock.focus() ;
+          return false;
+       }
+       if( document.myForm.Rib.value == "" ) {
+          alert( "Please provide your Rib!" );
+          document.myForm.Rib.focus() ;
+          return false;
+       }
+       if( document.myForm.White.value == "" ) {
+          alert( "Please provide your White!" );
+          document.myForm.White.focus() ;
+          return false;
+       }
+       if( document.myForm.Light.value == "" ) {
+          alert( "Please provide your Light!" );
+          document.myForm.Light.focus() ;
+          return false;
+       }
+       if( document.myForm.Medium.value == "" ) {
+          alert( "Please provide your Medium!" );
+          document.myForm.Medium.focus() ;
+          return false;
+       }
+       if( document.myForm.Dark.value == "" ) {
+          alert( "Please provide your Dark!" );
+          document.myForm.Dark.focus() ;
+          return false;
+       }
+       if( document.myForm.Overdyed.value == "" ) {
+          alert( "Please provide your Overdyed!" );
+          document.myForm.Overdyed.focus() ;
+          return false;
+       }
+       if( document.myForm.White1.value == "" ) {
+          alert( "Please provide your White1!" );
+          document.myForm.White1.focus() ;
+          return false;
+       }
+       if( document.myForm.Light1.value == "" ) {
+          alert( "Please provide your Light1!" );
+          document.myForm.Light1.focus() ;
+          return false;
+       }
+       if( document.myForm.Dark1.value == "" ) {
+          alert( "Please provide your Dark1!" );
+          document.myForm.Dark1.focus() ;
+          return false;
+       }
+       if( document.myForm.PayMode.value == "" ) {
+          alert( "Please provide your PayMode!" );
+          document.myForm.PayMode.focus() ;
+          return false;
+       }
+       if( document.myForm.Rupees.value == "" ) {
+          alert( "Please provide your Rupees!" );
+          document.myForm.Rupees.focus() ;
+          return false;
+       }
+       if( document.myForm.Numbers1.value == "" ) {
+          alert( "Please provide your Numbers!" );
+          document.myForm.Numbers1.focus() ;
+          return false;
+       }
+       if( document.myForm.Date.value == "" ) {
+          alert( "Please provide your Date!" );
+          document.myForm.Date.focus() ;
+          return false;
+       }
+       if( document.myForm.Bank.value == "" ) {
+          alert( "Please provide your Bank!" );
+          document.myForm.Bank.focus() ;
+          return false;
+       }
+
+       return( true );
+    }
+ </script>    
+<!-- <script>
         $(document).ready(function () {
-            var Validations = function(){
+            var Validations = function() {
                 var vDelivery = $("#delivery").val();
                 var vPayment = $("#payment_term").val();
                 var vPrice = $("#price").val();
@@ -359,51 +532,62 @@
                 var vDate = $("#Date").val();
                 var vBank = $("#Bank").val();
                 alert(vDelivery)
+                alert(vPayment)
                 if (vDelivery == ''){
+                    
                     alert("Please enter the Delivery schedule");
+                    //$('#RYform').preventDefault();
                 }
-                else if(vPayment == ''){
+                
+                if(vPayment == ''){
                     alert("Please enter the Payment term");
+                    // $('#RYform').preventDefault();
                 }
-                else if(vMatching == ''){
-                    alert("Please enter the Matching Source");
-                }
-                else if(vBuyer == ''){
-                    alert("please enter the buyer");
-                }
-                else if(vOtherSpecification == ''){
-                    alert("Please enter the Other specifications");
-                }
-                else if(vSpecifications == ''){
-                    alert("Please enter the if no product");
-                }
-                else if(vCommision == ''){
-                    alert("Please enter the Commision");
-                }
-                else if(vQuantity_type == None){
-                    alert("please enter the quantity");
-                }
-                else if(vCommit_date == ''){
-                    alert("Please enter the committed date");
-                }
-                else if(vRs == ''){
-                    alert("Please enter the Rupees");
-                }
-                else if(vNo == ''){
-                    alert("Please enter the Number");
-                }
-                else if(vDate == ''){
-                    alert("Please enter the Date");
-                }
-                else if(vBank == ''){
-                    alert("Please enter the Bank Name");
-                }
+                // else if(vMatching == ''){
+                //     alert("Please enter the Matching Source");
+                // }
+                // else if(vBuyer == ''){
+                //     alert("please enter the buyer");
+                // }
+                // else if(vOtherSpecification == ''){
+                //     alert("Please enter the Other specifications");
+                // }
+                // else if(vSpecifications == ''){
+                //     alert("Please enter the if no product");
+                // }
+                // else if(vCommision == ''){
+                //     alert("Please enter the Commision");
+                // }
+                // else if(vQuantity_type == None){
+                //     alert("please enter the quantity");
+                // }
+                // else if(vCommit_date == ''){
+                //     alert("Please enter the committed date");
+                // }
+                // else if(vRs == ''){
+                //     alert("Please enter the Rupees");
+                // }
+                // else if(vNo == ''){
+                //     alert("Please enter the Number");
+                // }
+                // else if(vDate == ''){
+                //     alert("Please enter the Date");
+                // }
+                // else if(vBank == ''){
+                //     alert("Please enter the Bank Name");
+                // }
                 else{
                     $('#RYform').submit();
                 }
 
             }
+            
             $('#Validations').on('click', Validations)
         });
-    </script>
+    </script> -->
+    <!-- <script>
+        $("document").ready( function () {
+            alert("Hello, world");
+        }); 
+    </script> -->
 {% endblock javascripts %}
