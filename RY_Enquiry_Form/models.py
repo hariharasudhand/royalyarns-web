@@ -193,7 +193,7 @@ class Quantity_Details(models.Model):
     pay_mode = models.CharField(max_length=100, null=True)
     price = models.CharField(max_length=100, null=True)
     number = models.CharField(max_length=10, null=True)
-    date = models.DateField(max_length=100, null=True)
+    date = models.CharField(max_length=100, null=True)
     bank = models.CharField(max_length=100, null=True)
     Reg_no = models.CharField(max_length=200,  null=True)
 
@@ -245,16 +245,15 @@ class items_to_mill_mapping(models.Model):
 
 class mill_name_mapping(models.Model):
     id = models.AutoField(primary_key=True)
-    Unit_Name = models.TextField(max_length=500,  null=True)
-    Mill = models.TextField(max_length=500,  null=True)
+    unit_Name = models.TextField(max_length=500,  null=True)
+    mill = models.TextField(max_length=500,  null=True)
 
     class Meta:
         db_table = 'mill_name_mapping'
 
 class customer_data(models.Model):
     id = models.AutoField(primary_key=True)
-    Columns_names = models.TextField(max_length=500,  null=True)
-    Customer_name = models.TextField(max_length=500,  null=True)
+    customer_name = models.TextField(max_length=500,  null=True)
     payment_terms = models.TextField(max_length=500,  null=True)
     splitted_details = models.TextField(max_length=500,  null=True)
 

@@ -267,11 +267,6 @@ def __command_update(request, vReg_no):
     for i in supplier_grp:
         grp.append(i[0])
 
-   
-   
-        
-
-
     if len(vComments) != 0:
 
         vDAO.StoreComments(vComments, vReg_no, vUserID, vDT, vComments_to)
@@ -421,16 +416,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
     #     hReg_no = items.Reg_no
     #     print("Reg number for the header table:", hReg_no)
     
-    # if RY_Enquiry_Items.objects.filter(Shade_Ref = vShade_Ref) and vAgentRate != None:
-
-
-    #      print("@@@@@@@@@@@",vShade_Ref)
-        # for items in vShade_Ref:
-        #     iReg_no = items.Reg_no
-        #     print("this is regnumber for Items:", iReg_no)
-            
-    
-
+    vHShade_ref = RY_Enquiry_Items.objects.filter(Shade_Ref=vShade_Ref).exclude(Agent_Rate = None).last()
 
 
     if len(vENQ_Items) != 0:
@@ -459,6 +445,7 @@ def __prepareUIData(vReg_no, vENQ_Items, data2, data3, vLoggedInRole, vLoggedInU
             'vQuotation_Date':vQuotation_Date,
             'vDelivery_Date' :vDelivery_Date,
             'vReadyStock' : vReadyStock,
+            'vHShade_ref' : vHShade_ref,
             'supplierGroupNames': vDAO.GetSupplierGroupNames()
         }
 

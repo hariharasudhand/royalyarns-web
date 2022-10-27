@@ -41,12 +41,32 @@
         .popuptext{
             position: fixed;
             top: 60%;
-            left: 88%;
+            left: 40%;
             transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
+            width: 50%;
+            height: 50%;
             text-align: center;
             background-color: #f8f5f6;
+            opacity: 5;
+            padding: 10px;
+            z-index: 100;
+            display: none;
+            /* min-height: 30px;
+            min-width: 30px;
+            resize: both;
+            overflow: auto;
+            max-height: fit-content;
+            max-width: fit-content; */
+        }
+        .popuptext1{
+            position: fixed;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+            height: 50%;
+            text-align: center;
+            background-color: rgb(201, 242, 235);
             opacity: 5;
             padding: 10px;
             z-index: 100;
@@ -485,9 +505,26 @@
                                         <div  class="btn btn-primary" id="ShowDetails" style="margin-top: 10px; margin-left: 30px;"> View
                                         </div>
                                     
-                                    <div class="popuptext" style="border:solid 1px;" id="Show">
+                                    <div class="popuptext1" style="border:solid 1px;" id="Show">
                                             <button class='btn btn-danger' style="float: right; cursor: pointer;" id="hidepopdetails"> X </button>
-                                            {{vMill}}
+                                            <table style="font-family: arial sans-serif;border-collapse: collapse; width: 100%; align-items: center;">
+                                                <tr style="width: 100%;">Last order details</tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Shade</td>
+                                                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">{{vHShade_ref.Shade}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">
+                                                        Shade Ref
+                                                    </td>
+                                                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">{{vHShade_ref.Shade_Ref}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">Rate</td>
+                                                    <td style="border: 1px solid #dddddd;text-align: left;padding: 8px;">{{vHShade_ref.Agent_Rate}}</td>
+                                                </tr>
+                                            </table>
+                                            
                                     </div>
                                     
                                         </td>
@@ -747,13 +784,20 @@ crossorigin="anonymous"></script>
 </script>
 <script>
     $(document).ready(function () {
-
+        
         var saveAndProceed = function(){
         var vGroup= $("#vGrp_to").val();
-        // var vGroup = $("#vGrp_to option:selected").text()
-            console.log(vGroup)
+        var vStock= $("#ReadyStock").val();
+        var vDelivery_Date = $("#Delivery_Date").val();
+        
             if(vGroup == null) {
                 alert("Please Assign the Group")
+            }
+            else if(vStock == ''){
+                alert("Please enter the stock else enter 0")
+            }
+            else if(vDelivery_Date == ''){
+                alert("please enter the date")
             }
             else{
                 console.log("vGroup dhinesh")

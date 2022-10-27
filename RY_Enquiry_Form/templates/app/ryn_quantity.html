@@ -207,7 +207,7 @@
                 <option value="Corespun_Yarn">Corespun Yarn </option>
             </select>
             <br>
-            <label for="Commit_date" style="margin-left: 10px;" class="label label-default text-sm font-weight-bold">Commite the date</label>
+            <label for="Commit_date" style="margin-left: 10px;" class="label label-default text-sm font-weight-bold">Committed the date</label>
           <input type="date" style="margin-left: 10px;" class="form-control" name="Commit_date" id="Commit_date">
 
         </div>
@@ -333,9 +333,77 @@
         </div>
     </fieldset>
     <div class="col-12">
-        <button style="margin-top:10px; margin-left: 890px;" type="submit" class="btn btn-primary">Submit</button>
+        <button style="margin-top:10px; margin-left: 890px;" type="submit" id="Validations" class="btn btn-primary">Submit</button>
       </div>
       </div>
     </form>
     </div>
 {% endblock content %}
+{% block javascripts %}
+
+    <script>
+        $(document).ready(function () {
+            var Validations = function(){
+                var vDelivery = $("#delivery").val();
+                var vPayment = $("#payment_term").val();
+                var vPrice = $("#price").val();
+                var vMatching = $("#matching_source").val();
+                var vBuyer = $("#vbuyer").val();
+                var vOtherSpecification = $("#any_other_specification").val();
+                var vSpecifications = $("#specification_if_no_product_type").val();
+                var vCommision = $("#commision").val();
+                var vQuantity_type = $("#Quantity_type").val();
+                var vCommit_date = $("#Commit_date").val();
+                var vRs = $("#rs").val();
+                var vNo = $("#no").val();
+                var vDate = $("#Date").val();
+                var vBank = $("#Bank").val();
+                alert(vDelivery)
+                if (vDelivery == ''){
+                    alert("Please enter the Delivery schedule");
+                }
+                else if(vPayment == ''){
+                    alert("Please enter the Payment term");
+                }
+                else if(vMatching == ''){
+                    alert("Please enter the Matching Source");
+                }
+                else if(vBuyer == ''){
+                    alert("please enter the buyer");
+                }
+                else if(vOtherSpecification == ''){
+                    alert("Please enter the Other specifications");
+                }
+                else if(vSpecifications == ''){
+                    alert("Please enter the if no product");
+                }
+                else if(vCommision == ''){
+                    alert("Please enter the Commision");
+                }
+                else if(vQuantity_type == None){
+                    alert("please enter the quantity");
+                }
+                else if(vCommit_date == ''){
+                    alert("Please enter the committed date");
+                }
+                else if(vRs == ''){
+                    alert("Please enter the Rupees");
+                }
+                else if(vNo == ''){
+                    alert("Please enter the Number");
+                }
+                else if(vDate == ''){
+                    alert("Please enter the Date");
+                }
+                else if(vBank == ''){
+                    alert("Please enter the Bank Name");
+                }
+                else{
+                    $('#RYform').submit();
+                }
+
+            }
+            $('#Validations').on('click', Validations)
+        });
+    </script>
+{% endblock javascripts %}

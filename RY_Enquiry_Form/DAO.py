@@ -162,7 +162,7 @@ class DAO:
         # updated
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(
             Mill=vMill, Date=vDate, Mill_Rep=vMill_Rep, Customer=vCustomer, Marketing_Zone=vMarketing_Zone, Status=vStatus, LastUpdateby=vUser,
-            LastUpdateddate=vNow,GrpAssignedTo=vGrpAssignedTo, Ready_stock=vReadyStock, Delivery_Date=vDelivery_Date)
+            LastUpdateddate=vNow,GrpAssignedTo=vGrpAssignedTo, Ready_stock=vReadyStock, Delivery_Date=vDelivery_Date, Quotation_Date = vNow)
 
     def StoreComments(self, vComments, vReg_no, vUserID, vDT, vComments_to):
         customer_comments.objects.create(
