@@ -825,10 +825,10 @@ def NewEntry(request):
     return render(request, 'app/ryn3.html',{'user':res1})
 
 def NewEnquiry(request):
-        vRowCount = 0
+        vRowCount = 1
         if (request.POST.get('txtRowCount') != None):
             vRowCount = int(request.POST.get('txtRowCount'))
-
+        print("*********",vRowCount)
         for itemIndex in range(vRowCount):
             vRowIndex = itemIndex+1
             DBItemID = request.POST.get('DBID'+str(vRowIndex))
@@ -841,6 +841,7 @@ def NewEnquiry(request):
             vDepth = request.POST.get('Depth'+str(vRowIndex))
             vUOM = request.POST.get('UOM'+str(vRowIndex))
             vQuantity = request.POST.get('Quantity'+str(vRowIndex))
+            print("@@@@@@@@@@@",vCounts)
             vDAO.StoreNewEnquiry(vCounts, vQuality, vYarnType, vBlend, vShade, vDepth,
                                 vQuantity, vUOM)
         return HttpResponseRedirect('/NewEntry')
@@ -848,4 +849,4 @@ def NewEnquiry(request):
 
 def Errors(request):
         return render(request, 'app/Error.html')
-    
+

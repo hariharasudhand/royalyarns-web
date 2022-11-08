@@ -1,0 +1,665 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Terata Enquiry Workspace {% endblock title %}
+<link rel="stylesheet" href="{% static 'style.css' %}">
+{% block stylesheets %}
+    <!-- <link href="//code.jquery.com/ui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js">
+    </script> -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+    rel="stylesheet"> -->
+   
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+    <style>
+       
+        body {
+            margin-top: 20px;
+            background-color: #e9ebee;
+        }
+
+       
+        
+        .topright {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 18px;
+        }
+        .topcenter {
+            position: absolute;
+            top: 50px;
+            right: 610px;
+        }
+        .popuptext{
+            position: fixed;
+            top: 60%;
+            left: 88%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            text-align: center;
+            background-color: #f8f5f6;
+            opacity: 5;
+            padding: 10px;
+            z-index: 100;
+            display: none;
+            /* min-height: 30px;
+            min-width: 30px;
+            resize: both;
+            overflow: auto;
+            max-height: fit-content;
+            max-width: fit-content; */
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            background-color: black;
+            color: white;
+            border-radius: 50%;
+            padding: 4px;
+        }
+        
+        .right2 {
+            position: absolute;
+            left: 150px;
+        }
+
+    
+    /*  Comment Box CSS */
+    @import url(//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css);
+
+    /* .container {
+        /* width:240%; 
+        margin:15px;
+        display: flex;
+        padding-bottom: 0px;
+    } */
+
+    .detailBox {
+        width:970px;
+        border:1px solid rgb(204, 167, 167);
+        margin-top:40px;
+        margin-left: 04%;
+        display: flex;
+        padding-bottom: 20px;
+    }
+    .left{
+            flex: 50%;
+        }
+    .right{
+        flex: 25%;
+    }
+   
+    .titleBox {
+        background-color:#fdfdfd;
+        padding:10px;
+    }
+    .titleBox label{
+    color:#444;
+    margin:0;
+    display:inline-block;
+    }
+
+    .commentBox {
+        padding:10px;
+        border-top:1px dotted rgb(24, 24, 24);
+    }
+    .commentBox .form-group:first-child, .actionBox .form-group:first-child {
+        width:80%;
+    }
+    .commentBox .form-group:nth-child(2), .actionBox .form-group:nth-child(2) {
+        width:18%;
+    }
+    .actionBox .form-group * {
+        width:100%;
+    }
+    .taskDescription {
+        margin-top:10px 0;
+        width:100%;
+    }
+    .commentList {
+        padding:0;
+        list-style:none;
+        max-height:200px;
+        overflow:auto;
+    }
+    .commentList li {
+        margin:0;
+        margin-top:10px;
+    }
+    .commentList li > div {
+        display:table-cell;
+    }
+    .commenterImage {
+        width:30px;
+        margin-right:5px;
+        height:100%;
+        float:left;
+    }
+    .commenterImage img {
+        width:100%;
+        border-radius:50%;
+    }
+    .commentText p {
+        margin:0;
+    }
+    .sub-text {
+        color:#aaa;
+        font-family:verdana;
+        font-size:11px;
+    }
+    .actionBox {
+        border-top:1px dotted rgb(17, 16, 16);
+        padding:10px;
+    }
+    .userCircle {
+            border-radius: 50%;
+            background: #289c34;
+            border: 1px solid #289c34;
+            color: #e6f2ea;
+            text-align: center;
+            display: block;
+            margin: 0px;
+            position: relative;
+            height: 42px;
+            width: 42px;
+            z-index: 0;
+            font: 32px  Courier New;
+        }
+    
+        .MyTable {
+            max-width: 1000px;
+            margin: 0 auto;
+            height: 100px;
+        }
+
+        
+        /* scrool Bar menu deisgn */
+        div.scrollmenu {
+  
+             overflow: auto;
+            white-space: nowrap;
+        }
+
+        div.scrollmenu a {
+            display: inline-block;
+            color: white;
+            text-align: center;
+            padding: 14px;
+            text-decoration: none;
+        }
+
+        div.scrollmenu a:hover {
+            background-color: #777;
+        }
+        div.scroll {
+        
+        
+            height: 150px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            text-align: center;
+            padding: 10px;
+        }
+    
+
+    </style>
+    
+    
+
+{% endblock stylesheets %}
+
+
+<!-- Specific CSS goes HERE -->
+
+
+{% block content %}
+
+    <!-- <div class="spinner-border not-visible" style="width: 6rem; height: 6rem;" role="status">
+        <span class="sr-only"></span>
+    </div> -->
+
+        
+       <div class="topright" style="margin-top: 20px;"><a href="/logout" id="Logout" class="text-decoration-none"> <span class="userCircle mb-0" data-toggle="tooltip" data-placement="top" title="{{user}}">{{user|make_list|first|capfirst}}</span></a>
+        </div>
+        <center>
+            <h3 style="padding-top: 20px;">Enter New Enquiry</h3>
+        </center>
+    <div class="col">
+        <br>
+        
+        <div class="card">
+            <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
+                <form name="RYform" id="RYform" action="NewEnquiry" method="POST">
+
+                    {% csrf_token %}
+                    <!-- -->
+                    <div class="card text-sm font-weight-bold">
+                        <div class="card-header" data-toggle="collapse" data-target="#collapseTwo">
+                        Enter New Enquiries
+                       </div>
+
+                        <div id="collapseTwo" class="collapse show width" data-parent="#accordionHorizontalExample">
+                            <div class="card-body">    
+                                <br>
+                                <br>
+                       
+                        <!-- Counts in a table-->
+                        
+                        <div class="scrollmenu">
+                        <table id="MyTable" class="table table-striped table-bordered table-sm " cellspacing="0"
+                        width="100%" >
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">Row_no</th>
+                                    <th scope="col"></th>
+                                    <th scope="col">Counts</th>
+                                    <th scope="col">Quality</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Blend</th>
+                                    <th scope="col">Shade</th>
+                                    <th scope="col">Shade Ref</th>
+                                    <th scope="col">Depth</th>
+                                    <th scope="col">UOM</th>
+                                    <th scope="col">Quantity</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                            
+                                <tr>
+                                    <th scope="row">  
+                                        <!-- <input  id="DBID1"
+                                        name="DBID1"  style="width:60px"> -->
+                                    </th>
+                                    <th scope="row"></th>
+
+                                    <td><input type="text" class="form-control form-control-sm" id="Counts1"
+                                            name="Counts1"  style="width:60px"
+                                            >
+                                    </td>
+                                    <td><input type="text" class="form-control form-control-sm" id="Quality1"
+                                            name="Quality1"  style="width:60px"
+                                             >
+                                    </td>
+                                    <td><input type="text" class="form-control form-control-sm" id="YarnType1"
+                                            name="YarnType1" style="width:100px"
+                                             >
+                                    </td>
+                                    <td><input type="text" class="form-control form-control-sm" id="Blend1"
+                                            name="Blend1" style="width:250px"
+                                             >
+                                    </td>
+                                    <td><input type="text" class="form-control form-control-sm" id="Shade1"
+                                            name="Shade1"  style="width:150px"
+                                             >
+                                    </td>
+                                     <td><input type="text" class="form-control form-control-sm" id="Shade1"
+                                        name="Shade_Rep1" style="width:150px"
+                                         >
+                                </td> 
+                                    <td> <input type="text" class="form-control form-control-sm" id="Depth1"
+                                            name="Depth1"  style="width:100px"
+                                             >
+                                    </td>
+                                    <td><input type="text" class="form-control form-control-sm" id="UOM1"
+                                            name="UOM1"  style="width:60px"
+                                             >
+                                    </td>
+                                    <td><input type="text" class="form-control form-control-sm" id="Quantity1"
+                                            name="Quantity1"  style="width:80px"
+                                             >
+                                    </td>
+
+                                    
+                                <input type="hidden" id="txtRowCount" name="txtRowCount" value="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>
+                                
+                                
+                                
+                                
+                                <span class="add-row fa fa-plus-square " style="font-size: 50px; color:#008CBA; margin-left: 80px;" value="Add Row"  ></span>&nbsp;
+                                
+                                <span class="delete-row fa fa-minus-square" style="font-size: 50px; color:#008CBA; margin-left: 30px;" value="Delete Row"  ></span>
+                                <br>
+                                <small class="text-muted" style="font-size: 15px;"> Click (+) symbol to ADD Rows (-)  to DELETE rows</small>  
+                                
+                            </tbody>
+                        </table>
+                    
+                        
+                    </form>
+                    <p></p>
+                    
+                    
+                        <small class="text-muted" style="font-size: 15px;">
+                             Please Click on Save only if there is a change
+                        </small>
+                    <!--
+                        Change button size using bootstrap
+                    -->
+                    <br>
+
+                    
+                        <button type="submit" class="btn btn-primary" style="width: 20%;">save and proceed</button>
+                        <!-- <input class="btn btn-primary" style="width: 20%;" id="saveAndProceed" onclick="Verified" value="save and proceed"> -->
+                    
+
+                   
+                </div>
+            </div>
+        </div>
+   
+{% endblock content %}
+
+
+
+
+{% block javascripts %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    /*document.getElementById("current_date").innerHTML = Date();*/
+    $(document).ready(function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = mm + '/' + dd + '/' + yyyy;
+        /*document.write(today);*/
+        document.getElementById("current_date").innerText = today;
+    });
+    </script>
+    <script>
+        $(document).ready(function () {
+        var showEmailAction = function () {
+        //   alert("hi");
+        $('#myPopup').fadeIn(1000);
+        $('#myPopup').resizable().draggable();
+        $('#hidepop').click(function(){
+            $('#myPopup').fadeOut(1000);
+            })
+        }
+        $('#showEmailAction').on('click', showEmailAction)
+
+        var ShowDetails = function () {
+        //   alert("hi");
+        $('#Show').fadeIn(1000);
+        $('#Show').resizable().draggable();
+        $('#hidepopdetails').click(function(){
+            $('#Show').fadeOut(1000);
+            })
+        }
+        $('#ShowDetails').on('click', ShowDetails)
+    });
+    
+    // console.log("popup")
+</script>
+<script>
+    function onButtonClick() {
+        document.getElementById('textInput').className = "show";
+        document.getElementById('button').className = "show";
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        
+        var saveAndProceed = function(){
+        var vGroup= $("#vGrp_to").val();
+        var vStock= $("#ReadyStock").val();
+        var vDelivery_Date = $("#Delivery_Date").val();
+        
+            if(vGroup == null) {
+                alert("Please Assign the Group")
+            }
+            else if(vStock == ''){
+                alert("Please enter the stock else enter 0")
+            }
+            else if(vDelivery_Date == ''){
+                alert("please enter the date")
+            }
+            else{
+                console.log("vGroup dhinesh")
+                $('#hBtnAction').val("sap");
+                $('#RYform').submit();
+            }
+            
+        
+        }
+        $('#saveAndProceed').on('click', saveAndProceed)
+        
+        var cancelAction = function () {
+            var vGroup= $("#vGrp_to").val();
+            if(vGroup == null) {
+                alert("Please Assign the Group")
+            }
+            else{
+            $('#hBtnAction').val("cancel");
+            $('#RYform').submit();
+        }
+    }
+        $('#cancelAction').on('click', cancelAction)
+
+        
+
+        var commentAction = function () {
+            var Comments_to = $("#Comments_to").val();
+            if(Comments_to == null){
+                alert("If you forget who goes to the comment")
+            }
+            else{
+                $('#hBtnAction').val("comment");
+                $('#RYform').submit();
+                $("#blur").toggle();
+            }
+            
+                
+            /*window.location("app/ryn.html")*/
+            /*$('#RYform').trigger("reset");
+            $(this).closest('#RYform').find("textarea").val("");*/
+        }
+        $('#commentAction').on('click', commentAction)
+        // Supplier Rate fixed to status change 4
+        var UpdateRate= function(){ 
+                $('#hBtnAction').val("UpdateRate");
+                $('#RYform').submit();
+            }
+        $('#UpdateRate').on('click', UpdateRate)
+        //agent Rate fixed to status change 5
+        var AgentRate= function(){ 
+                $('#hBtnAction').val("UpdateRate");
+                $('#RYform').submit();
+            }
+        $('#UpdateRate').on('click', UpdateRate)
+
+        
+        
+
+
+    });
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+
+    $(document).keypress(
+        function(event){
+            if (event.which == '13') {
+            event.preventDefault();
+            }
+        
+        
+        });
+</script>
+<script>
+    $(document).ready(function () {
+        var row_count = $('#MyTable >tbody >tr').length;
+        //var row_count = 0;
+        // document.getElementById("counting").innerText = row_count;
+        //Set total row count of Enquiry Items on load in hidden field
+        $("#txtRowCount").val(row_count);
+        //calculate total
+       
+        //alert(" total rows"+row_count);
+        var totalAmount = 0;
+        
+        for ( i = 1;i<=row_count; i++){
+            
+            var row_rate = parseInt($('#Arate'+i).val());
+            var row_quantity = parseInt($('#Quantity'+i).val());
+
+            totalAmount = totalAmount + (row_rate * row_quantity);
+            
+        }
+        
+        //  $("#txtTotalAmount").val('totalAmount');
+        if (!(isNaN(totalAmount))){
+            $("div.txtTotalAmount").text(totalAmount.toLocaleString('en-IN'));    
+        }
+        
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        var row_count = $('#MyTable >tbody >tr').length;
+        //var row_count = 0;
+        // document.getElementById("counting").innerText = row_count;
+        //Set total row count of Enquiry Items on load in hidden field
+        $("#txtRowCount").val(row_count);
+        //calculate total
+       
+        //alert(" total rows"+row_count);
+        var totalAmount = 0;
+        
+        for ( i = 1;i<=row_count;i++){
+            
+            var row_rate = parseInt($('#Rate'+i).val());
+            var row_quantity = parseInt($('#Quantity'+i).val());
+
+            totalAmount = totalAmount + (row_rate * row_quantity);
+            
+        }
+        if (!(isNaN(totalAmount))){
+            
+            $("div.SupplierRate").text(totalAmount.toLocaleString('en-IN'));    
+        }
+        //  $("#txtTotalAmount").val('totalAmount');
+        
+    });
+</script>
+
+<script>
+    //initialising a variable name row_count
+    var row_count = 1;
+    //printing default value of row_count that is 0 in h2 tag
+    document.getElementById("counting").innerText = row_count;
+
+    //creation of increment function
+    function increment() {
+        row_count = row_count + 1;
+        // document.getElementById("counting").innerText = row_count;
+    }
+    //creation of decrement function
+    function decrement() {
+        row_count = row_count - 1;
+        // document.getElementById("counting").innerText = row_count;
+    }
+</script>
+<script>
+    $(document).ready(function () {
+
+        var row_count = $('#MyTable >tbody >tr').length;
+        //var row_count = 0;
+        // document.getElementById("counting").innerText = row_count;
+        //Set total row count of Enquiry Items on load in hidden field
+        $("#txtRowCount").val(row_count);
+
+        $(".add-row").click(function () {
+            row_count = row_count + 1;
+            // document.getElementById("counting").innerText = row_count;
+            // var Counts = $("#Counts").val();
+            // var Quality = $("#Quality").val();
+            // var Type = $("#Type").val();
+            // var Blend = $("#Blend").val();
+            // var Shade = $("#Shade").val();
+            // var Depth = $("#Depth").val();
+            // var UOM = $("#UOM").val();
+            // var Quantity = $("#Quantity").val();
+            // var markup = "<tr><td>" + row_count + "</td><td><input type='checkbox' name='record'>" + name + "</td><td><input type='text' class='form-control' >" + Counts + "</td><td><input type='text' class='form-control' >" + Quality + "</td><td><input type='text' class='form-control' >" + Type + "</td><td><input type='text' class='form-control' >" + Blend + "</td><td><input type='text' class='form-control' >" + Shade + "</td><td><input type='text' class='form-control' >" + Depth + "</td><td><input type='text' class='form-control' >" + UOM + "</td><td><input type='text' class='form-control' >" + Quantity + "</td></tr>";
+            var markup = "<tr>";
+            markup+= "<th scope=\"row\">"+row_count+"</th>";
+            markup+= "<td scope=\"row\"><input type='checkbox' name='record'> </td>";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Counts"+row_count+" name=Counts"+row_count+" style=\"width:60px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-contro form-control-sml\" id=Quality"+row_count+" name=Quality"+row_count+" style=\"width:60px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=YarnType"+row_count+" name=YarnType"+row_count+" style=\"width:100px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Blend"+row_count+" name=Blend"+row_count+" style=\"width:250px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Shade"+row_count+" name=Shade"+row_count+" style=\"width:150px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Depth"+row_count+" name=Depth"+row_count+" style=\"width:100px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=UOM"+row_count+" name=UOM"+row_count+" style=\"width:60px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Quantity"+row_count+" name=Quantity"+row_count+" style=\"width:80px\" > </td>  ";  
+            markup+= "</tr>";
+            $("#MyTable").append(markup);
+            $("#txtRowCount").val(row_count);
+        });
+
+        // Find and remove selected table rows
+        $(".delete-row").click(function () {
+            $("#MyTable").find('input[name="record"]').each(function () {
+                if ($(this).is(":checked")) {
+                    $(this).parents("tr").remove();
+                    row_count = row_count - 1;
+                    // document.getElementById("counting").innerText = row_count;
+                }
+            });
+            $("#txtRowCount").val(row_count);
+        });
+    });
+    $('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })   
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#wrapper').dialog({
+            autoOpen: false,
+            title: 'Email Details'
+        });
+        $('#opener').click(function () {
+            $('#wrapper').dialog('open');
+            // return false;
+        });
+    });
+</script>
+<script type="text/javascript"> 
+    $(document).ready(function () {
+        var a = "{{ vStatus }}";
+        if (a=='0'){
+            $('#vGrp_to').removeAttr('disabled')
+        }
+    });
+   
+     </script>
+    
+{% endblock javascripts %}
