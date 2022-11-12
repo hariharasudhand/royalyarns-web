@@ -31,7 +31,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
-from email import encoders
+from email import encoders, message
 import random
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -822,9 +822,17 @@ def groupDelete(request,id):
 
 def NewEntry(request):
     res1 = request.COOKIES.get('username')
-    return render(request, 'app/ryn3.html',{'user':res1})
+    Last_Reg = RY_Enquiry_Header.objects.exclude(Reg_no = None).last()
+    now = datetime.now()
+    New_Reg = int(Last_Reg.Reg_no) + 1
+    vDate=now.strftime("%d-%m-%y")
+    return render(request, 'app/ryn3.html',{'user':res1, 'vNew_Reg':New_Reg, 'V_Date':vDate })
 
 def NewEnquiry(request):
+        vReg_no = request.POST.get('Rno')
+        vUser = request.COOKIES.get('username')
+        vDate = request.POST.get('Date')
+        
         vRowCount = 1
         if (request.POST.get('txtRowCount') != None):
             vRowCount = int(request.POST.get('txtRowCount'))
@@ -837,13 +845,15 @@ def NewEnquiry(request):
             vQuality = request.POST.get('Quality'+str(vRowIndex))
             vYarnType = request.POST.get('YarnType'+str(vRowIndex))
             vBlend = request.POST.get('Blend'+str(vRowIndex))
-            vShade = request.POST.get('Shade'+str(vRowIndex))   
+            vShade = request.POST.get('Shade'+str(vRowIndex))
+            vShade_Rep = request.POST.get('Shade_Rep'+str(vRowIndex))    
             vDepth = request.POST.get('Depth'+str(vRowIndex))
             vUOM = request.POST.get('UOM'+str(vRowIndex))
             vQuantity = request.POST.get('Quantity'+str(vRowIndex))
-            print("@@@@@@@@@@@",vCounts)
-            vDAO.StoreNewEnquiry(vCounts, vQuality, vYarnType, vBlend, vShade, vDepth,
-                                vQuantity, vUOM)
+            vDAO.StoreNewEnquiry( vCounts, vQuality, vYarnType, vBlend, vShade,vShade_Rep, vDepth,
+                                 vUOM,vQuantity,vReg_no
+                                )
+        vDAO.StoreNewHeader(vReg_no,vDate, vUser)
         return HttpResponseRedirect('/NewEntry')
 
 

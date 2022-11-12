@@ -15,8 +15,15 @@ class DispatchDAO:
     #
 
     def StoreUpload_Data(self, vExcelPath, vDate, vUser):
-
-        vExcelFileURL = "D:/work/royalyarns-web/media/"+vExcelPath.name
+        #
+        ##location path for local 
+        #
+        # vExcelFileURL = "D:/work/royalyarns-web/media/"+vExcelPath.name
+        #
+        ##location path for server
+        #
+        vExcelFileURL = "/home/RY/royalyarns-web/media/"+vExcelPath.name
+        
         print('Processing Upload Excel File Name : ', vExcelFileURL)
         ls = []
         vQueryResult = Upload_Data.objects.create(

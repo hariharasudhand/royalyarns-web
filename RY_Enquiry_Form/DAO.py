@@ -1,3 +1,4 @@
+from sqlite3 import Date
 from RY_Enquiry_Form.forms import Ry_En_Header
 from .models import RY_Enquiry_Header, RY_Enquiry_Items, User_Details, customer_comments, User_Role_Action, Upload_Data, Email_Distribution_Groups, Other_Details, Quantity_Details
 from django.db.models import Q
@@ -299,9 +300,12 @@ class DAO:
         RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Status='13')
         RY_Enquiry_Header.objects.filter(Reg_no=vReg_no).update(Cop_number=vCopNumber, Status='13')
 
-    def StoreNewEnquiry(self, vCounts, vQuality, vYarnType, vBlend, vShade, vDepth, vQuantity, vUOM):
+    def StoreNewEnquiry(self, vCounts, vQuality, vYarnType, vBlend, vShade,vShade_Rep, vDepth, vUOM, vQuantity, vReg_no):
         RY_Enquiry_Items.objects.create(Counts = vCounts, Quality = vQuality, Type=vYarnType,
-                                        Blend=vBlend,Shade=vShade, Depth=vDepth, Quantity=vQuantity, UOM =vUOM, Status='0')
+                                        Blend=vBlend,Shade=vShade,Shade_Ref=vShade_Rep, Depth=vDepth,UOM =vUOM, Quantity=vQuantity,  Status='0',Reg_no=vReg_no)
     
+    def StoreNewHeader(self, vReg_no,vDate, vUser):
+        RY_Enquiry_Header.objects.create(Reg_no=vReg_no,Date=vDate, CreatedByUser=vUser,Status='0')
+
     def UpdateRate(self, vReg_no, vRate, vAmount):
         RY_Enquiry_Items.objects.filter(Reg_no=vReg_no).update(Supplier_Rate=vRate, Supplier_Amount=vAmount)

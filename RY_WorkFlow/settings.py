@@ -25,7 +25,7 @@ SECRET_KEY = 'bdcah33*t(fq^b#fz0^137&e!deiwut*%5%#2-!iia@-7lo2mr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['103.86.177.164','qa.royalyarns.terata.io']
 
 
 # Application definition
@@ -85,30 +85,31 @@ WSGI_APPLICATION = 'RY_WorkFlow.wsgi.application'
 #
 ##Testing server Link portal
 #
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'portal',
-#         'USER': 'postgres',
-#         'PASSWORD': 'weeroda',
-#         'HOST': '103.86.177.164',
-#         'PORT': '5432',
-#     }
-# }
-#
-##my local database server link 
-#
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'terattadb',
-        'USER': 'terattaapp',
-        'PASSWORD': 'Admin123',
+        'NAME': 'portal',
+        'USER': 'postgres',
+        'PASSWORD': 'weeroda',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+#
+##my local database server link 
+#
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'terattadb',
+#         'USER': 'terattaapp',
+#         'PASSWORD': 'Admin123',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

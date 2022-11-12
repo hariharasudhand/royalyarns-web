@@ -252,7 +252,21 @@
                             <div class="card-body">    
                                 <br>
                                 <br>
-                       
+                                <table>
+                                    <tr>
+                                        <td><span class="label label-default text-sm font-weight-bold">Reg_No<br>
+                                        </td>
+                                        <td><input type="text" class="form-control form-control-sm" id="Rno" name="Rno" value="{{vNew_Reg}}"
+                                            style="width:100px; margin-left: 20px;" readonly>
+                                        <td>
+                                            <input type="hidden" name="Date" value="{{V_Date}}" id="Date">
+                                        </td>
+                                            
+                                        </span> 
+                                    </td>
+                                    
+                                        </tr>
+                                        </table>
                         <!-- Counts in a table-->
                         
                         <div class="scrollmenu">
@@ -305,7 +319,7 @@
                                             name="Shade1"  style="width:150px"
                                              >
                                     </td>
-                                     <td><input type="text" class="form-control form-control-sm" id="Shade1"
+                                     <td><input type="text" class="form-control form-control-sm" id="Shade_Rep1"
                                         name="Shade_Rep1" style="width:150px"
                                          >
                                 </td> 
@@ -329,9 +343,9 @@
                                 
                                 
                                 
-                                <span class="add-row fa fa-plus-square " style="font-size: 50px; color:#008CBA; margin-left: 80px;" value="Add Row"  ></span>&nbsp;
+                                <span class="add-row fa fa-plus-square " style="font-size: 30px; color:#008CBA; margin-left: 80px;" value="Add Row"  ></span>&nbsp;
                                 
-                                <span class="delete-row fa fa-minus-square" style="font-size: 50px; color:#008CBA; margin-left: 30px;" value="Delete Row"  ></span>
+                                <span class="delete-row fa fa-minus-square" style="font-size: 30px; color:#008CBA; margin-left: 30px;" value="Delete Row"  ></span>
                                 <br>
                                 <small class="text-muted" style="font-size: 15px;"> Click (+) symbol to ADD Rows (-)  to DELETE rows</small>  
                                 
@@ -615,6 +629,7 @@ crossorigin="anonymous"></script>
             markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=YarnType"+row_count+" name=YarnType"+row_count+" style=\"width:100px\" > </td>  ";
             markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Blend"+row_count+" name=Blend"+row_count+" style=\"width:250px\" > </td>  ";
             markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Shade"+row_count+" name=Shade"+row_count+" style=\"width:150px\" > </td>  ";
+            markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Shade_Rep"+row_count+" name=Shade_Rep"+row_count+" style=\"width:150px\" > </td>  ";
             markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Depth"+row_count+" name=Depth"+row_count+" style=\"width:100px\" > </td>  ";
             markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=UOM"+row_count+" name=UOM"+row_count+" style=\"width:60px\" > </td>  ";
             markup+= "<td><input type=\"text\" class=\"form-control form-control-sm\" id=Quantity"+row_count+" name=Quantity"+row_count+" style=\"width:80px\" > </td>  ";  
